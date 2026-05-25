@@ -3,30 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi Curso | WLF Trading Academy</title>
+
+  <title>Mi Curso | WLF Trading</title>
+
   <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/member-area.css" />
 </head>
+
 <body>
   <header class="site-header">
     <a class="brand" href="/">
       <img src="/assets/logo-wlf.png" alt="WLF Trading" class="brand-logo" />
     </a>
+
     <nav class="nav">
+      <a href="/">Inicio</a>
       <span id="userEmail" class="user-email">Validando...</span>
       <button class="btn tiny ghost" id="logoutBtn">Salir</button>
     </nav>
   </header>
 
   <main class="dashboard">
-    <section class="section">
-      <div class="section-title">
+    <section class="section member-hero">
+      <div>
         <p class="eyebrow">Área privada</p>
-        <h1>Mi curso WLF</h1>
-        <p>Accede a los módulos y recursos privados del curso.</p>
+        <h1>Bienvenido a WLF Trading</h1>
+        <p class="hero-text">
+          Aquí tienes acceso al contenido del curso, comunidad privada, material extra,
+          herramientas y recursos que iremos agregando para el grupo.
+        </p>
       </div>
 
-      <div id="loadingBox" class="status-box">Validando tu acceso...</div>
-      <div id="courseContent" class="course-content hidden"></div>
+      <div class="member-status-card">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Acceso activo</strong>
+          <p>Tu correo fue validado correctamente.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section member-layout">
+      <aside class="member-sidebar">
+        <a href="#curso" class="member-nav-link">Curso</a>
+        <a href="#comunidad" class="member-nav-link">Comunidad</a>
+        <a href="#audiolibros" class="member-nav-link">Audiolibros</a>
+        <a href="#herramientas" class="member-nav-link">Herramientas</a>
+        <a href="#recursos" class="member-nav-link">Recursos</a>
+      </aside>
+
+      <div class="member-content">
+        <div id="loadingBox" class="status-box">Validando tu acceso...</div>
+
+        <section id="curso" class="member-section hidden">
+          <div class="member-section-title">
+            <p class="eyebrow">Curso</p>
+            <h2>Contenido principal</h2>
+            <p>Empieza por los módulos principales y avanza con calma.</p>
+          </div>
+
+          <div id="courseContent" class="course-content"></div>
+        </section>
+
+        <section id="comunidad" class="member-section hidden">
+          <div class="member-section-title">
+            <p class="eyebrow">Comunidad</p>
+            <h2>Canales oficiales WLF</h2>
+            <p>Usa estos enlaces para entrar al grupo, seguir el contenido y recibir actualizaciones.</p>
+          </div>
+
+          <div id="communityContent" class="member-card-grid"></div>
+        </section>
+
+        <section id="audiolibros" class="member-section hidden">
+          <div class="member-section-title">
+            <p class="eyebrow">Material extra</p>
+            <h2>Audiolibros y mentalidad</h2>
+            <p>Contenido complementario para reforzar disciplina, paciencia y enfoque.</p>
+          </div>
+
+          <div id="audiobookContent" class="member-card-grid"></div>
+        </section>
+
+        <section id="herramientas" class="member-section hidden">
+          <div class="member-section-title">
+            <p class="eyebrow">Herramientas</p>
+            <h2>Tools WLF</h2>
+            <p>Aquí iremos agregando indicadores, plantillas, calculadoras o recursos internos.</p>
+          </div>
+
+          <div id="toolsContent" class="member-card-grid"></div>
+        </section>
+
+        <section id="recursos" class="member-section hidden">
+          <div class="member-section-title">
+            <p class="eyebrow">Recursos</p>
+            <h2>Notas del grupo</h2>
+            <p>
+              Este espacio puede crecer con PDFs, checklist, actualizaciones del curso,
+              reglas del grupo y material de apoyo.
+            </p>
+          </div>
+
+          <div class="resource-note">
+            <strong>Próximamente:</strong>
+            más recursos privados para miembros activos de WLF Trading.
+          </div>
+        </section>
+      </div>
     </section>
   </main>
 

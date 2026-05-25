@@ -1,0 +1,104 @@
+.vip-access-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.75fr);
+  gap: 28px;
+  align-items: stretch;
+  border: 1px solid rgba(51, 209, 96, 0.20);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(51, 209, 96, 0.14), transparent 34%),
+    linear-gradient(135deg, rgba(51, 209, 96, 0.07), rgba(255,255,255,0.035));
+  border-radius: 34px;
+  padding: 44px;
+}
+
+.vip-access-copy h2 {
+  font-size: clamp(2rem, 4.4vw, 4.2rem);
+  max-width: 760px;
+}
+
+.vip-access-copy p {
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 1.06rem;
+}
+
+.vip-includes-card {
+  border: 1px solid rgba(255,255,255,0.13);
+  background: rgba(3, 6, 4, 0.45);
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 20px 48px rgba(0,0,0,0.24);
+}
+
+.include-label {
+  color: var(--gold);
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  font-size: 0.82rem;
+  display: block;
+  margin-bottom: 18px;
+}
+
+.include-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 13px;
+}
+
+.include-list li {
+  color: var(--text);
+  font-weight: 850;
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+}
+
+.include-list li::before {
+  content: "✓";
+  color: #041008;
+  background: var(--green);
+  width: 23px;
+  height: 23px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  font-size: 0.86rem;
+  font-weight: 950;
+}
+
+.manual-access-note {
+  margin-top: 24px;
+  border: 1px solid rgba(214, 168, 80, 0.24);
+  background: rgba(214, 168, 80, 0.08);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.manual-access-note strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.manual-access-note p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+@media (max-width: 940px) {
+  .vip-access-section {
+    grid-template-columns: 1fr;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 560px) {
+  .vip-access-section {
+    padding: 24px;
+  }
+}

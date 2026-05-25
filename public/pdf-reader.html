@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Lector WLF | Biblioteca</title>
+
+  <link rel="icon" type="image/png" href="/assets/logo-wlf.png" />
+  <link rel="apple-touch-icon" href="/assets/logo-wlf.png" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/member-area.css" />
+  <link rel="stylesheet" href="/css/pdf-reader.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <img src="/assets/logo-wlf.png" alt="WLF Trading" class="brand-logo" />
+    </a>
+
+    <nav class="nav">
+      <a href="/">Inicio</a>
+      <a href="/dashboard.html">Sala VIP</a>
+      <a href="/reading.html">Biblioteca</a>
+      <span id="userEmail" class="user-email">Validando...</span>
+      <button class="btn tiny ghost" id="logoutBtn">Salir</button>
+    </nav>
+  </header>
+
+  <main class="pdf-reader-page">
+    <section class="section pdf-reader-hero">
+      <div>
+        <p class="eyebrow">Lector WLF</p>
+        <h1 id="readerBookTitle">Cargando lectura...</h1>
+        <p class="hero-text">
+          Lee el PDF dentro de WLF y usa la función de voz para escuchar el texto de la página actual.
+        </p>
+      </div>
+
+      <div class="reader-status">
+        <strong id="pageStatus">Página 1 / 1</strong>
+        <p>Prueba inicial con PDF local.</p>
+      </div>
+    </section>
+
+    <section class="section reader-toolbar-shell">
+      <div class="reader-toolbar">
+        <button class="btn ghost" id="prevPageBtn">Página anterior</button>
+        <button class="btn ghost" id="nextPageBtn">Página siguiente</button>
+
+        <div class="reader-page-jump">
+          <label for="pageNumberInput">Ir a página</label>
+          <input id="pageNumberInput" type="number" min="1" value="1" />
+          <button class="btn tiny ghost" id="goPageBtn">Ir</button>
+        </div>
+
+        <button class="btn primary" id="readPageBtn">Leer página</button>
+        <button class="btn ghost" id="pauseBtn">Pausar</button>
+        <button class="btn ghost" id="resumeBtn">Continuar</button>
+        <button class="btn ghost" id="stopBtn">Detener</button>
+      </div>
+
+      <div class="reader-note">
+        <strong>Nota:</strong>
+        La voz usa el navegador del estudiante. Funciona mejor con PDFs que tienen texto real, no escaneos como imagen.
+      </div>
+    </section>
+
+    <section class="section pdf-reader-layout">
+      <div class="pdf-canvas-shell">
+        <canvas id="pdfCanvas"></canvas>
+      </div>
+
+      <aside class="pdf-text-panel">
+        <p class="eyebrow">Texto detectado</p>
+        <h2>Página actual</h2>
+        <div id="pageText" class="page-text">
+          Cargando texto...
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/pdf-reader.js"></script>
+</body>
+</html>

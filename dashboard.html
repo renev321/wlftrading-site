@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Curso | WLF Trading Academy</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <img src="/assets/logo-wlf.png" alt="WLF Trading" class="brand-logo" />
+    </a>
+    <nav class="nav">
+      <span id="userEmail" class="user-email">Validando...</span>
+      <button class="btn tiny ghost" id="logoutBtn">Salir</button>
+    </nav>
+  </header>
+
+  <main class="dashboard">
+    <section class="section">
+      <div class="section-title">
+        <p class="eyebrow">Área privada</p>
+        <h1>Mi curso WLF</h1>
+        <p>Accede a los módulos y recursos privados del curso.</p>
+      </div>
+
+      <div id="loadingBox" class="status-box">Validando tu acceso...</div>
+      <div id="courseContent" class="course-content hidden"></div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/course.js"></script>
+</body>
+</html>

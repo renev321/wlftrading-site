@@ -6,8 +6,8 @@ INSERT INTO students (
   expires_at,
   notes
 ) VALUES (
-  'bazarolands@gmail.com',
-  'Bazarolands',
+  'Eg376514@gmail.com',
+  'Emilo Gonzales',
   'active',
   1,
   NULL,

@@ -1,0 +1,44 @@
+.vip-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+  align-items: start;
+}
+
+.vip-hero-media {
+  padding-top: 0;
+}
+
+.vip-hero-image-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.vip-hero-image-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vip-hero-caption {
+  padding: 20px 22px 24px;
+}
+
+.vip-hero-caption h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  margin-bottom: 8px;
+}
+
+.vip-hero-caption p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .vip-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}

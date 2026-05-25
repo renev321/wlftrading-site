@@ -1,16 +1,7 @@
 import { requireActiveUser } from "./auth.js";
 
-/*
-  WLF Trading - Practice Hard Mode v15
-
-  Goal:
-  - Avoid obvious answers.
-  - Use realistic trading decision scenarios.
-  - Wrong answers should be tempting but incomplete.
-  - Explanations teach WLF logic: context, structure, liquidity, risk, patience.
-*/
-
 const questions = [
+  // ESTRUCTURA
   {
     category: "estructura",
     title: "Zona de soporte con llegada agresiva",
@@ -22,7 +13,7 @@ const questions = [
       "Mover el soporte más abajo para que el precio lo respete."
     ],
     correct: 1,
-    explanation: "Una zona importante no es una entrada automática. Si el precio llega con mucha agresividad, primero quieres ver rechazo, absorción o pérdida de fuerza. La zona da contexto; la reacción da mejor timing."
+    explanation: "Una zona importante no es una entrada automática. Si el precio llega con mucha agresividad, primero quieres ver rechazo o pérdida de fuerza."
   },
   {
     category: "estructura",
@@ -35,12 +26,12 @@ const questions = [
       "Ignorar la resistencia porque las líneas nunca funcionan."
     ],
     correct: 1,
-    explanation: "La ruptura por sí sola no es suficiente. Un cierre débil puede indicar falta de aceptación. WLF busca ruptura + aceptación o reacción clara, no solo un toque por encima."
+    explanation: "La ruptura por sí sola no basta. WLF busca ruptura + aceptación o reacción clara, no solo un toque por encima."
   },
   {
     category: "estructura",
     title: "Precio en mitad del rango",
-    context: "El mercado está lateral. El precio se encuentra justo en el centro del rango, lejos del máximo y del mínimo del rango.",
+    context: "El mercado está lateral. El precio se encuentra justo en el centro del rango, lejos del máximo y del mínimo.",
     options: [
       "Buscar entrada solo porque el rango ya está identificado.",
       "Esperar mejor ubicación cerca de extremos o una ruptura con intención.",
@@ -48,7 +39,7 @@ const questions = [
       "Vender porque está a mitad de camino y puede bajar."
     ],
     correct: 1,
-    explanation: "En el centro del rango el riesgo suele ser peor y la dirección menos clara. En rangos, los extremos y las rupturas con aceptación suelen ofrecer mejores decisiones que la mitad."
+    explanation: "En el centro del rango el riesgo suele ser peor y la dirección menos clara."
   },
   {
     category: "estructura",
@@ -61,7 +52,7 @@ const questions = [
       "Ignorar el mínimo porque solo importan las resistencias."
     ],
     correct: 1,
-    explanation: "Cuando un mínimo importante se rompe y no se recupera, la estructura puede estar cambiando. No significa vender a ciegas, pero sí dejar de asumir que todo sigue alcista."
+    explanation: "Cuando un mínimo importante se rompe y no se recupera, la estructura puede estar cambiando."
   },
   {
     category: "estructura",
@@ -74,9 +65,211 @@ const questions = [
       "Eliminar el canal porque las velas son pequeñas."
     ],
     correct: 1,
-    explanation: "La parte alta del canal puede ser zona de decisión, pero no es venta automática. Puedes buscar rechazo si hay contexto, o esperar ruptura con aceptación si el precio quiere continuar."
+    explanation: "La parte alta del canal puede ser zona de decisión, pero no es venta automática."
   },
 
+  // LIQUIDEZ
+  {
+    category: "liquidez",
+    title: "Barrida de máximo anterior",
+    context: "El precio supera por poco un máximo importante, activa stops o compras tardías y luego regresa rápidamente por debajo.",
+    options: [
+      "Asumir continuación automática porque el máximo fue roto.",
+      "Reconocer posible toma de liquidez y esperar confirmación de rechazo.",
+      "Comprar de inmediato porque el breakout ya ocurrió.",
+      "Ignorar ese máximo porque ya no importa."
+    ],
+    correct: 1,
+    explanation: "Cuando el precio toma un máximo y vuelve debajo, puede ser una barrida de liquidez. Aun así, necesitas contexto y confirmación."
+  },
+  {
+    category: "liquidez",
+    title: "Liquidez en rango",
+    context: "En un rango claro, el precio se acerca al extremo superior donde muchos esperan venta.",
+    options: [
+      "Vender inmediatamente solo porque llegó al extremo.",
+      "Pensar que ahí puede haber liquidez y observar si el precio la toma antes de decidir.",
+      "Comprar porque el precio está fuerte.",
+      "Eliminar el rango porque el precio tocó una vez más."
+    ],
+    correct: 1,
+    explanation: "Los extremos de un rango suelen acumular liquidez. No se trata solo de tocar la zona, sino de ver si la liquidez es tomada y cómo reacciona luego."
+  },
+  {
+    category: "liquidez",
+    title: "Liquidez y desplazamiento",
+    context: "El precio barre un mínimo anterior y después sale con una vela alcista amplia dejando desplazamiento claro.",
+    options: [
+      "Podría ser una buena pista si además hay zona y riesgo aceptable.",
+      "Eso obliga a comprar sin mirar más nada.",
+      "Lo correcto es vender porque los mínimos siempre se rompen otra vez.",
+      "No importa la barrida si hubo una vela grande."
+    ],
+    correct: 0,
+    explanation: "Liquidez tomada + desplazamiento puede ser una combinación potente, pero sigue necesitando ubicación y gestión."
+  },
+  {
+    category: "liquidez",
+    title: "Zona con muchos equal highs",
+    context: "Ves varios máximos muy parecidos alineados antes de una resistencia mayor.",
+    options: [
+      "Eso puede representar liquidez por encima de esos máximos.",
+      "Eso invalida la resistencia automáticamente.",
+      "Significa que el precio no puede subir más nunca.",
+      "No tiene ninguna lectura especial."
+    ],
+    correct: 0,
+    explanation: "Equal highs suelen ser una zona donde se acumulan stops/liquidez. Puede atraer al precio antes de una reacción."
+  },
+  {
+    category: "liquidez",
+    title: "Confundir liquidez con entrada",
+    context: "Identificas una zona de liquidez clara, pero el precio todavía no muestra reacción ni confirmación.",
+    options: [
+      "Entrar porque ver la liquidez ya es suficiente.",
+      "Esperar a ver cómo el precio interactúa con esa liquidez.",
+      "Quitar el stop para darle más espacio al concepto.",
+      "Duplicar lotaje porque la idea suena institucional."
+    ],
+    correct: 1,
+    explanation: "Detectar liquidez es una ventaja, pero no reemplaza la necesidad de ver reacción, estructura y riesgo."
+  },
+
+  // SWINGS
+  {
+    category: "swings",
+    title: "Secuencia de swings alcistas",
+    context: "El precio sigue dejando swing lows más altos y swing highs más altos.",
+    options: [
+      "La estructura sigue siendo alcista mientras esa secuencia no se rompa.",
+      "Eso ya es debilidad bajista.",
+      "Solo importan los candles, no los swings.",
+      "Debe venderse porque ha subido mucho."
+    ],
+    correct: 0,
+    explanation: "Los swings ayudan a leer el flujo del mercado. Mientras mantenga highs y lows crecientes, la estructura favorece al alza."
+  },
+  {
+    category: "swings",
+    title: "Swing high importante",
+    context: "El precio rompe un swing high reciente, pero luego vuelve a meterse debajo muy rápido.",
+    options: [
+      "Asumir continuación sin dudas.",
+      "Considerar que esa ruptura puede no haber sido aceptada.",
+      "Eliminar ese swing del análisis.",
+      "Comprar más porque ya lo rompió una vez."
+    ],
+    correct: 1,
+    explanation: "No basta con romper un swing; importa si el mercado acepta esa ruptura o la rechaza rápidamente."
+  },
+  {
+    category: "swings",
+    title: "Swing low como referencia",
+    context: "Estás buscando compras y tienes un swing low claro como punto de invalidación.",
+    options: [
+      "Ese swing puede servir como referencia lógica para el stop o invalidación.",
+      "No sirve para nada, solo mira indicadores.",
+      "Debes poner el stop en cualquier sitio más pequeño.",
+      "Hay que ignorarlo porque el mercado es aleatorio."
+    ],
+    correct: 0,
+    explanation: "Los swings bien definidos ayudan a estructurar la idea y a definir dónde deja de tener sentido."
+  },
+  {
+    category: "swings",
+    title: "Micro swing contra tendencia",
+    context: "En una tendencia alcista fuerte aparece un pequeño swing bajista dentro del pullback.",
+    options: [
+      "Cambiar completamente a sesgo bajista.",
+      "Diferenciar entre un swing menor y un cambio real de estructura.",
+      "Vender porque cualquier swing bajista cambia todo.",
+      "Ignorar toda estructura mayor para centrarte solo en el micro swing."
+    ],
+    correct: 1,
+    explanation: "No todos los swings tienen el mismo peso. WLF diferencia entre retroceso menor y cambio estructural real."
+  },
+  {
+    category: "swings",
+    title: "Swings en consolidación",
+    context: "Dentro de una consolidación aparecen muchos pequeños swings arriba y abajo sin dirección limpia.",
+    options: [
+      "Tomar cada micro swing como una operación fuerte.",
+      "Reconocer que en consolidación los swings pueden generar ruido y falsas lecturas.",
+      "Asumir tendencia solo por ver varios swings.",
+      "Quitar toda gestión porque el mercado está lento."
+    ],
+    correct: 1,
+    explanation: "En consolidaciones los swings pueden volverse ruidosos. El contexto general sigue siendo clave."
+  },
+
+  // TENDENCIAS
+  {
+    category: "tendencias",
+    title: "Tendencia sana con retrocesos",
+    context: "El mercado sube de forma ordenada, hace retrocesos controlados y luego continúa dejando nuevos máximos.",
+    options: [
+      "Eso describe una tendencia alcista saludable.",
+      "Eso es una consolidación sin dirección.",
+      "Eso ya es una reversa bajista inminente.",
+      "Eso obliga a comprar en cualquier precio."
+    ],
+    correct: 0,
+    explanation: "Una tendencia sana suele alternar impulsos y retrocesos sin perder su estructura principal."
+  },
+  {
+    category: "tendencias",
+    title: "Retroceso profundo en tendencia",
+    context: "Una tendencia alcista entra en retroceso más profundo de lo normal y empieza a romper varios lows previos.",
+    options: [
+      "Comprar igual porque toda tendencia siempre vuelve.",
+      "Vigilar posible debilitamiento y no asumir que la tendencia sigue intacta.",
+      "Quitar el stop porque el mercado ya corregirá.",
+      "Ignorar todos los lows rotos porque el sesgo era alcista antes."
+    ],
+    correct: 1,
+    explanation: "Cuando el retroceso deja de ser normal y empieza a romper estructura previa, la tendencia puede estar perdiendo fuerza."
+  },
+  {
+    category: "tendencias",
+    title: "Tendencia bajista ordenada",
+    context: "El precio deja máximos más bajos y mínimos más bajos durante varias secuencias.",
+    options: [
+      "Eso favorece continuación bajista mientras la secuencia siga viva.",
+      "Eso es alcista porque ha bajado mucho.",
+      "Eso ya invalida toda venta.",
+      "Eso significa que nunca habrá pullbacks."
+    ],
+    correct: 0,
+    explanation: "Máximos y mínimos descendentes muestran una estructura bajista ordenada."
+  },
+  {
+    category: "tendencias",
+    title: "Operar contra tendencia",
+    context: "Ves una pequeña zona de venta dentro de una tendencia alcista limpia, pero no hay signos reales de agotamiento mayor.",
+    options: [
+      "Tomar la contra tendencia como si tuviera la misma calidad que operar a favor.",
+      "Ser más exigente si vas contra la tendencia principal.",
+      "Vender sin stop porque el precio ya subió mucho.",
+      "Ignorar la tendencia porque cada zona vale lo mismo."
+    ],
+    correct: 1,
+    explanation: "Operar contra tendencia suele requerir más contexto y mejor timing. No todas las zonas tienen el mismo peso."
+  },
+  {
+    category: "tendencias",
+    title: "Tendencia y paciencia",
+    context: "Identificas una tendencia clara, pero el precio está demasiado extendido y lejos de una zona lógica de entrada.",
+    options: [
+      "Entrar tarde solo para no perder el movimiento.",
+      "Esperar pullback o nueva estructura que ofrezca mejor ubicación.",
+      "Comprar con stop enorme porque la tendencia es fuerte.",
+      "Cambiar a venta solo porque está extendido."
+    ],
+    correct: 1,
+    explanation: "Una buena tendencia no siempre significa buena entrada inmediata. La ubicación sigue siendo parte del edge."
+  },
+
+  // FVG
   {
     category: "fvg",
     title: "FVG después de desplazamiento fuerte",
@@ -88,7 +281,7 @@ const questions = [
       "Entrar short porque el precio dejó un hueco y debe cerrarlo."
     ],
     correct: 1,
-    explanation: "El FVG puede ser una zona de interés porque aparece después de liquidez tomada y desplazamiento. Pero se necesita reacción y gestión; no basta con tocar el FVG."
+    explanation: "El FVG puede ser una zona de interés porque aparece después de liquidez tomada y desplazamiento. Pero se necesita reacción y gestión."
   },
   {
     category: "fvg",
@@ -101,7 +294,7 @@ const questions = [
       "Entrar en contra de todos los FVG por ser zona de manipulación."
     ],
     correct: 1,
-    explanation: "Muchos FVG en una consolidación pueden ser ruido. El valor aparece cuando el imbalance tiene contexto: ubicación, liquidez, desplazamiento y riesgo lógico."
+    explanation: "Muchos FVG en una consolidación pueden ser ruido. El valor aparece cuando el imbalance tiene contexto."
   },
   {
     category: "fvg",
@@ -114,7 +307,7 @@ const questions = [
       "Cambiar automáticamente a venta sin esperar estructura."
     ],
     correct: 1,
-    explanation: "Un FVG puede fallar. Si el precio entra profundo, no reacciona y empieza a cerrar debajo, la idea debe revisarse. El contexto manda sobre la etiqueta."
+    explanation: "Un FVG puede fallar. Si el precio entra profundo, no reacciona y empieza a cerrar debajo, la idea debe revisarse."
   },
   {
     category: "fvg",
@@ -127,7 +320,7 @@ const questions = [
       "Ignorar el soporte porque solo importa el FVG."
     ],
     correct: 1,
-    explanation: "Un FVG bajista en una zona muy baja puede ofrecer mala ubicación para vender. No todo FVG es entrada; precio, contexto y riesgo deben tener sentido."
+    explanation: "Un FVG bajista en una zona muy baja puede ofrecer mala ubicación para vender."
   },
   {
     category: "fvg",
@@ -143,6 +336,7 @@ const questions = [
     explanation: "Una reacción desde zona de FVG con confirmación micro puede ser válida, siempre que el riesgo, la ubicación y el contexto general acompañen."
   },
 
+  // ORDER BLOCK
   {
     category: "orderblock",
     title: "Order Block antes del desplazamiento",
@@ -154,7 +348,7 @@ const questions = [
       "Ignorar la liquidez porque el color de la vela decide todo."
     ],
     correct: 0,
-    explanation: "Un posible Order Block se vuelve más interesante si está conectado con liquidez y desplazamiento. Pero la entrada se evalúa cuando el precio vuelve y reacciona."
+    explanation: "Un posible Order Block se vuelve más interesante si está conectado con liquidez y desplazamiento."
   },
   {
     category: "orderblock",
@@ -167,7 +361,7 @@ const questions = [
       "Mover la zona más abajo hasta que funcione."
     ],
     correct: 1,
-    explanation: "Una zona que no reacciona y es rota con fuerza puede estar invalidada. El mercado no le debe respeto a tu zona; tú debes leer la reacción."
+    explanation: "Una zona que no reacciona y es rota con fuerza puede estar invalidada."
   },
   {
     category: "orderblock",
@@ -180,7 +374,7 @@ const questions = [
       "Ignorar el máximo anterior porque ya fue roto."
     ],
     correct: 0,
-    explanation: "Tomar un máximo y volver debajo puede ser una barrida de liquidez. Pero no se opera automáticamente; necesitas estructura, confirmación y riesgo."
+    explanation: "Tomar un máximo y volver debajo puede ser una barrida de liquidez. Pero no se opera automáticamente."
   },
   {
     category: "orderblock",
@@ -193,7 +387,7 @@ const questions = [
       "Quitar el stop porque la zona es institucional."
     ],
     correct: 1,
-    explanation: "Una zona con nombre bonito no arregla una mala operación. Si el stop es grande y la ubicación es pobre, puede ser mejor esperar."
+    explanation: "Una zona con nombre bonito no arregla una mala operación."
   },
   {
     category: "orderblock",
@@ -209,6 +403,7 @@ const questions = [
     explanation: "Después de desplazamiento bajista, un retorno lento a zona de origen puede ser interesante para venta, pero necesitas rechazo y gestión."
   },
 
+  // RIESGO
   {
     category: "riesgo",
     title: "Setup bueno, stop demasiado grande",
@@ -220,7 +415,7 @@ const questions = [
       "Duplicar contratos porque la zona es clara."
     ],
     correct: 0,
-    explanation: "Una buena lectura no justifica mal riesgo. Puedes reducir tamaño, esperar mejor entrada o simplemente no operar."
+    explanation: "Una buena lectura no justifica mal riesgo."
   },
   {
     category: "riesgo",
@@ -233,7 +428,7 @@ const questions = [
       "Ignorar el límite porque solo importa el setup."
     ],
     correct: 1,
-    explanation: "Cuando estás cerca del límite diario, el contexto de riesgo cambia. No basta con que la entrada sea decente; necesitas proteger la cuenta."
+    explanation: "Cuando estás cerca del límite diario, el contexto de riesgo cambia."
   },
   {
     category: "riesgo",
@@ -246,7 +441,7 @@ const questions = [
       "Quitar el target y esperar milagro."
     ],
     correct: 0,
-    explanation: "Si el primer obstáculo está muy cerca y el stop es grande, la relación riesgo-beneficio puede ser mala. La zona no es suficiente."
+    explanation: "Si el primer obstáculo está muy cerca y el stop es grande, la relación riesgo-beneficio puede ser mala."
   },
   {
     category: "riesgo",
@@ -272,9 +467,10 @@ const questions = [
       "Solo importa ganar, no el tamaño."
     ],
     correct: 1,
-    explanation: "La gestión no depende de la emoción del momento. Si el tamaño rompe tu plan, la operación ya está contaminada."
+    explanation: "Si el tamaño rompe tu plan, la operación ya está contaminada."
   },
 
+  // PSICOLOGIA
   {
     category: "psicologia",
     title: "Entrada tarde por presión",
@@ -286,7 +482,7 @@ const questions = [
       "Quitar el stop porque el movimiento tiene fuerza."
     ],
     correct: 0,
-    explanation: "El mercado siempre dará más oportunidades. Entrar tarde por presión suele ser FOMO y deteriora el riesgo."
+    explanation: "El mercado siempre dará más oportunidades. Entrar tarde por presión suele ser FOMO."
   },
   {
     category: "psicologia",
@@ -299,7 +495,7 @@ const questions = [
       "Entrar en temporalidades más pequeñas para encontrar algo."
     ],
     correct: 0,
-    explanation: "Cuando buscas recuperar, tu lectura se contamina. La pausa puede ser la mejor operación."
+    explanation: "Cuando buscas recuperar, tu lectura se contamina."
   },
   {
     category: "psicologia",
@@ -312,7 +508,7 @@ const questions = [
       "Promediar para mejorar entrada."
     ],
     correct: 0,
-    explanation: "El trader profesional no necesita tener razón; necesita sobrevivir y ejecutar su plan."
+    explanation: "El trader profesional no necesita tener razón; necesita proteger capital."
   },
   {
     category: "psicologia",
@@ -325,7 +521,7 @@ const questions = [
       "Operar porque estar frente al gráfico obliga a hacer algo."
     ],
     correct: 0,
-    explanation: "El aburrimiento no es señal de entrada. La disciplina también es saber no hacer nada."
+    explanation: "El aburrimiento no es señal de entrada."
   },
   {
     category: "psicologia",
@@ -370,6 +566,9 @@ const restartBtn = document.getElementById("restartBtn");
 function normalizeCategory(category) {
   const labels = {
     estructura: "Estructura",
+    liquidez: "Liquidez",
+    swings: "Swings",
+    tendencias: "Tendencias",
     fvg: "FVG / Imbalance",
     orderblock: "Order Blocks / Smart Money",
     riesgo: "Gestión de riesgo",
@@ -448,7 +647,6 @@ function selectAnswer(answerIndex) {
 function showSummary() {
   practiceApp.classList.add("hidden");
   practiceSummary.classList.remove("hidden");
-
   summaryText.textContent = `Completaste ${filteredQuestions.length} preguntas. Score final: ${score} / ${filteredQuestions.length}. Recuerda: el objetivo no es memorizar respuestas, sino entrenar criterio.`;
 }
 

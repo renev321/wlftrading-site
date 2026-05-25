@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Práctica | WLF Trading</title>
+
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/member-area.css" />
+  <link rel="stylesheet" href="/css/practice.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <img src="/assets/logo-wlf.png" alt="WLF Trading" class="brand-logo" />
+    </a>
+
+    <nav class="nav">
+      <a href="/">Inicio</a>
+      <a href="/dashboard.html">Mi Curso</a>
+      <a href="/reading.html">Lecturas</a>
+      <span id="userEmail" class="user-email">Validando...</span>
+      <button class="btn tiny ghost" id="logoutBtn">Salir</button>
+    </nav>
+  </header>
+
+  <main class="practice-page">
+    <section class="section practice-hero">
+      <p class="eyebrow">Práctica WLF</p>
+      <h1>Entrena tu criterio, no tu ansiedad.</h1>
+      <p class="hero-text">
+        Responde preguntas prácticas sobre estructura, FVG, Order Blocks, riesgo,
+        psicología y lectura del mercado. La idea es pensar antes de operar.
+      </p>
+    </section>
+
+    <section class="section practice-layout">
+      <aside class="practice-sidebar">
+        <button class="practice-filter is-active" data-category="all">Todas</button>
+        <button class="practice-filter" data-category="estructura">Estructura</button>
+        <button class="practice-filter" data-category="fvg">FVG</button>
+        <button class="practice-filter" data-category="orderblock">Order Blocks</button>
+        <button class="practice-filter" data-category="riesgo">Riesgo</button>
+        <button class="practice-filter" data-category="psicologia">Psicología</button>
+      </aside>
+
+      <div class="practice-content">
+        <div id="loadingBox" class="status-box">Validando tu acceso...</div>
+
+        <section id="practiceApp" class="practice-app hidden">
+          <div class="practice-top">
+            <div>
+              <p class="eyebrow" id="questionCategory">Categoría</p>
+              <h2 id="questionTitle">Pregunta</h2>
+              <p id="questionContext">Contexto</p>
+            </div>
+
+            <div class="practice-score-card">
+              <span>Progreso</span>
+              <strong id="progressText">1 / 1</strong>
+              <small id="scoreText">Score: 0</small>
+            </div>
+          </div>
+
+          <div id="answersBox" class="answers-box"></div>
+
+          <div id="feedbackBox" class="feedback-box hidden">
+            <p class="feedback-label" id="feedbackLabel">Respuesta</p>
+            <h3 id="feedbackTitle">Título</h3>
+            <p id="feedbackText">Explicación</p>
+          </div>
+
+          <div class="practice-actions">
+            <button class="btn ghost" id="prevQuestionBtn">Anterior</button>
+            <button class="btn primary" id="nextQuestionBtn">Siguiente</button>
+          </div>
+        </section>
+
+        <section class="practice-summary hidden" id="practiceSummary">
+          <p class="eyebrow">Resumen</p>
+          <h2>Resultado de práctica</h2>
+          <p id="summaryText"></p>
+          <button class="btn primary" id="restartBtn">Reiniciar práctica</button>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/practice.js"></script>
+</body>
+</html>

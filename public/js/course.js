@@ -11,6 +11,10 @@ function safeUrl(url) {
   return url && url !== "#" ? url : "#";
 }
 
+function isAvailableLesson(lesson) {
+  return lesson.status === "available" && lesson.embedUrl && lesson.embedUrl !== "#";
+}
+
 function renderCards(containerId, items) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -36,6 +40,50 @@ function renderCards(containerId, items) {
   }).join("");
 }
 
+function renderLesson(lesson) {
+  const available = isAvailableLesson(lesson);
+
+  if (!available) {
+    return `
+      <div class="lesson-card is-disabled">
+        <div class="lesson-card-header">
+          <div>
+            <h4>${lesson.title}</h4>
+            <p>${lesson.description || "Próximamente."}</p>
+          </div>
+          <span class="lesson-badge pending">Pendiente</span>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <article class="lesson-card">
+      <div class="lesson-card-header">
+        <div>
+          <h4>${lesson.title}</h4>
+          <p>${lesson.description || ""}</p>
+        </div>
+        <span class="lesson-badge available">Disponible</span>
+      </div>
+
+      <div class="video-frame">
+        <iframe
+          src="${lesson.embedUrl}"
+          allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="lesson-actions">
+        <a class="lesson-open-link" href="${lesson.url}" target="_blank" rel="noopener">
+          Abrir en Google Drive
+        </a>
+      </div>
+    </article>
+  `;
+}
+
 function renderCourse() {
   const loadingBox = document.getElementById("loadingBox");
   const courseContent = document.getElementById("courseContent");
@@ -47,22 +95,8 @@ function renderCourse() {
       <h3>${module.title}</h3>
       <p class="muted">${module.description}</p>
 
-      <div class="lesson-list">
-        ${module.lessons.map((lesson) => {
-          const disabled = !lesson.url || lesson.url === "#" || lesson.url.includes("PASTE_GOOGLE_DRIVE_LINK_HERE");
-
-          return `
-            <a
-              class="lesson-link ${disabled ? "is-disabled" : ""}"
-              href="${disabled ? "#" : lesson.url}"
-              target="${disabled ? "_self" : "_blank"}"
-              rel="noopener"
-            >
-              <span>${lesson.title}</span>
-              <strong>${disabled ? "Pendiente" : "Ver video"}</strong>
-            </a>
-          `;
-        }).join("")}
+      <div class="lesson-list embedded-lessons">
+        ${module.lessons.map(renderLesson).join("")}
       </div>
     </article>
   `).join("");

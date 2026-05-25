@@ -56,31 +56,74 @@ export const toolLinks = [
   }
 ];
 
-// Keep Google Drive links private/restricted.
-// These links are only shown after the user's email is active.
+// Course video infrastructure.
+// For Google Drive embedded videos, use:
+// https://drive.google.com/file/d/FILE_ID/preview
 export const courseModules = [
   {
-    title: "Módulo 01 - Introducción y base",
-    description: "Primeros pasos, mentalidad y estructura del curso.",
+    title: "Módulo 01 - Bienvenida y presentación",
+    description: "Primeros pasos para entender cómo aprovechar el curso WLF Trading.",
     lessons: [
-      { title: "Bienvenida al curso", url: "PASTE_GOOGLE_DRIVE_LINK_HERE" },
-      { title: "Cómo estudiar el contenido", url: "PASTE_GOOGLE_DRIVE_LINK_HERE" }
+      {
+        title: "1 - Para Quién es este curso",
+        description: "Primera lección de prueba para validar el reproductor privado dentro del dashboard.",
+        url: "https://drive.google.com/file/d/1UelMigX0HXbUmJFZnUhIfdNlkFVciLxP/view",
+        embedUrl: "https://drive.google.com/file/d/1UelMigX0HXbUmJFZnUhIfdNlkFVciLxP/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "2 - Curso WLF Trading Presentación",
+        description: "Próxima lección del módulo.",
+        url: "#",
+        embedUrl: "#",
+        type: "video",
+        status: "pending"
+      }
     ]
   },
   {
-    title: "Módulo 02 - Estructura del mercado",
-    description: "Soportes, resistencias, canales, tendencias y rangos.",
+    title: "Módulo 02 - Bases importantes",
+    description: "Ruido, rentabilidad, herramientas y conceptos base.",
     lessons: [
-      { title: "Soporte y resistencia", url: "PASTE_GOOGLE_DRIVE_LINK_HERE" },
-      { title: "Canales y contexto", url: "PASTE_GOOGLE_DRIVE_LINK_HERE" }
+      {
+        title: "2.2 - Ruido y confusión",
+        description: "Próximamente.",
+        url: "#",
+        embedUrl: "#",
+        type: "video",
+        status: "pending"
+      },
+      {
+        title: "3 - Rentabilidad",
+        description: "Próximamente.",
+        url: "#",
+        embedUrl: "#",
+        type: "video",
+        status: "pending"
+      },
+      {
+        title: "4 - Herramientas utilizadas",
+        description: "Próximamente.",
+        url: "#",
+        embedUrl: "#",
+        type: "video",
+        status: "pending"
+      }
     ]
   },
   {
-    title: "Módulo 03 - FVG, Order Blocks y gestión",
-    description: "Lectura de imbalance, zonas de reacción y control del riesgo.",
+    title: "Módulo 03 - Smart Money / Dinero Inteligente",
+    description: "Primeros conceptos de dinero inteligente y lectura institucional.",
     lessons: [
-      { title: "FVG explicado simple", url: "PASTE_GOOGLE_DRIVE_LINK_HERE" },
-      { title: "Order Blocks con contexto", url: "PASTE_GOOGLE_DRIVE_LINK_HERE" }
+      {
+        title: "5 - Dinero Inteligente",
+        description: "Próximamente.",
+        url: "#",
+        embedUrl: "#",
+        type: "video",
+        status: "pending"
+      }
     ]
   }
 ];

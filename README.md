@@ -1,91 +1,88 @@
-# WLF Trading Academy - Cloudflare Pages Starter
+# WLF Trading Academy - Worker v2
 
-This is a first project structure for `wlftrading.com`.
+This is the correct Cloudflare Worker structure for:
 
-## Pages included
+- Static website
+- Login page
+- Course dashboard
+- API email validation at `/api/check-access`
 
-- `/index.html` - Public welcome/sales page
-- `/login.html` - Login with Google/Facebook
-- `/dashboard.html` - Private course area
-- `/denied.html` - Access not active page
-- `/terms.html` - Disclaimer/terms page
-- `/functions/api/check-access.js` - Cloudflare Pages Function to validate active emails
+## Structure
 
-## Assets included
+```text
+public/
+  index.html
+  login.html
+  dashboard.html
+  denied.html
+  terms.html
+  assets/
+  css/
+  js/
 
-- `/assets/logo-wlf.png`
-- `/assets/wlf-hero.jpeg`
+src/
+  worker.js
 
-## How access works
+wrangler.jsonc
+```
 
-1. Student logs in with Google or Facebook.
-2. The site gets their email from Firebase Auth.
-3. The site calls `/api/check-access`.
-4. Cloudflare checks if the email exists in the `ALLOWED_EMAILS` environment variable.
-5. If active, the student sees the dashboard and private Google Drive links.
+## Cloudflare settings
 
-## Important security note
+Because this is now a Worker with static assets, keep:
 
-This first version hides the course dashboard, but Google Drive must also be restricted to the same Gmail accounts.
-Do not use public Google Drive links for paid course videos.
+- Build command: empty or `exit 0`
+- Deploy command: `npx wrangler deploy`
+- Root/path: `/`
 
-## Setup steps
+## Required Cloudflare environment variable
 
-### 1. Upload to Cloudflare Pages
+Go to:
 
-Recommended for this version: upload the full folder or push it to GitHub.
-
-### 2. Create Firebase project
-
-Go to Firebase Console and create a project.
-
-Enable:
-
-- Authentication > Google
-- Authentication > Facebook, optional
-
-Create a Web App and copy the Firebase config.
-
-Paste it in:
-
-`/js/config.js`
-
-### 3. Add authorized domains in Firebase
+Workers & Pages > wlftrading-site > Settings > Variables and secrets
 
 Add:
 
-- `wlftrading.com`
-- `www.wlftrading.com`
-- your Cloudflare Pages preview domain, for example `wlftrading.pages.dev`
+```text
+ALLOWED_EMAILS
+```
 
-### 4. Add Cloudflare environment variable
+Example value:
 
-In Cloudflare Pages:
+```text
+rene@gmail.com,student1@gmail.com,student2@gmail.com
+```
 
-`Settings > Environment variables`
+Redeploy after changing variables.
 
-Add:
-
-`ALLOWED_EMAILS`
-
-Example:
-
-`rene@gmail.com,student1@gmail.com,student2@gmail.com`
-
-Redeploy the project after adding/updating environment variables.
-
-### 5. Add Google Drive links
+## Firebase setup
 
 Edit:
 
-`/js/config.js`
+```text
+public/js/config.js
+```
 
-Replace:
+Replace the placeholder Firebase config with your real Firebase Web App config.
 
-`PASTE_GOOGLE_DRIVE_LINK_HERE`
+Enable in Firebase:
 
-with your private Drive video/folder links.
+- Authentication > Sign-in method > Google
+- Optional: Facebook
 
-## Suggested next upgrade
+Add authorized domains:
 
-Use Cloudflare D1 or Supabase instead of `ALLOWED_EMAILS` when you have many students.
+- wlftrading.com
+- www.wlftrading.com
+- your workers.dev domain
+
+## Google Drive links
+
+Edit:
+
+```text
+public/js/config.js
+```
+
+Replace each `PASTE_GOOGLE_DRIVE_LINK_HERE` with your Google Drive lesson video links.
+
+Keep Google Drive videos restricted to the same Gmail accounts you activate in `ALLOWED_EMAILS`.

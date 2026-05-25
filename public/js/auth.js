@@ -23,10 +23,7 @@ async function checkAccess(email) {
     body: JSON.stringify({ email })
   });
 
-  if (!response.ok) {
-    console.error("Access check failed:", response.status, await response.text());
-    return false;
-  }
+  if (!response.ok) return false;
 
   const data = await response.json();
   return Boolean(data.active);
@@ -34,15 +31,12 @@ async function checkAccess(email) {
 
 async function afterLogin(user) {
   const email = user?.email;
-
   if (!email) {
-    alert("No se pudo leer el correo de la cuenta.");
     window.location.href = "/denied.html";
     return;
   }
 
   const active = await checkAccess(email);
-
   if (active) {
     window.location.href = "/dashboard.html";
   } else {
@@ -52,40 +46,17 @@ async function afterLogin(user) {
 
 if (googleBtn) {
   googleBtn.addEventListener("click", async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-
-      provider.setCustomParameters({
-        prompt: "select_account"
-      });
-
-      const result = await signInWithPopup(auth, provider);
-      await afterLogin(result.user);
-    } catch (error) {
-      console.error("Google login error:", error);
-      alert(
-        "Google login error:\n\n" +
-        "Code: " + error.code + "\n\n" +
-        "Message: " + error.message
-      );
-    }
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    await afterLogin(result.user);
   });
 }
 
 if (facebookBtn) {
   facebookBtn.addEventListener("click", async () => {
-    try {
-      const provider = new FacebookAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      await afterLogin(result.user);
-    } catch (error) {
-      console.error("Facebook login error:", error);
-      alert(
-        "Facebook login error:\n\n" +
-        "Code: " + error.code + "\n\n" +
-        "Message: " + error.message
-      );
-    }
+    const provider = new FacebookAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    await afterLogin(result.user);
   });
 }
 
@@ -107,7 +78,6 @@ export function requireActiveUser(callback) {
     if (emailBox) emailBox.textContent = user.email;
 
     const active = await checkAccess(user.email);
-
     if (!active) {
       window.location.href = "/denied.html";
       return;

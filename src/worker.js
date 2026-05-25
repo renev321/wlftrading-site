@@ -7,7 +7,7 @@ export default {
     }
 
     if (url.pathname === "/api/health") {
-      return Response.json({ ok: true, service: "WLF Trading Worker" });
+      return Response.json({ ok: true, service: "WLF Trading Worker + D1" });
     }
 
     return env.ASSETS.fetch(request);
@@ -23,21 +23,55 @@ async function checkAccess(request, env) {
       return Response.json({ active: false, reason: "Invalid email" }, { status: 400 });
     }
 
-    const allowedEmails = String(env.ALLOWED_EMAILS || "")
-      .split(",")
-      .map((item) => item.trim().toLowerCase())
-      .filter(Boolean);
+    if (!env.DB) {
+      return Response.json({
+        active: false,
+        reason: "D1 database binding DB is missing"
+      }, { status: 500 });
+    }
 
-    const active = allowedEmails.includes(email);
+    const student = await env.DB
+      .prepare(`
+        SELECT
+          email,
+          name,
+          status,
+          course_access,
+          expires_at
+        FROM students
+        WHERE lower(email) = lower(?)
+        LIMIT 1
+      `)
+      .bind(email)
+      .first();
+
+    if (!student) {
+      return Response.json({
+        active: false,
+        email,
+        reason: "Email not found"
+      });
+    }
+
+    const isActiveStatus = String(student.status || "").toLowerCase() === "active";
+    const hasCourseAccess = Number(student.course_access || 0) === 1;
+    const isNotExpired = !student.expires_at || new Date(student.expires_at + "T23:59:59Z") >= new Date();
+
+    const active = isActiveStatus && hasCourseAccess && isNotExpired;
 
     return Response.json({
       active,
-      email
+      email: student.email,
+      name: student.name || "",
+      status: student.status,
+      course_access: hasCourseAccess,
+      expires_at: student.expires_at || null
     });
   } catch (error) {
     return Response.json({
       active: false,
-      reason: "Invalid request"
-    }, { status: 400 });
+      reason: "Invalid request or database error",
+      detail: String(error?.message || error)
+    }, { status: 500 });
   }
 }

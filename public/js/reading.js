@@ -5,14 +5,14 @@ const bookList = document.getElementById("bookList");
 
 const readerEmpty = document.getElementById("readerEmpty");
 const readerActive = document.getElementById("readerActive");
-const readerTag = document.getElementById("readerTag");
-const readerTitle = document.getElementById("readerTitle");
-const readerDescription = document.getElementById("readerDescription");
 const pdfViewer = document.getElementById("pdfViewer");
 const closeReaderBtn = document.getElementById("closeReaderBtn");
 
 // Local WLF book library.
 // All files must exist inside: public/books/
+// Removed for now because of deployment size limits:
+// - Joel_Dispenza_-_Sobrenatural.pdf > 100 MB / too large for GitHub
+// - La Psicologia del Trading.pdf > 25 MiB / too large for Cloudflare Workers assets
 const localBooks = [
   {
     title: "12 reglas para vivir",
@@ -109,18 +109,6 @@ const localBooks = [
     filename: "Hazlo_tan_bien_que_no_puedan_ignorarte_Spanish_Edition_Cal_Newport.pdf",
     tag: "Disciplina",
     description: "Enfoque, habilidad, trabajo profundo y construcción de valor real."
-  },
-  {
-    title: "Sobrenatural",
-    filename: "Joel_Dispenza_-_Sobrenatural.pdf",
-    tag: "Mentalidad",
-    description: "Lectura complementaria sobre mente, cambio personal y visualización."
-  },
-  {
-    title: "La Psicología del Trading",
-    filename: "La Psicologia del Trading.pdf",
-    tag: "Psicología",
-    description: "Psicología aplicada al trader, control emocional y consistencia."
   },
   {
     title: "La disciplina del inversor",
@@ -258,8 +246,6 @@ function renderBooks() {
   });
 }
 
-// These are kept for compatibility with the old embedded Google Drive viewer.
-// The new local books open directly in /pdf-reader.html.
 function closeReader() {
   if (!pdfViewer || !readerActive || !readerEmpty) return;
 

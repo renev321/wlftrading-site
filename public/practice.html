@@ -3,13 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Práctica | WLF Trading</title>
+
+  <title>Práctica WLF | WLF Trading</title>
+
   <link rel="icon" type="image/png" href="/assets/logo-wlf.png" />
   <link rel="apple-touch-icon" href="/assets/logo-wlf.png" />
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/member-area.css" />
   <link rel="stylesheet" href="/css/practice.css" />
+  <link rel="stylesheet" href="/css/practice-hero.css" />
 </head>
+
 <body>
   <header class="site-header">
     <a class="brand" href="/">
@@ -18,7 +22,7 @@
 
     <nav class="nav">
       <a href="/">Inicio</a>
-      <a href="/dashboard.html">Salón VIP</a>
+      <a href="/dashboard.html">Sala VIP</a>
       <a href="/reading.html">Biblioteca</a>
       <span id="userEmail" class="user-email">Validando...</span>
       <button class="btn tiny ghost" id="logoutBtn">Salir</button>
@@ -26,17 +30,40 @@
   </header>
 
   <main class="practice-page">
-    <section class="section practice-hero">
-      <p class="eyebrow">Práctica WLF</p>
-      <h1>Entrena tu criterio, no tu ansiedad.</h1>
-      <p class="hero-text">
-        Responde preguntas prácticas sobre estructura, liquidez, swings, tendencias, FVG,
-        Order Blocks, riesgo, psicología y lectura del mercado.
-      </p>
+    <section class="section practice-welcome">
+      <div class="practice-welcome-copy">
+        <p class="eyebrow">WLF Trading</p>
+        <h1>Bienvenido a Práctica WLF</h1>
+        <p class="hero-text">
+          Tu espacio para entrenar criterio con preguntas prácticas sobre estructura,
+          liquidez, swings, tendencias, FVG, Order Blocks, riesgo, psicología
+          y lectura del mercado.
+        </p>
 
-      <div class="actions">
-        <a class="btn ghost" href="/dashboard.html">Volver al Salón VIP</a>
-        <a class="btn ghost" href="/reading.html">Ir a Biblioteca</a>
+        <div class="practice-quick-actions">
+          <a class="btn primary" href="#practiceApp">Empezar práctica</a>
+          <a class="btn ghost" href="/dashboard.html">Volver a Sala VIP</a>
+          <a class="btn ghost" href="/reading.html">Ir a Biblioteca</a>
+        </div>
+      </div>
+
+      <div class="practice-welcome-visual">
+        <img src="/assets/practica-wlf-main.png" alt="Práctica WLF" />
+      </div>
+    </section>
+
+    <section class="section practice-status-strip">
+      <div class="member-status-card">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Acceso activo</strong>
+          <p>Puedes entrenar tu criterio dentro de WLF.</p>
+        </div>
+      </div>
+
+      <div class="practice-mini-card">
+        <strong>Ruta sugerida</strong>
+        <p>Práctica → Revisión → Biblioteca → Sala VIP</p>
       </div>
     </section>
 

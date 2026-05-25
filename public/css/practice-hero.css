@@ -1,0 +1,99 @@
+.practice-welcome {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 560px);
+  gap: 28px;
+  align-items: center;
+  padding-top: 42px;
+  padding-bottom: 24px;
+}
+
+.practice-welcome h1 {
+  font-size: clamp(2.5rem, 6vw, 5.2rem);
+  max-width: 780px;
+}
+
+.practice-welcome .hero-text {
+  max-width: 760px;
+}
+
+.practice-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.practice-welcome-visual {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 28px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.045);
+  box-shadow: 0 22px 55px rgba(0,0,0,0.28);
+}
+
+.practice-welcome-visual img {
+  display: block;
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.practice-status-strip {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: 16px;
+  padding-top: 0;
+  padding-bottom: 26px;
+}
+
+.practice-mini-card {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.045);
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.practice-mini-card strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.practice-mini-card p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.practice-layout {
+  padding-top: 14px;
+}
+
+.practice-sidebar {
+  top: 132px;
+}
+
+@media (max-width: 980px) {
+  .practice-welcome,
+  .practice-status-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-welcome-visual img {
+    height: 260px;
+  }
+}
+
+@media (max-width: 560px) {
+  .practice-welcome {
+    padding-top: 28px;
+  }
+
+  .practice-welcome-visual img {
+    height: 220px;
+  }
+
+  .practice-quick-actions {
+    flex-direction: column;
+  }
+}

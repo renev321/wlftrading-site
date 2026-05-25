@@ -40,45 +40,44 @@ function renderCards(containerId, items) {
   }).join("");
 }
 
-function renderLesson(lesson) {
+function renderLesson(lesson, moduleIndex, lessonIndex) {
   const available = isAvailableLesson(lesson);
+  const lessonId = `lesson-${moduleIndex}-${lessonIndex}`;
 
   if (!available) {
     return `
-      <div class="lesson-card is-disabled">
-        <div class="lesson-card-header">
-          <div>
-            <h4>${lesson.title}</h4>
-            <p>${lesson.description || "Próximamente."}</p>
-          </div>
-          <span class="lesson-badge pending">Pendiente</span>
+      <div class="lesson-row is-disabled">
+        <div>
+          <h4>${lesson.title}</h4>
+          <p>${lesson.description || "Próximamente."}</p>
         </div>
+        <span class="lesson-badge pending">Pendiente</span>
       </div>
     `;
   }
 
   return `
-    <article class="lesson-card">
-      <div class="lesson-card-header">
+    <article class="lesson-accordion">
+      <button class="lesson-toggle" type="button" aria-expanded="false" aria-controls="${lessonId}">
         <div>
           <h4>${lesson.title}</h4>
           <p>${lesson.description || ""}</p>
         </div>
-        <span class="lesson-badge available">Disponible</span>
-      </div>
 
-      <div class="video-frame">
-        <iframe
-          src="${lesson.embedUrl}"
-          allow="autoplay; encrypted-media"
-          allowfullscreen>
-        </iframe>
-      </div>
+        <div class="lesson-toggle-right">
+          <span class="lesson-badge available">Disponible</span>
+          <span class="lesson-arrow">+</span>
+        </div>
+      </button>
 
-      <div class="lesson-actions">
-        <a class="lesson-open-link" href="${lesson.url}" target="_blank" rel="noopener">
-          Abrir en Google Drive
-        </a>
+      <div class="lesson-panel" id="${lessonId}">
+        <div class="video-frame">
+          <iframe
+            data-src="${lesson.embedUrl}"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+          </iframe>
+        </div>
       </div>
     </article>
   `;
@@ -90,16 +89,23 @@ function renderCourse() {
 
   if (!courseContent) return;
 
-  courseContent.innerHTML = courseModules.map((module) => `
-    <article class="course-module">
-      <h3>${module.title}</h3>
-      <p class="muted">${module.description}</p>
+  courseContent.innerHTML = courseModules.map((module, moduleIndex) => `
+    <details class="course-module course-module-collapsible" ${moduleIndex === 0 ? "open" : ""}>
+      <summary class="module-summary">
+        <div>
+          <h3>${module.title}</h3>
+          <p class="muted">${module.description}</p>
+        </div>
+        <span class="module-count">${module.lessons.length} lecciones</span>
+      </summary>
 
       <div class="lesson-list embedded-lessons">
-        ${module.lessons.map(renderLesson).join("")}
+        ${module.lessons.map((lesson, lessonIndex) => renderLesson(lesson, moduleIndex, lessonIndex)).join("")}
       </div>
-    </article>
+    </details>
   `).join("");
+
+  setupLessonAccordions();
 
   renderCards("communityContent", communityLinks);
   renderCards("audiobookContent", audiobookLinks);
@@ -109,6 +115,56 @@ function renderCourse() {
 
   document.querySelectorAll(".member-section").forEach((section) => {
     section.classList.remove("hidden");
+  });
+}
+
+function setupLessonAccordions() {
+  const toggles = document.querySelectorAll(".lesson-toggle");
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const panelId = toggle.getAttribute("aria-controls");
+      const panel = document.getElementById(panelId);
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+
+      // Close all other lesson panels to keep the page compact.
+      document.querySelectorAll(".lesson-toggle").forEach((otherToggle) => {
+        if (otherToggle !== toggle) {
+          otherToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      document.querySelectorAll(".lesson-panel").forEach((otherPanel) => {
+        if (otherPanel !== panel) {
+          otherPanel.classList.remove("is-open");
+
+          const iframe = otherPanel.querySelector("iframe");
+          if (iframe) {
+            iframe.removeAttribute("src");
+          }
+        }
+      });
+
+      if (expanded) {
+        toggle.setAttribute("aria-expanded", "false");
+        panel?.classList.remove("is-open");
+
+        const iframe = panel?.querySelector("iframe");
+        if (iframe) {
+          iframe.removeAttribute("src");
+        }
+
+        return;
+      }
+
+      toggle.setAttribute("aria-expanded", "true");
+      panel?.classList.add("is-open");
+
+      const iframe = panel?.querySelector("iframe");
+      if (iframe && !iframe.getAttribute("src")) {
+        iframe.setAttribute("src", iframe.dataset.src);
+      }
+    });
   });
 }
 

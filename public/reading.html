@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Biblioteca | WLF Trading</title>
+  <title>Biblioteca WLF | WLF Trading</title>
 
   <link rel="icon" type="image/png" href="/assets/logo-wlf.png" />
   <link rel="apple-touch-icon" href="/assets/logo-wlf.png" />
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/member-area.css" />
   <link rel="stylesheet" href="/css/reading.css" />
+  <link rel="stylesheet" href="/css/reading-hero.css" />
 </head>
 
 <body>
@@ -21,7 +22,7 @@
 
     <nav class="nav">
       <a href="/">Inicio</a>
-      <a href="/dashboard.html">Salón VIP</a>
+      <a href="/dashboard.html">Sala VIP</a>
       <a href="/practice.html">Práctica</a>
       <span id="userEmail" class="user-email">Validando...</span>
       <button class="btn tiny ghost" id="logoutBtn">Salir</button>
@@ -29,17 +30,39 @@
   </header>
 
   <main class="reading-page">
-    <section class="section reading-hero">
-      <p class="eyebrow">Biblioteca privada</p>
-      <h1>Biblioteca WLF</h1>
-      <p class="hero-text">
-        Libros, PDFs y material complementario para fortalecer tu lectura del mercado,
-        mentalidad, disciplina y gestión del riesgo.
-      </p>
+    <section class="section reading-welcome">
+      <div class="reading-welcome-copy">
+        <p class="eyebrow">WLF Trading</p>
+        <h1>Bienvenido a la Biblioteca WLF</h1>
+        <p class="hero-text">
+          Tu espacio para lecturas, estrategia, formación y material complementario
+          para reforzar criterio, mentalidad y proceso.
+        </p>
 
-      <div class="actions">
-        <a class="btn ghost" href="/dashboard.html">Volver al Salón VIP</a>
-        <a class="btn ghost" href="/practice.html">Ir a Práctica</a>
+        <div class="reading-quick-actions">
+          <a class="btn primary" href="#biblioteca">Ver biblioteca</a>
+          <a class="btn ghost" href="/dashboard.html">Volver a Sala VIP</a>
+          <a class="btn ghost" href="/practice.html">Ir a Práctica</a>
+        </div>
+      </div>
+
+      <div class="reading-welcome-visual">
+        <img src="/assets/biblioteca-wlf-main.png" alt="Biblioteca WLF" />
+      </div>
+    </section>
+
+    <section class="section reading-status-strip">
+      <div class="member-status-card">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Acceso activo</strong>
+          <p>Puedes leer tu material privado dentro de WLF.</p>
+        </div>
+      </div>
+
+      <div class="reading-mini-card">
+        <strong>Ruta sugerida</strong>
+        <p>Biblioteca → Visor → Notas WLF → Práctica</p>
       </div>
     </section>
 
@@ -95,7 +118,7 @@
         <section id="notas" class="reading-section hidden">
           <div class="reading-section-title">
             <p class="eyebrow">Notas WLF</p>
-            <h2>Cómo usar estas lecturas</h2>
+            <h2>Cómo usar esta biblioteca</h2>
           </div>
 
           <article class="reading-note">

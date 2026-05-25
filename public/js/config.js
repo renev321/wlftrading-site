@@ -5,7 +5,7 @@
 // 4) Add authorized domains: wlftrading.com and your *.pages.dev domain.
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyD6fHQLMVOMYH89HyfWEEYeNfds0oFEm4Q",
+  apiKey: "AIzaSyD6fHQLMVOMYH89HyfwEEYeNfds0eFEm4Q",
   authDomain: "wlftrading-site.firebaseapp.com",
   projectId: "wlftrading-site",
   storageBucket: "wlftrading-site.firebasestorage.app",

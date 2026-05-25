@@ -5,10 +5,12 @@
 // 4) Add authorized domains: wlftrading.com and your *.pages.dev domain.
 
 export const firebaseConfig = {
-  apiKey: "PASTE_FIREBASE_API_KEY_HERE",
-  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  appId: "PASTE_FIREBASE_APP_ID"
+  apiKey: "AIzaSyD6fHQLMVOMYH89HyfWEEYeNfds0oFEm4Q",
+  authDomain: "wlftrading-site.firebaseapp.com",
+  projectId: "wlftrading-site",
+  storageBucket: "wlftrading-site.firebasestorage.app",
+  messagingSenderId: "803315870572",
+  appId: "1:803315870572:web:f74a737773ba7f6e2b2149"
 };
 
 export const CONTACT_EMAIL = "contacto@wlftrading.com";

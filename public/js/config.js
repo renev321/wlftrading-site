@@ -116,7 +116,7 @@ export const courseModules = [
     lessons: [
       {
         title: "1 - Para Quién es este curso",
-        description: "Primera lección de prueba para validar el reproductor privado dentro del dashboard.",
+        description: "A quién está dirigido el curso, qué esperar y cómo aprovechar el contenido.",
         url: "https://drive.google.com/file/d/1UelMigX0HXbUmJFZnUhIfdNlkFVciLxP/view",
         embedUrl: "https://drive.google.com/file/d/1UelMigX0HXbUmJFZnUhIfdNlkFVciLxP/preview",
         type: "video",
@@ -124,41 +124,41 @@ export const courseModules = [
       },
       {
         title: "2 - Curso WLF Trading Presentación",
-        description: "Próxima lección del módulo.",
-        url: "#",
-        embedUrl: "#",
+        description: "Presentación general del curso, estructura del contenido y enfoque WLF.",
+        url: "https://drive.google.com/file/d/1TdZeijseEQy_dpo_WNEUv1hqYgl6cWR-/view",
+        embedUrl: "https://drive.google.com/file/d/1TdZeijseEQy_dpo_WNEUv1hqYgl6cWR-/preview",
         type: "video",
-        status: "pending"
+        status: "available"
       }
     ]
   },
   {
     title: "Módulo 02 - Bases importantes",
-    description: "Ruido, rentabilidad, herramientas y conceptos base.",
+    description: "Ruido, rentabilidad, herramientas y conceptos base antes de entrar en estructuras más avanzadas.",
     lessons: [
       {
         title: "2.2 - Ruido y confusión",
-        description: "Próximamente.",
-        url: "#",
-        embedUrl: "#",
+        description: "Cómo reducir ruido visual y mental para interpretar el mercado con más claridad.",
+        url: "https://drive.google.com/file/d/13_ibb4WDTqXrZd85nY5iTswnJz-ZuhLb/view",
+        embedUrl: "https://drive.google.com/file/d/13_ibb4WDTqXrZd85nY5iTswnJz-ZuhLb/preview",
         type: "video",
-        status: "pending"
+        status: "available"
       },
       {
         title: "3 - Rentabilidad",
-        description: "Próximamente.",
-        url: "#",
-        embedUrl: "#",
+        description: "La rentabilidad entendida desde proceso, expectativa, riesgo y consistencia.",
+        url: "https://drive.google.com/file/d/1nKV8Ij1JRwCNkAN9xbYVEVIe9W44A-IZ/view",
+        embedUrl: "https://drive.google.com/file/d/1nKV8Ij1JRwCNkAN9xbYVEVIe9W44A-IZ/preview",
         type: "video",
-        status: "pending"
+        status: "available"
       },
       {
         title: "4 - Herramientas utilizadas",
-        description: "Próximamente.",
-        url: "#",
-        embedUrl: "#",
+        description: "Herramientas principales utilizadas durante el curso y cómo entender su función.",
+        url: "https://drive.google.com/file/d/1qNthYJR_f_lLRXJazxealdqMZWTBhb2C/view",
+        embedUrl: "https://drive.google.com/file/d/1qNthYJR_f_lLRXJazxealdqMZWTBhb2C/preview",
         type: "video",
-        status: "pending"
+        status: "available"
       }
     ]
   },
@@ -168,11 +168,11 @@ export const courseModules = [
     lessons: [
       {
         title: "5 - Dinero Inteligente",
-        description: "Próximamente.",
-        url: "#",
-        embedUrl: "#",
+        description: "Introducción al concepto de dinero inteligente y cómo usarlo como contexto.",
+        url: "https://drive.google.com/file/d/1IzCU8kMCeyFMv_fA4BLmtQVAl8_WJXdY/view",
+        embedUrl: "https://drive.google.com/file/d/1IzCU8kMCeyFMv_fA4BLmtQVAl8_WJXdY/preview",
         type: "video",
-        status: "pending"
+        status: "available"
       }
     ]
   }

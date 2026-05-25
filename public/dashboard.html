@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Salón VIP | WLF Trading</title>
+
+  <title>Sala VIP | WLF Trading</title>
+
   <link rel="icon" type="image/png" href="/assets/logo-wlf.png" />
   <link rel="apple-touch-icon" href="/assets/logo-wlf.png" />
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/member-area.css" />
   <link rel="stylesheet" href="/css/vip-banner.css" />
 </head>
+
 <body>
   <header class="site-header">
     <a class="brand" href="/">
@@ -24,16 +27,27 @@
   </header>
 
   <main class="dashboard">
-    <section class="section member-hero vip-hero-grid">
-      <div>
-        <p class="eyebrow">Salón VIP</p>
-        <h1>Bienvenido a WLF Trading</h1>
+    <section class="section vip-welcome">
+      <div class="vip-welcome-copy">
+        <p class="eyebrow">WLF Trading</p>
+        <h1>Bienvenido a la Sala VIP</h1>
         <p class="hero-text">
-          Este es tu espacio privado: curso, práctica, biblioteca, audiolibros, herramientas,
-          comunidad y recursos para seguir creciendo con criterio.
+          Tu espacio privado para estudiar, practicar, leer, acceder a recursos y conectar con la comunidad WLF.
         </p>
+
+        <div class="vip-quick-actions">
+          <a href="#curso" class="btn primary">Ir al curso</a>
+          <a href="/practice.html" class="btn ghost">Práctica</a>
+          <a href="/reading.html" class="btn ghost">Biblioteca</a>
+        </div>
       </div>
 
+      <div class="vip-welcome-visual">
+        <img src="/assets/vip-salon-main.png" alt="Sala VIP WLF Trading" />
+      </div>
+    </section>
+
+    <section class="section vip-status-strip">
       <div class="member-status-card">
         <span class="status-dot"></span>
         <div>
@@ -41,20 +55,14 @@
           <p>Tu correo fue validado correctamente.</p>
         </div>
       </div>
-    </section>
 
-    <section class="section vip-hero-media">
-      <div class="vip-hero-image-card">
-        <img src="/assets/vip-salon-main.png" alt="Arte principal del Salón VIP WLF" />
-        <div class="vip-hero-caption">
-          <p class="eyebrow">Zona principal</p>
-          <h2>VIP WLF</h2>
-          <p>Una imagen más premium para reforzar la identidad del Salón VIP.</p>
-        </div>
+      <div class="vip-mini-card">
+        <strong>Ruta sugerida</strong>
+        <p>Curso → Práctica → Biblioteca → Comunidad</p>
       </div>
     </section>
 
-    <section class="section member-layout">
+    <section class="section member-layout vip-member-layout">
       <aside class="member-sidebar">
         <a href="#curso" class="member-nav-link">Curso</a>
         <a href="/practice.html" class="member-nav-link">Práctica</a>
@@ -74,6 +82,7 @@
             <h2>Contenido principal</h2>
             <p>Empieza por los módulos principales y avanza con calma.</p>
           </div>
+
           <div id="courseContent" class="course-content"></div>
         </section>
 
@@ -83,6 +92,7 @@
             <h2>Audiolibros y mentalidad</h2>
             <p>Contenido complementario para reforzar disciplina, paciencia y enfoque.</p>
           </div>
+
           <div id="audiobookContent" class="member-card-grid"></div>
         </section>
 
@@ -92,6 +102,7 @@
             <h2>Tools WLF</h2>
             <p>Aquí iremos agregando indicadores, plantillas, calculadoras o recursos internos.</p>
           </div>
+
           <div id="toolsContent" class="member-card-grid"></div>
         </section>
 
@@ -101,6 +112,7 @@
             <h2>Canales oficiales WLF</h2>
             <p>Usa estos enlaces para entrar al grupo, seguir el contenido y recibir actualizaciones.</p>
           </div>
+
           <div id="communityContent" class="member-card-grid"></div>
         </section>
 
@@ -108,8 +120,12 @@
           <div class="member-section-title">
             <p class="eyebrow">Recursos</p>
             <h2>Notas del grupo</h2>
-            <p>Este espacio puede crecer con PDFs, checklist, actualizaciones del curso, reglas del grupo y material de apoyo.</p>
+            <p>
+              Este espacio puede crecer con PDFs, checklist, actualizaciones del curso,
+              reglas del grupo y material de apoyo.
+            </p>
           </div>
+
           <div class="resource-note">
             <strong>Próximamente:</strong>
             más recursos privados para miembros activos de WLF Trading.

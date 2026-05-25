@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Lecturas | WLF Trading</title>
+
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/member-area.css" />
+  <link rel="stylesheet" href="/css/reading.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <img src="/assets/logo-wlf.png" alt="WLF Trading" class="brand-logo" />
+    </a>
+
+    <nav class="nav">
+      <a href="/">Inicio</a>
+      <a href="/dashboard.html">Mi Curso</a>
+      <span id="userEmail" class="user-email">Validando...</span>
+      <button class="btn tiny ghost" id="logoutBtn">Salir</button>
+    </nav>
+  </header>
+
+  <main class="reading-page">
+    <section class="section reading-hero">
+      <p class="eyebrow">Biblioteca privada</p>
+      <h1>Lecturas WLF</h1>
+      <p class="hero-text">
+        Libros, PDFs y material complementario para fortalecer tu lectura del mercado,
+        mentalidad, disciplina y gestión del riesgo.
+      </p>
+    </section>
+
+    <section class="section reading-layout">
+      <aside class="reading-sidebar">
+        <a href="#biblioteca">Biblioteca</a>
+        <a href="#visor">Visor</a>
+        <a href="#notas">Notas WLF</a>
+      </aside>
+
+      <div class="reading-content">
+        <div id="loadingBox" class="status-box">Validando tu acceso...</div>
+
+        <section id="biblioteca" class="reading-section hidden">
+          <div class="reading-section-title">
+            <p class="eyebrow">Libros</p>
+            <h2>Biblioteca privada</h2>
+            <p>Selecciona un libro para abrirlo dentro del visor WLF.</p>
+          </div>
+
+          <div id="bookList" class="reading-grid"></div>
+        </section>
+
+        <section id="visor" class="reading-section hidden">
+          <div class="reading-viewer-shell">
+            <div class="reader-empty" id="readerEmpty">
+              <p class="eyebrow">Visor WLF</p>
+              <h2>Selecciona un libro</h2>
+              <p>
+                El PDF se abrirá aquí dentro de la plataforma, sin enviar al estudiante
+                directamente a Google Drive.
+              </p>
+            </div>
+
+            <div class="reader-active hidden" id="readerActive">
+              <div class="reader-toolbar">
+                <div>
+                  <p class="eyebrow" id="readerTag">Lectura</p>
+                  <h2 id="readerTitle">Título</h2>
+                  <p id="readerDescription">Descripción</p>
+                </div>
+
+                <button class="btn tiny ghost" id="closeReaderBtn">Cerrar visor</button>
+              </div>
+
+              <div class="pdf-frame">
+                <iframe id="pdfViewer" src="" allow="autoplay"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="notas" class="reading-section hidden">
+          <div class="reading-section-title">
+            <p class="eyebrow">Notas WLF</p>
+            <h2>Cómo usar estas lecturas</h2>
+          </div>
+
+          <article class="reading-note">
+            <h3>Lee con intención, no por ansiedad.</h3>
+            <p>
+              La idea no es acumular libros. La idea es tomar una o dos ideas útiles,
+              aplicarlas en tu proceso y reforzar tu criterio. Leer más no sirve si no
+              mejora tu forma de pensar y tomar decisiones.
+            </p>
+          </article>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/reading.js"></script>
+</body>
+</html>

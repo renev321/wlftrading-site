@@ -56,6 +56,56 @@ export const toolLinks = [
   }
 ];
 
+// Book library.
+// For Google Drive embedded PDFs, use:
+// https://drive.google.com/file/d/FILE_ID/preview
+export const bookLinks = [
+  {
+    title: "La biblia de las velas",
+    description: "Lectura técnica para reforzar la interpretación de velas, estructura y reacción del precio.",
+    url: "https://drive.google.com/file/d/1Dc2jtlOfeb7JuQGfSwPKl3JtHcAT_6oS/view",
+    embedUrl: "https://drive.google.com/file/d/1Dc2jtlOfeb7JuQGfSwPKl3JtHcAT_6oS/preview",
+    tag: "Velas",
+    type: "PDF",
+    status: "available"
+  },
+  {
+    title: "12 reglas para vivir",
+    description: "Material de mentalidad y disciplina personal para reforzar carácter, orden y responsabilidad.",
+    url: "https://drive.google.com/file/d/1YMMWA3V__6li1GKiLa7RDF-NIuzVxmkz/view",
+    embedUrl: "https://drive.google.com/file/d/1YMMWA3V__6li1GKiLa7RDF-NIuzVxmkz/preview",
+    tag: "Mentalidad",
+    type: "PDF",
+    status: "available"
+  },
+  {
+    title: "Cómo no quemar una cuenta",
+    description: "Lectura enfocada en riesgo, control emocional y errores comunes que destruyen cuentas.",
+    url: "https://drive.google.com/file/d/18CrXWWhd5oN7a-8fpCDHvh4t5gzmBf3m/view",
+    embedUrl: "https://drive.google.com/file/d/18CrXWWhd5oN7a-8fpCDHvh4t5gzmBf3m/preview",
+    tag: "Riesgo",
+    type: "PDF",
+    status: "available"
+  }
+];
+
+export const summaryLinks = [
+  {
+    title: "Resumen 01 - Reglas de estudio",
+    description: "Notas rápidas para estudiar el curso sin saltar de concepto en concepto.",
+    url: "#",
+    tag: "Resumen",
+    type: "Nota"
+  },
+  {
+    title: "Resumen 02 - Gestión de riesgo",
+    description: "Espacio para checklist o resumen de gestión antes de operar.",
+    url: "#",
+    tag: "Resumen",
+    type: "Nota"
+  }
+];
+
 // Course video infrastructure.
 // For Google Drive embedded videos, use:
 // https://drive.google.com/file/d/FILE_ID/preview

@@ -12,17 +12,32 @@ const readerDescription = document.getElementById("readerDescription");
 const pdfViewer = document.getElementById("pdfViewer");
 const closeReaderBtn = document.getElementById("closeReaderBtn");
 
+function getCustomReaderUrl(book) {
+  const normalizedTitle = (book.title || "").toLowerCase();
+
+  // Test custom reader for the first local PDF.
+  // Make sure this file exists in the repo:
+  // public/books/la-biblia-de-las-velas.pdf
+  if (normalizedTitle.includes("biblia") && normalizedTitle.includes("velas")) {
+    return "/pdf-reader.html?file=/books/la-biblia-de-las-velas.pdf&title=La%20biblia%20de%20las%20velas";
+  }
+
+  return null;
+}
+
 function renderBooks() {
   if (!bookList) return;
 
   bookList.innerHTML = bookLinks.map((book, index) => {
     const available = book.status === "available" && book.embedUrl && book.embedUrl !== "#";
+    const customReaderUrl = getCustomReaderUrl(book);
+    const buttonText = customReaderUrl ? "Abrir lector WLF" : "Leer dentro de WLF";
 
     return `
       <article class="reading-card ${available ? "" : "is-disabled"}">
         <div class="reading-card-top">
           <span class="reading-tag">${book.tag || "Libro"}</span>
-          <span class="reading-type">${book.type || "PDF"}</span>
+          <span class="reading-type">${customReaderUrl ? "Lector WLF" : (book.type || "PDF")}</span>
         </div>
 
         <h3>${book.title}</h3>
@@ -34,7 +49,7 @@ function renderBooks() {
           data-book-index="${index}"
           ${available ? "" : "disabled"}
         >
-          ${available ? "Leer dentro de WLF" : "Próximamente"}
+          ${available ? buttonText : "Próximamente"}
         </button>
       </article>
     `;
@@ -50,7 +65,18 @@ function renderBooks() {
 
 function openBook(index) {
   const book = bookLinks[index];
-  if (!book || !book.embedUrl || book.embedUrl === "#") return;
+  if (!book) return;
+
+  const customReaderUrl = getCustomReaderUrl(book);
+
+  // For local test PDF, go to the custom WLF reader.
+  if (customReaderUrl) {
+    window.location.href = customReaderUrl;
+    return;
+  }
+
+  // For the rest, keep the existing Google Drive embedded viewer for now.
+  if (!book.embedUrl || book.embedUrl === "#") return;
 
   readerTag.textContent = book.tag || "Lectura";
   readerTitle.textContent = book.title;

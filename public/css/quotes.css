@@ -1,0 +1,95 @@
+.quote-section {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.quote-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(320px, 1.18fr);
+  gap: 28px;
+  align-items: center;
+  border: 1px solid rgba(214, 168, 80, 0.20);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(214, 168, 80, 0.14), transparent 36%),
+    linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.032));
+  border-radius: 34px;
+  padding: 34px;
+  box-shadow: 0 22px 60px rgba(0,0,0,0.25);
+}
+
+.quote-copy h2 {
+  font-size: clamp(2rem, 4vw, 3.8rem);
+}
+
+.quote-copy p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.quote-card {
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(3, 6, 4, 0.48);
+  border-radius: 28px;
+  padding: 34px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.quote-mark {
+  position: absolute;
+  right: 28px;
+  top: -20px;
+  color: rgba(214, 168, 80, 0.22);
+  font-size: 11rem;
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+#quoteText {
+  color: var(--text);
+  font-size: clamp(1.35rem, 3vw, 2.45rem);
+  line-height: 1.22;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  margin: 0 0 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.quote-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+#quoteAuthor {
+  color: var(--gold);
+  font-weight: 950;
+}
+
+@media (max-width: 900px) {
+  .quote-shell {
+    grid-template-columns: 1fr;
+    padding: 26px;
+  }
+}
+
+@media (max-width: 560px) {
+  .quote-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .quote-card {
+    padding: 24px;
+  }
+}

@@ -1,0 +1,22 @@
+INSERT INTO students (
+  email,
+  name,
+  status,
+  course_access,
+  expires_at,
+  notes
+) VALUES (
+  'bazarolands@gmail.com',
+  'Bazarolands',
+  'active',
+  1,
+  NULL,
+  'Manual test user'
+)
+ON CONFLICT(email) DO UPDATE SET
+  name = excluded.name,
+  status = 'active',
+  course_access = 1,
+  expires_at = NULL,
+  notes = excluded.notes,
+  updated_at = CURRENT_TIMESTAMP;

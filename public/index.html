@@ -3,119 +3,249 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WLF Trading Academy</title>
-  <meta name="description" content="Curso privado de trading con estructura, contexto y gestión real." />
+
+  <title>WLF Trading | Trading con estructura y criterio</title>
+  <meta name="description" content="WLF Trading - Aprende a leer el mercado con estructura, contexto, gestión de riesgo y mentalidad." />
+
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
+
 <body>
   <header class="site-header">
-    <a class="brand" href="/">
+    <a class="brand" href="/" aria-label="WLF Trading">
       <img src="/assets/logo-wlf.png" alt="WLF Trading" class="brand-logo" />
     </a>
 
-    <nav class="nav">
-      <a href="#curso">Curso</a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#metodo">Método</a>
+      <a href="#contenido">Contenido</a>
       <a href="#acceso">Acceso</a>
       <a href="#faq">FAQ</a>
-      <a href="/login.html" class="nav-cta">Entrar</a>
+
+      <a href="/login.html" class="nav-cta" id="loginLink">Entrar</a>
+      <a href="/dashboard.html" class="nav-cta hidden" id="courseLink">Mi Curso</a>
+      <button class="btn tiny ghost hidden" id="homeLogoutBtn">Salir</button>
     </nav>
   </header>
 
   <main>
     <section class="hero section">
       <div class="hero-copy">
-        <p class="eyebrow">WLF Trading Academy</p>
-        <h1>Trading con estructura, contexto y gestión real.</h1>
-        <p class="hero-text">
-          Aprende a leer el mercado sin llenar tu gráfico de ruido. Un curso práctico para entender zonas,
-          estructura, FVG, Order Blocks, riesgo y mentalidad con un enfoque simple y directo.
+        <p class="eyebrow">WLF Trading</p>
+
+        <h1>
+          Lee el mercado con
+          <span class="accent">estructura</span>,
+          no con ansiedad.
+        </h1>
+
+        <p class="slogan">
+          Trading con criterio, contexto y gestión real.
         </p>
+
+        <p class="hero-text">
+          Una formación directa para entender el precio sin llenar tu gráfico de ruido:
+          zonas importantes, estructura, FVG, Order Blocks, entradas con lógica,
+          riesgo y mentalidad operativa.
+        </p>
+
         <div class="actions">
-          <a class="btn primary" href="mailto:contacto@wlftrading.com?subject=Quiero%20acceso%20al%20curso%20WLF">Solicitar acceso</a>
-          <a class="btn ghost" href="/login.html">Ya tengo acceso</a>
+          <a class="btn primary" href="mailto:contacto@wlftrading.com?subject=Quiero%20acceso%20a%20WLF%20Trading">
+            Solicitar acceso
+          </a>
+          <a class="btn ghost" href="/login.html">
+            Ya tengo acceso
+          </a>
+        </div>
+
+        <div class="hero-points">
+          <span>Sin humo</span>
+          <span>Sin promesas mágicas</span>
+          <span>Con proceso</span>
         </div>
       </div>
 
-      <div class="hero-card">
-        <img src="/assets/wlf-hero.jpeg" alt="WLF Trading - Bull Wolf Bear" />
+      <div class="hero-visual">
+        <div class="visual-frame">
+          <img src="/assets/wlf-hero.jpeg" alt="WLF Trading - Wolf, Bull and Bear" />
+        </div>
+
+        <div class="floating-card floating-card-top">
+          <strong>01</strong>
+          <span>Contexto antes que entrada</span>
+        </div>
+
+        <div class="floating-card floating-card-bottom">
+          <strong>02</strong>
+          <span>Riesgo antes que ego</span>
+        </div>
       </div>
     </section>
 
-    <section id="curso" class="section">
+    <section id="metodo" class="section split-section">
       <div class="section-title">
-        <p class="eyebrow">El curso</p>
-        <h2>Una ruta clara para estudiar el mercado con calma.</h2>
-        <p>No buscamos magia. Buscamos proceso, lectura, paciencia y gestión.</p>
+        <p class="eyebrow">Nuestro enfoque</p>
+        <h2>Primero entiendes el mapa. Después buscas la entrada.</h2>
+      </div>
+
+      <div class="method-panel">
+        <p>
+          WLF Trading no está creado para venderte una fórmula mágica. Está pensado para que entiendas
+          qué está haciendo el mercado, dónde puede reaccionar y cuándo tiene sentido esperar.
+        </p>
+
+        <div class="method-grid">
+          <div>
+            <span class="mini-label">01</span>
+            <h3>Estructura</h3>
+            <p>Identificar soportes, resistencias, rangos, tendencias y zonas de decisión.</p>
+          </div>
+
+          <div>
+            <span class="mini-label">02</span>
+            <h3>Contexto</h3>
+            <p>No mirar una vela aislada. Entender qué ocurrió antes y dónde estás operando.</p>
+          </div>
+
+          <div>
+            <span class="mini-label">03</span>
+            <h3>Gestión</h3>
+            <p>Proteger la cuenta, respetar el riesgo y evitar operar desde la emoción.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contenido" class="section">
+      <div class="section-title center">
+        <p class="eyebrow">Contenido</p>
+        <h2>Conceptos claros para operar con más calma.</h2>
+        <p>
+          La idea es que cada módulo tenga una función real dentro de tu lectura del mercado.
+        </p>
       </div>
 
       <div class="grid cards-3">
-        <article class="card">
-          <span class="card-number">01</span>
-          <h3>Estructura del mercado</h3>
-          <p>Soportes, resistencias, rangos, tendencias, canales y rompimientos con contexto.</p>
+        <article class="card premium-card">
+          <span class="card-number">Módulo 01</span>
+          <h3>Base y estructura</h3>
+          <p>
+            Soportes, resistencias, canales, rangos, tendencias y rompimientos con una lectura sencilla.
+          </p>
         </article>
-        <article class="card">
-          <span class="card-number">02</span>
+
+        <article class="card premium-card">
+          <span class="card-number">Módulo 02</span>
           <h3>Acción del precio</h3>
-          <p>FVG, imbalance, Order Blocks, barridas de liquidez y zonas de reacción.</p>
+          <p>
+            FVG, imbalance, Order Blocks, liquidez y zonas donde el precio suele dejar pistas importantes.
+          </p>
         </article>
-        <article class="card">
-          <span class="card-number">03</span>
-          <h3>Riesgo y mentalidad</h3>
-          <p>Cómo proteger la cuenta, filtrar impulsos y operar con más disciplina.</p>
+
+        <article class="card premium-card">
+          <span class="card-number">Módulo 03</span>
+          <h3>Entradas y riesgo</h3>
+          <p>
+            Cómo filtrar oportunidades, proteger la cuenta y dejar de perseguir cada movimiento del mercado.
+          </p>
         </article>
       </div>
     </section>
 
     <section id="acceso" class="section access-section">
-      <div>
+      <div class="access-copy">
         <p class="eyebrow">Acceso privado</p>
-        <h2>Cómo funciona</h2>
+        <h2>Simple, manual y controlado.</h2>
         <p>
-          El pago se gestiona manualmente. Después de confirmar el acceso, activamos tu correo y podrás entrar al área privada.
+          El pago se gestiona fuera de la web. Después de confirmar el acceso, activamos tu correo
+          y podrás entrar al área privada con Google.
         </p>
+
+        <div class="actions">
+          <a class="btn primary" href="mailto:contacto@wlftrading.com?subject=Quiero%20acceso%20a%20WLF%20Trading">
+            Solicitar acceso
+          </a>
+          <a class="btn ghost" href="/login.html">
+            Entrar al curso
+          </a>
+        </div>
       </div>
 
       <div class="steps">
-        <div class="step"><span>1</span>Solicitas acceso al curso.</div>
-        <div class="step"><span>2</span>Realizas el pago por el método indicado.</div>
-        <div class="step"><span>3</span>Nos envías el correo con el que vas a entrar.</div>
-        <div class="step"><span>4</span>Activamos tu acceso y los videos privados.</div>
+        <div class="step">
+          <span>1</span>
+          <p>Solicitas acceso a WLF Trading.</p>
+        </div>
+
+        <div class="step">
+          <span>2</span>
+          <p>Realizas el pago por el método indicado.</p>
+        </div>
+
+        <div class="step">
+          <span>3</span>
+          <p>Activamos tu correo en el sistema.</p>
+        </div>
+
+        <div class="step">
+          <span>4</span>
+          <p>Entras con Google y accedes al contenido privado.</p>
+        </div>
       </div>
     </section>
 
-    <section id="faq" class="section">
-      <div class="section-title">
+    <section id="faq" class="section faq-section">
+      <div class="section-title center">
         <p class="eyebrow">FAQ</p>
         <h2>Preguntas frecuentes</h2>
       </div>
 
       <div class="faq-list">
         <details>
-          <summary>¿Los videos se pueden descargar?</summary>
-          <p>No. El acceso está pensado para visualización privada. Aun así, ningún sistema evita al 100% la grabación de pantalla.</p>
+          <summary>¿Esto es una academia?</summary>
+          <p>
+            No lo presentamos como academia tradicional. WLF Trading es una marca y comunidad de aprendizaje
+            enfocada en lectura del mercado, estructura y gestión.
+          </p>
         </details>
+
         <details>
           <summary>¿Necesito experiencia previa?</summary>
-          <p>No necesariamente. La idea es explicar desde bases simples hasta conceptos más avanzados.</p>
+          <p>
+            No necesariamente. El contenido está pensado para explicar los conceptos de forma simple,
+            pero con criterio real de mercado.
+          </p>
         </details>
+
+        <details>
+          <summary>¿Los videos se pueden descargar?</summary>
+          <p>
+            No. El acceso es privado y pensado para visualización. Aun así, ningún sistema evita al 100%
+            que alguien grabe pantalla; por eso el valor también está en las actualizaciones y el soporte.
+          </p>
+        </details>
+
         <details>
           <summary>¿Esto es asesoría financiera?</summary>
-          <p>No. Es contenido educativo. Cada estudiante es responsable de sus decisiones en el mercado.</p>
+          <p>
+            No. Es contenido educativo. Cada persona es responsable de sus propias decisiones y gestión de riesgo.
+          </p>
         </details>
       </div>
     </section>
 
     <section class="section disclaimer">
       <strong>Disclaimer:</strong>
-      WLF Trading Academy ofrece contenido educativo. No es asesoría financiera, recomendación de inversión ni promesa de resultados.
-      Operar mercados financieros implica riesgo.
+      WLF Trading ofrece contenido educativo. No constituye asesoría financiera, recomendación de inversión,
+      promesa de ganancias ni invitación a operar instrumentos específicos. Operar mercados financieros implica riesgo.
     </section>
   </main>
 
   <footer class="footer">
-    <span>© 2026 WLF Trading Academy</span>
+    <span>© 2026 WLF Trading. Todos los derechos reservados.</span>
     <a href="/terms.html">Términos y disclaimer</a>
   </footer>
+
+  <script type="module" src="/js/home.js"></script>
 </body>
 </html>

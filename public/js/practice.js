@@ -1,209 +1,344 @@
 import { requireActiveUser } from "./auth.js";
 
+/*
+  WLF Trading - Practice Hard Mode v15
+
+  Goal:
+  - Avoid obvious answers.
+  - Use realistic trading decision scenarios.
+  - Wrong answers should be tempting but incomplete.
+  - Explanations teach WLF logic: context, structure, liquidity, risk, patience.
+*/
+
 const questions = [
   {
     category: "estructura",
-    title: "Zona importante sin confirmación",
-    context: "El precio llega a una zona donde ya reaccionó antes, pero todavía no muestra rechazo claro ni cierre fuerte.",
-    options: ["Entrar inmediatamente porque tocó la zona", "Esperar reacción y contexto", "Aumentar el lotaje", "Ignorar la gestión porque la zona es buena"],
+    title: "Zona de soporte con llegada agresiva",
+    context: "El precio cae fuerte hacia un soporte marcado. La zona es importante, pero la vela de llegada es grande y cierra cerca del mínimo.",
+    options: [
+      "Comprar apenas toca el soporte porque la zona ya reaccionó antes.",
+      "Esperar una reacción o pérdida de fuerza antes de considerar compra.",
+      "Vender inmediatamente porque toda vela fuerte siempre continúa.",
+      "Mover el soporte más abajo para que el precio lo respete."
+    ],
     correct: 1,
-    explanation: "Una zona importante no es una entrada automática. Primero hay que ver reacción, contexto, invalidación y riesgo."
+    explanation: "Una zona importante no es una entrada automática. Si el precio llega con mucha agresividad, primero quieres ver rechazo, absorción o pérdida de fuerza. La zona da contexto; la reacción da mejor timing."
   },
   {
     category: "estructura",
-    title: "Precio atrapado entre zonas",
-    context: "El precio está justo en el medio de un rango amplio, lejos del soporte y lejos de la resistencia.",
-    options: ["Es una zona de decisión clara", "Mejor esperar a extremos o confirmación", "Comprar porque está barato", "Vender porque ya subió"],
+    title: "Ruptura de resistencia con cierre débil",
+    context: "El precio rompe una resistencia, pero la vela deja mecha superior grande y cierra apenas dentro de la zona rota.",
+    options: [
+      "Entrar long porque técnicamente rompió la resistencia.",
+      "Esperar confirmación: retest, aceptación o cierre más claro por encima.",
+      "Entrar short automáticamente porque toda mecha superior es venta segura.",
+      "Ignorar la resistencia porque las líneas nunca funcionan."
+    ],
     correct: 1,
-    explanation: "El centro del rango suele tener peor relación riesgo/contexto. En WLF buscamos zonas donde la decisión tenga más sentido."
+    explanation: "La ruptura por sí sola no es suficiente. Un cierre débil puede indicar falta de aceptación. WLF busca ruptura + aceptación o reacción clara, no solo un toque por encima."
   },
   {
     category: "estructura",
-    title: "Ruptura que no sostiene",
-    context: "Una vela rompe resistencia, pero la siguiente vela regresa al rango y cierra por debajo de la zona.",
-    options: ["Ruptura limpia", "Posible falso rompimiento", "Confirmación total de compra", "Señal para quitar el stop"],
+    title: "Precio en mitad del rango",
+    context: "El mercado está lateral. El precio se encuentra justo en el centro del rango, lejos del máximo y del mínimo del rango.",
+    options: [
+      "Buscar entrada solo porque el rango ya está identificado.",
+      "Esperar mejor ubicación cerca de extremos o una ruptura con intención.",
+      "Comprar porque está a mitad de camino y puede subir.",
+      "Vender porque está a mitad de camino y puede bajar."
+    ],
     correct: 1,
-    explanation: "Una ruptura que no sostiene puede ser falsa. No basta con romper; importa cómo cierra y cómo reacciona después."
+    explanation: "En el centro del rango el riesgo suele ser peor y la dirección menos clara. En rangos, los extremos y las rupturas con aceptación suelen ofrecer mejores decisiones que la mitad."
   },
   {
     category: "estructura",
-    title: "Movimiento ordenado",
-    context: "El precio crea máximos más altos y mínimos más altos durante varias velas.",
-    options: ["Estructura alcista", "Estructura bajista", "Mercado sin dirección", "Canal roto automáticamente"],
-    correct: 0,
-    explanation: "Máximos y mínimos crecientes muestran estructura alcista mientras esa secuencia siga viva."
+    title: "Cambio de estructura después de tendencia",
+    context: "El precio venía haciendo máximos y mínimos más altos. Luego rompe el último mínimo importante y no recupera la zona.",
+    options: [
+      "Seguir buscando compras porque la tendencia anterior era alcista.",
+      "Considerar que la estructura alcista perdió fuerza y esperar nuevo contexto.",
+      "Vender sin stop porque ya cambió todo.",
+      "Ignorar el mínimo porque solo importan las resistencias."
+    ],
+    correct: 1,
+    explanation: "Cuando un mínimo importante se rompe y no se recupera, la estructura puede estar cambiando. No significa vender a ciegas, pero sí dejar de asumir que todo sigue alcista."
   },
   {
     category: "estructura",
-    title: "Canal o túnel",
-    context: "El precio se desplaza entre dos zonas relativamente paralelas, respetando techo y piso del movimiento.",
-    options: ["FVG", "Canal", "Order Block", "Divergencia"],
+    title: "Canal respetado varias veces",
+    context: "El precio respeta una línea superior y una inferior de un canal. Ahora llega a la parte alta con velas pequeñas y pérdida de impulso.",
+    options: [
+      "Buscar compra porque está cerca de la parte alta del canal.",
+      "Observar posible rechazo o esperar ruptura real antes de decidir.",
+      "Vender siempre en cualquier techo sin mirar contexto.",
+      "Eliminar el canal porque las velas son pequeñas."
+    ],
     correct: 1,
-    explanation: "Un canal aparece cuando soporte y resistencia se mantienen relativamente alineados, formando un túnel de precio."
+    explanation: "La parte alta del canal puede ser zona de decisión, pero no es venta automática. Puedes buscar rechazo si hay contexto, o esperar ruptura con aceptación si el precio quiere continuar."
   },
 
   {
     category: "fvg",
-    title: "Impulso con espacio visible",
-    context: "Después de un movimiento agresivo de tres velas, queda un espacio entre la primera y la tercera vela.",
-    options: ["FVG / Imbalance", "Rango perfecto", "Soporte horizontal", "EMA"],
-    correct: 0,
-    explanation: "Ese espacio puede representar un FVG, la huella de un movimiento desequilibrado. Pero necesita contexto."
-  },
-  {
-    category: "fvg",
-    title: "Zona de imbalance sin ubicación clara",
-    context: "Ves un FVG en medio de un rango, sin liquidez tomada, sin tendencia clara y lejos de zonas importantes.",
-    options: ["Entrada automática", "Mejor esperar", "Aumentar contratos", "Confirmación institucional"],
+    title: "FVG después de desplazamiento fuerte",
+    context: "El precio barre un mínimo previo, reacciona fuerte al alza y deja un FVG limpio en el desplazamiento.",
+    options: [
+      "Comprar cualquier regreso al FVG sin mirar dónde está el stop.",
+      "Marcar el FVG como zona de interés y esperar reacción/riesgo aceptable.",
+      "Ignorar el FVG porque todos los gaps se llenan sin importancia.",
+      "Entrar short porque el precio dejó un hueco y debe cerrarlo."
+    ],
     correct: 1,
-    explanation: "Un FVG sin contexto puede ser solo ruido. La ubicación y la historia previa del precio importan mucho."
+    explanation: "El FVG puede ser una zona de interés porque aparece después de liquidez tomada y desplazamiento. Pero se necesita reacción y gestión; no basta con tocar el FVG."
   },
   {
     category: "fvg",
-    title: "Mitigación de zona",
-    context: "El precio vuelve a una zona de imbalance, entra parcialmente y luego reacciona a favor del movimiento previo.",
-    options: ["Posible mitigación del FVG", "La zona deja de existir siempre", "No tiene lectura posible", "Es una noticia"],
-    correct: 0,
-    explanation: "Cuando el precio vuelve a una zona de imbalance y reacciona, puede estar mitigando o balanceando esa zona."
-  },
-  {
-    category: "fvg",
-    title: "FVG cerca de liquidez tomada",
-    context: "Primero hay barrida de liquidez y después aparece un FVG cerca de una zona importante.",
-    options: ["Tiene más valor contextual", "No importa el contexto", "Siempre debe ignorarse", "Solo sirve en gráficos diarios"],
-    correct: 0,
-    explanation: "Un FVG gana valor cuando está conectado con contexto: liquidez, zona, estructura y reacción."
-  },
-  {
-    category: "fvg",
-    title: "Muchos huecos, poca claridad",
-    context: "El gráfico muestra varios FVG seguidos, pero no hay estructura clara ni una zona principal de decisión.",
-    options: ["Operar todos", "Filtrar y elegir solo los que tengan contexto", "Usar el más pequeño siempre", "Entrar sin stop"],
+    title: "FVG en medio de consolidación",
+    context: "Dentro de un rango lleno de velas cruzadas aparecen varios FVG pequeños, pero no hay dirección clara ni zona principal.",
+    options: [
+      "Operar todos los FVG porque más señales significan más oportunidades.",
+      "Filtrar y esperar un FVG conectado con liquidez, estructura o extremo del rango.",
+      "Escoger el FVG más pequeño porque será más preciso.",
+      "Entrar en contra de todos los FVG por ser zona de manipulación."
+    ],
     correct: 1,
-    explanation: "Más señales no significan mejor oportunidad. El trader necesita filtrar, no perseguir cada patrón."
+    explanation: "Muchos FVG en una consolidación pueden ser ruido. El valor aparece cuando el imbalance tiene contexto: ubicación, liquidez, desplazamiento y riesgo lógico."
+  },
+  {
+    category: "fvg",
+    title: "Retorno profundo al FVG",
+    context: "El precio vuelve a un FVG alcista, entra muy profundo en la zona y no muestra rechazo; las velas empiezan a cerrar debajo.",
+    options: [
+      "Mantener la idea alcista sin cambios porque el FVG todavía existe.",
+      "Tener cuidado: la reacción débil puede indicar pérdida de validez.",
+      "Comprar más porque cuanto más profundo entra, mejor siempre.",
+      "Cambiar automáticamente a venta sin esperar estructura."
+    ],
+    correct: 1,
+    explanation: "Un FVG puede fallar. Si el precio entra profundo, no reacciona y empieza a cerrar debajo, la idea debe revisarse. El contexto manda sobre la etiqueta."
+  },
+  {
+    category: "fvg",
+    title: "FVG y zona premium/discount",
+    context: "Ves un FVG bajista, pero está muy abajo después de una caída larga, cerca de un soporte mayor.",
+    options: [
+      "Venderlo igual porque todos los FVG bajistas son ventas.",
+      "Evaluar si la ubicación es pobre para vender y esperar mejor precio/contexto.",
+      "Comprar inmediatamente porque todo soporte funciona.",
+      "Ignorar el soporte porque solo importa el FVG."
+    ],
+    correct: 1,
+    explanation: "Un FVG bajista en una zona muy baja puede ofrecer mala ubicación para vender. No todo FVG es entrada; precio, contexto y riesgo deben tener sentido."
+  },
+  {
+    category: "fvg",
+    title: "Mitigación con confirmación",
+    context: "El precio vuelve al 50% de un FVG, deja rechazo claro y la siguiente vela rompe un micro máximo a favor.",
+    options: [
+      "Es una posible reacción válida si el riesgo y el contexto acompañan.",
+      "No sirve porque todo FVG debe llenarse al 100%.",
+      "Es entrada obligatoria sin importar el stop.",
+      "Es señal de venta porque tocó una zona de imbalance."
+    ],
+    correct: 0,
+    explanation: "Una reacción desde zona de FVG con confirmación micro puede ser válida, siempre que el riesgo, la ubicación y el contexto general acompañen."
   },
 
   {
     category: "orderblock",
-    title: "Última zona antes del impulso",
-    context: "Antes de un desplazamiento fuerte, el precio deja una pequeña zona de acumulación y luego sale con fuerza.",
-    options: ["Posible Order Block", "Calendario económico", "Comisión", "Media móvil"],
+    title: "Order Block antes del desplazamiento",
+    context: "Antes de una subida fuerte, hay una última vela bajista cerca de una zona donde también se tomó liquidez.",
+    options: [
+      "Puede ser zona de interés, pero se necesita reacción cuando el precio vuelva.",
+      "Comprar inmediatamente aunque el precio esté lejos de la zona.",
+      "Vender porque la última vela fue bajista.",
+      "Ignorar la liquidez porque el color de la vela decide todo."
+    ],
     correct: 0,
-    explanation: "Un Order Block puede representar una zona de actividad importante antes de un desplazamiento."
+    explanation: "Un posible Order Block se vuelve más interesante si está conectado con liquidez y desplazamiento. Pero la entrada se evalúa cuando el precio vuelve y reacciona."
   },
   {
     category: "orderblock",
-    title: "Zona que no reacciona",
-    context: "El precio vuelve a una supuesta zona de Order Block, la atraviesa fuerte y cierra claramente en contra.",
-    options: ["Zona respetada", "Posible invalidación", "Entrada segura", "Confirmación total"],
+    title: "Order Block roto con intención",
+    context: "El precio vuelve a un supuesto Order Block alcista, no reacciona, lo rompe y cierra fuerte por debajo.",
+    options: [
+      "Seguir comprando porque la zona era buena antes.",
+      "Considerar invalidación y esperar nuevo contexto.",
+      "Duplicar la posición para mejorar el precio medio.",
+      "Mover la zona más abajo hasta que funcione."
+    ],
     correct: 1,
-    explanation: "Si una zona no reacciona y el precio la rompe con intención, puede estar invalidada."
+    explanation: "Una zona que no reacciona y es rota con fuerza puede estar invalidada. El mercado no le debe respeto a tu zona; tú debes leer la reacción."
   },
   {
     category: "orderblock",
-    title: "Barrida y reacción",
-    context: "El precio toma liquidez por encima de un máximo anterior y luego cae con desplazamiento fuerte.",
-    options: ["Barrida de liquidez", "Rango neutral", "Entrada sin contexto", "EMA 20"],
+    title: "Barrida por encima del máximo",
+    context: "El precio supera un máximo anterior, activa liquidez, deja rechazo fuerte y vuelve debajo del máximo.",
+    options: [
+      "Puede ser una barrida de liquidez, pero se necesita contexto para operar.",
+      "Comprar porque rompió el máximo y toda ruptura es continuación.",
+      "Vender sin esperar porque toda barrida siempre cae.",
+      "Ignorar el máximo anterior porque ya fue roto."
+    ],
     correct: 0,
-    explanation: "Tomar máximos o mínimos previos y luego rechazar puede indicar una barrida de liquidez."
+    explanation: "Tomar un máximo y volver debajo puede ser una barrida de liquidez. Pero no se opera automáticamente; necesitas estructura, confirmación y riesgo."
   },
   {
     category: "orderblock",
-    title: "Zona interesante, reacción ausente",
-    context: "Hay una zona que podría ser importante, pero el precio aún no muestra rechazo ni confirmación.",
-    options: ["Esperar", "Entrar full margen", "Quitar el stop", "Duplicar posición"],
-    correct: 0,
-    explanation: "Una zona no es una señal completa. Primero ubicación, luego reacción, luego gestión."
+    title: "Smart Money con mala ubicación",
+    context: "Ves una posible zona institucional, pero está en el centro de un rango y el stop lógico queda demasiado grande.",
+    options: [
+      "Operar porque el concepto suena institucional.",
+      "Esperar mejor ubicación o descartar por mala relación riesgo-contexto.",
+      "Entrar con más contratos para compensar el stop grande.",
+      "Quitar el stop porque la zona es institucional."
+    ],
+    correct: 1,
+    explanation: "Una zona con nombre bonito no arregla una mala operación. Si el stop es grande y la ubicación es pobre, puede ser mejor esperar."
   },
   {
     category: "orderblock",
-    title: "Contexto institucional",
-    context: "El precio toma liquidez, deja desplazamiento fuerte y luego vuelve a una zona previa de reacción.",
-    options: ["Puede tener contexto Smart Money", "No se analiza", "Siempre es compra", "Siempre es venta"],
+    title: "Retest después de desplazamiento",
+    context: "El precio deja un desplazamiento bajista fuerte, crea un FVG y luego vuelve lentamente a la zona de origen del movimiento.",
+    options: [
+      "Buscar posible venta si aparece rechazo y el riesgo es lógico.",
+      "Comprar porque volvió a una zona cara.",
+      "Vender sin mirar confirmación porque el desplazamiento fue fuerte.",
+      "Ignorar la reacción porque solo importa la primera vela."
+    ],
     correct: 0,
-    explanation: "La combinación de liquidez, desplazamiento y retorno a zona puede dar mejor contexto institucional."
+    explanation: "Después de desplazamiento bajista, un retorno lento a zona de origen puede ser interesante para venta, pero necesitas rechazo y gestión."
   },
 
   {
     category: "riesgo",
-    title: "Riesgo porcentual",
-    context: "Tienes una cuenta de 50,000 y decides arriesgar 1% por operación.",
-    options: ["50", "500", "5,000", "10,000"],
+    title: "Setup bueno, stop demasiado grande",
+    context: "La zona se ve clara, pero el punto lógico de invalidación exige un stop muy grande para tu cuenta.",
+    options: [
+      "Reducir tamaño, esperar mejor precio o descartar la operación.",
+      "Tomarla igual porque el análisis se ve bien.",
+      "Quitar el stop para no perder tanto.",
+      "Duplicar contratos porque la zona es clara."
+    ],
+    correct: 0,
+    explanation: "Una buena lectura no justifica mal riesgo. Puedes reducir tamaño, esperar mejor entrada o simplemente no operar."
+  },
+  {
+    category: "riesgo",
+    title: "Pérdida cerca del límite diario",
+    context: "Ya estás cerca del límite de pérdida diaria de tu cuenta fondeada. Aparece una entrada decente pero no perfecta.",
+    options: [
+      "Operarla porque hay que recuperar el día.",
+      "Ser más selectivo o parar, porque el margen de error es pequeño.",
+      "Subir contratos para salir más rápido del drawdown.",
+      "Ignorar el límite porque solo importa el setup."
+    ],
     correct: 1,
-    explanation: "El 1% de 50,000 es 500. El riesgo debe estar claro antes de entrar."
+    explanation: "Cuando estás cerca del límite diario, el contexto de riesgo cambia. No basta con que la entrada sea decente; necesitas proteger la cuenta."
   },
   {
     category: "riesgo",
-    title: "Sin punto de invalidación",
-    context: "Te gusta una operación, pero no sabes exactamente dónde tu idea queda invalidada.",
-    options: ["Mejor no entrar todavía", "Entrar y luego decidir", "Quitar el stop", "Aumentar riesgo"],
+    title: "Target menor que el riesgo",
+    context: "Para tomar la entrada debes arriesgar 40 ticks, pero el próximo obstáculo importante está a 18 ticks.",
+    options: [
+      "La operación puede no compensar, aunque la zona sea interesante.",
+      "Es perfecta porque el stop grande da más espacio.",
+      "Entrar igual y mover el target después.",
+      "Quitar el target y esperar milagro."
+    ],
     correct: 0,
-    explanation: "Si no sabes dónde estás equivocado, no tienes una operación clara."
+    explanation: "Si el primer obstáculo está muy cerca y el stop es grande, la relación riesgo-beneficio puede ser mala. La zona no es suficiente."
   },
   {
     category: "riesgo",
-    title: "Relación poco atractiva",
-    context: "Arriesgas $500 para intentar ganar $250.",
-    options: ["Relación pobre si no hay una razón estadística fuerte", "Siempre es excelente", "No importa", "Es 5:1"],
+    title: "Reentrada después de stop",
+    context: "Te sacan por stop y el precio vuelve a la zona. Tu impulso es entrar otra vez inmediatamente.",
+    options: [
+      "Reentrar solo si aparece una nueva razón objetiva, no por frustración.",
+      "Entrar siempre porque la primera pérdida fue injusta.",
+      "Duplicar para recuperar la pérdida anterior.",
+      "Entrar sin stop porque ya te sacaron una vez."
+    ],
     correct: 0,
-    explanation: "Arriesgar más de lo que buscas ganar exige una justificación estadística. Si no existe, el trade es débil."
+    explanation: "Una reentrada necesita nueva lectura objetiva. Si nace de frustración, se convierte en revenge trading."
   },
   {
     category: "riesgo",
-    title: "Cuenta fondeada con reglas",
-    context: "Operas una cuenta con límite diario y drawdown. Ves una entrada buena, pero el riesgo rompe tus reglas.",
-    options: ["Tomarla igual", "Adaptar el riesgo o no operar", "Ignorar el drawdown", "Duplicar para recuperar"],
+    title: "Tamaño de posición",
+    context: "Tu análisis es bueno, pero estás usando más contratos de los que tu plan permite.",
+    options: [
+      "El análisis compensa el exceso de riesgo.",
+      "El tamaño debe respetar el plan aunque el setup se vea bueno.",
+      "Más contratos siempre significan más confianza.",
+      "Solo importa ganar, no el tamaño."
+    ],
     correct: 1,
-    explanation: "En cuentas fondeadas, las reglas son parte del sistema. Una buena entrada con mal riesgo sigue siendo peligrosa."
-  },
-  {
-    category: "riesgo",
-    title: "Después de una pérdida",
-    context: "Pierdes un trade y sientes urgencia por recuperar en la siguiente vela.",
-    options: ["Señal emocional de peligro", "Plan perfecto", "Confirmación objetiva", "Mejor momento para duplicar"],
-    correct: 0,
-    explanation: "La urgencia por recuperar suele llevar a revenge trading. La pausa también es gestión."
+    explanation: "La gestión no depende de la emoción del momento. Si el tamaño rompe tu plan, la operación ya está contaminada."
   },
 
   {
     category: "psicologia",
-    title: "Entrada tarde por miedo",
-    context: "El precio se mueve sin ti. Entras tarde solo porque sientes que estás perdiendo la oportunidad.",
-    options: ["FOMO", "Plan perfecto", "Gestión excelente", "Backtest"],
+    title: "Entrada tarde por presión",
+    context: "El movimiento salió sin ti. Entras tarde porque sientes que si no lo haces, vas a perder la oportunidad del día.",
+    options: [
+      "Esperar un nuevo setup o aceptar que se fue.",
+      "Entrar porque todavía puede seguir.",
+      "Duplicar para compensar la entrada tarde.",
+      "Quitar el stop porque el movimiento tiene fuerza."
+    ],
     correct: 0,
-    explanation: "Entrar tarde por miedo a quedarse fuera es FOMO. La paciencia protege la cuenta."
+    explanation: "El mercado siempre dará más oportunidades. Entrar tarde por presión suele ser FOMO y deteriora el riesgo."
   },
   {
     category: "psicologia",
-    title: "No hay setup claro",
-    context: "Pasó una hora y no aparece una entrada limpia según tu plan.",
-    options: ["Forzar operación", "Esperar", "Operar por aburrimiento", "Subir lotaje"],
-    correct: 1,
-    explanation: "No operar también es una decisión profesional cuando no hay contexto."
+    title: "Necesidad de recuperar",
+    context: "Después de dos pérdidas, empiezas a buscar cualquier señal para volver a positivo.",
+    options: [
+      "Reducir actividad o pausar porque la emoción está tomando control.",
+      "Operar más para que la estadística se arregle rápido.",
+      "Aumentar contratos porque necesitas recuperar.",
+      "Entrar en temporalidades más pequeñas para encontrar algo."
+    ],
+    correct: 0,
+    explanation: "Cuando buscas recuperar, tu lectura se contamina. La pausa puede ser la mejor operación."
   },
   {
     category: "psicologia",
-    title: "Querer tener razón",
-    context: "El precio va contra tu idea, pero mantienes la operación solo porque no quieres aceptar que te equivocaste.",
-    options: ["Ego", "Disciplina", "Gestión objetiva", "Confirmación"],
+    title: "Tener razón vs proteger capital",
+    context: "El precio invalida tu idea, pero sigues buscando argumentos para mantener la operación.",
+    options: [
+      "Aceptar invalidación y proteger capital.",
+      "Mantener porque el análisis original era bueno.",
+      "Mover el stop para darle más espacio.",
+      "Promediar para mejorar entrada."
+    ],
     correct: 0,
-    explanation: "El ego quiere tener razón. El proceso busca proteger capital."
+    explanation: "El trader profesional no necesita tener razón; necesita sobrevivir y ejecutar su plan."
   },
   {
     category: "psicologia",
-    title: "Día emocional",
-    context: "Después de varias operaciones malas, sigues entrando porque quieres terminar el día positivo.",
-    options: ["Sobreoperación", "Paciencia", "Control", "Backtesting"],
+    title: "Aburrimiento en sesión lenta",
+    context: "La sesión está lenta, no hay noticias ni zonas claras, pero sientes ganas de hacer algo.",
+    options: [
+      "No operar hasta que aparezca una razón real.",
+      "Tomar una operación pequeña por entretenimiento.",
+      "Probar una estrategia nueva en vivo.",
+      "Operar porque estar frente al gráfico obliga a hacer algo."
+    ],
     correct: 0,
-    explanation: "Seguir operando por necesidad emocional suele empeorar el día."
+    explanation: "El aburrimiento no es señal de entrada. La disciplina también es saber no hacer nada."
   },
   {
     category: "psicologia",
-    title: "Buena zona, mal riesgo",
-    context: "La zona se ve interesante, pero el stop necesario es muy grande y el target es pequeño.",
-    options: ["No entrar o esperar mejor precio", "Entrar igual", "Quitar stop", "Duplicar riesgo"],
+    title: "Trade ganado por mala razón",
+    context: "Entraste por ansiedad, sin plan claro, pero la operación terminó en ganancia.",
+    options: [
+      "Marcarlo como mala ejecución aunque haya ganado.",
+      "Celebrarlo como setup perfecto.",
+      "Aumentar lotaje porque funcionó.",
+      "Repetirlo siempre porque dio dinero."
+    ],
     correct: 0,
-    explanation: "Una buena zona con mala relación riesgo-beneficio puede seguir siendo una mala operación."
+    explanation: "Un trade puede ganar y seguir siendo mala ejecución. WLF evalúa proceso, no solo resultado."
   }
 ];
 

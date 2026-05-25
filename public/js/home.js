@@ -9,11 +9,22 @@ import {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+let isLoggedIn = false;
+
 const loginLink = document.getElementById("loginLink");
 const courseLink = document.getElementById("courseLink");
 const homeLogoutBtn = document.getElementById("homeLogoutBtn");
+const smartCourseLinks = document.querySelectorAll(".smart-course-link");
+
+function refreshLinks() {
+  smartCourseLinks.forEach((link) => {
+    link.setAttribute("href", isLoggedIn ? "/dashboard.html" : "/login.html");
+  });
+}
 
 onAuthStateChanged(auth, (user) => {
+  isLoggedIn = Boolean(user);
+
   if (user) {
     loginLink?.classList.add("hidden");
     courseLink?.classList.remove("hidden");
@@ -23,6 +34,15 @@ onAuthStateChanged(auth, (user) => {
     courseLink?.classList.add("hidden");
     homeLogoutBtn?.classList.add("hidden");
   }
+
+  refreshLinks();
+});
+
+smartCourseLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    window.location.href = isLoggedIn ? "/dashboard.html" : "/login.html";
+  });
 });
 
 if (homeLogoutBtn) {
@@ -31,3 +51,5 @@ if (homeLogoutBtn) {
     window.location.href = "/";
   });
 }
+
+refreshLinks();

@@ -20,7 +20,7 @@ const links = {
 };
 
 const greetingHtml = `
-  <p>Hey, ¿qué vola? Soy tu WLF Coach 😄</p>
+  <p>Hey, ¿qué tal? Soy tu WLF Coach 😄</p>
   <p>
     Puedo ayudarte con conceptos del curso, psicología, cuentas de fondeo, NinjaTrader,
     noticias, riesgo-beneficio y navegación del portal.

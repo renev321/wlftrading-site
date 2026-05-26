@@ -111,12 +111,15 @@ function renderUsers(users) {
     <table class="admin-table">
       <thead>
         <tr>
-          <th>Usuario</th>
+          <th class="admin-actions-head">Acciones</th>
+          <th class="admin-user-cell">Usuario</th>
           <th>Status</th>
-          <th>Features</th>
           <th>Roles</th>
-          <th>Expira</th>
-          <th>Acciones</th>
+          <th class="admin-features-cell">Features</th>
+          <th>Expira curso</th>
+          <th>Creado</th>
+          <th>Actualizado</th>
+          <th class="admin-raw-cell">Raw</th>
         </tr>
       </thead>
       <tbody>
@@ -134,28 +137,33 @@ function renderUsers(users) {
           `).join("");
 
           const statusClass = String(user.status || "").toLowerCase();
+          const toggleLabel = statusClass === "active" ? "Disable" : "Enable";
 
           return `
             <tr>
-              <td>
+              <td class="admin-actions-cell">
+                <div class="admin-row-actions">
+                  <button class="admin-action" data-action="edit" data-email="${user.email}">Edit</button>
+                  <button class="admin-action" data-action="toggle" data-email="${user.email}">${toggleLabel}</button>
+                  <button class="admin-action danger" data-action="delete" data-email="${user.email}">Delete</button>
+                </div>
+              </td>
+              <td class="admin-user-cell">
                 <strong>${user.email}</strong><br>
-                ${user.name || ""}
+                ${user.name || "<span style='opacity:.6'>No name</span>"}<br>
+                <small>ID: ${user.student_id || "-"}</small>
               </td>
               <td>
                 <span class="status-pill ${statusClass}">${user.status || "-"}</span><br>
-                course_access: ${Number(user.course_access || 0) === 1 ? "yes" : "no"}
+                <small>course_access: ${Number(user.course_access || 0) === 1 ? "yes" : "no"}</small>
               </td>
-              <td>${features || "-"}</td>
               <td>${roles || "-"}</td>
+              <td class="admin-features-cell">${features || "-"}</td>
               <td>${user.expires_at || "-"}</td>
-              <td>
-                <div class="admin-row-actions">
-                  <button class="admin-action" data-action="edit" data-email="${user.email}">Edit</button>
-                  <button class="admin-action" data-action="toggle" data-email="${user.email}">
-                    ${String(user.status).toLowerCase() === "active" ? "Disable" : "Enable"}
-                  </button>
-                  <button class="admin-action danger" data-action="delete" data-email="${user.email}">Delete</button>
-                </div>
+              <td>${user.created_at || "-"}</td>
+              <td>${user.updated_at || "-"}</td>
+              <td class="admin-raw-cell">
+                <button class="admin-action raw" data-action="raw" data-email="${user.email}">View raw</button>
               </td>
             </tr>
           `;
@@ -175,8 +183,42 @@ function renderUsers(users) {
       if (action === "edit") openEditModal(user);
       if (action === "toggle") toggleUser(user);
       if (action === "delete") deleteUser(user);
+      if (action === "raw") showRawUser(user);
     });
   });
+}
+
+function showRawUser(user) {
+  const modal = document.createElement("div");
+  modal.className = "admin-modal";
+
+  modal.innerHTML = `
+    <div class="admin-modal-backdrop"></div>
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <div>
+          <p class="eyebrow">Raw data</p>
+          <h2>${user.email}</h2>
+        </div>
+        <button class="btn tiny ghost" type="button" data-close-raw>Close</button>
+      </div>
+      <pre class="raw-data-pre">${escapeHtml(JSON.stringify(user, null, 2))}</pre>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  modal.querySelector("[data-close-raw]").addEventListener("click", () => modal.remove());
+  modal.querySelector(".admin-modal-backdrop").addEventListener("click", () => modal.remove());
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function filterUsers() {
@@ -189,7 +231,8 @@ function filterUsers() {
 
   const filtered = allUsers.filter((user) => (
     (user.email || "").toLowerCase().includes(search) ||
-    (user.name || "").toLowerCase().includes(search)
+    (user.name || "").toLowerCase().includes(search) ||
+    (user.status || "").toLowerCase().includes(search)
   ));
 
   renderUsers(filtered);

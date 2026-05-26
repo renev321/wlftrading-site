@@ -1,6 +1,8 @@
-/* WLF Trading - Refined video overlay
-   Small premium badge to cover Google Drive pop-out control.
-   Designed to block only the top-right corner without feeling heavy.
+/* WLF Trading - Clean video overlay v45
+   Goal:
+   - Fully cover the Google Drive pop-out square/icon.
+   - Show only a small elegant WLF badge.
+   - Keep the main video area visible and playable.
 */
 
 .video-frame,
@@ -9,51 +11,71 @@
   overflow: hidden;
 }
 
-/* Small dark/gold badge */
+/* Invisible blocker: covers the whole Google Drive pop-out area */
+.video-frame::before,
+.lesson-video-frame::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 86px;
+  height: 72px;
+  z-index: 29;
+  pointer-events: auto;
+  border-radius: 14px;
+
+  /* Match the Drive preview background so the original square disappears */
+  background: rgba(43, 124, 154, 0.98);
+}
+
+/* Visible premium badge */
 .video-frame::after,
 .lesson-video-frame::after {
   content: "WLF";
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 54px;
-  height: 42px;
+  top: 18px;
+  right: 20px;
+  width: 52px;
+  height: 38px;
   z-index: 30;
-  pointer-events: auto;
+  pointer-events: none;
 
   display: grid;
   place-items: center;
 
-  border-radius: 13px;
-  border: 1px solid rgba(214, 168, 80, 0.34);
+  border-radius: 12px;
+  border: 1px solid rgba(214, 168, 80, 0.36);
   background:
     linear-gradient(135deg, rgba(6, 10, 7, 0.98), rgba(18, 21, 15, 0.96));
 
   color: #d6a850;
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 950;
   letter-spacing: 0.08em;
 
   box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.34),
+    0 10px 22px rgba(0, 0, 0, 0.32),
     inset 0 0 14px rgba(214, 168, 80, 0.08);
-}
-
-/* Remove old before badge if browser cached older CSS behavior */
-.video-frame::before,
-.lesson-video-frame::before {
-  content: none !important;
 }
 
 /* Mobile */
 @media (max-width: 760px) {
+  .video-frame::before,
+  .lesson-video-frame::before {
+    top: 6px;
+    right: 6px;
+    width: 72px;
+    height: 60px;
+    border-radius: 12px;
+  }
+
   .video-frame::after,
   .lesson-video-frame::after {
-    top: 10px;
-    right: 10px;
-    width: 46px;
-    height: 36px;
-    border-radius: 11px;
-    font-size: 0.68rem;
+    top: 15px;
+    right: 16px;
+    width: 44px;
+    height: 32px;
+    border-radius: 10px;
+    font-size: 0.64rem;
   }
 }

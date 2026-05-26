@@ -9,12 +9,11 @@ const coachApp = document.getElementById("coachApp");
 const greetingHtml = `
   <p>Hola, ¿qué tal? Soy tu WLF Coach.</p>
   <p>
-    Puedo ayudarte a repasar conceptos del curso como liquidez, swings, tendencias,
-    FVG, Order Blocks, riesgo-beneficio y psicología.
+    Puedes preguntarme sobre conceptos del curso, gestión, psicología o sobre cómo usar el portal.
   </p>
   <p>
-    Puedes preguntarme algo simple como “¿qué es liquidez?” o algo combinado como
-    “liquidez cerca de un swing high con FVG”.
+    Ejemplos: “¿un R:R 1:3 después de liquidez es bueno?”, “estoy frustrado, dame un plan”,
+    “¿cómo evito quemar una cuenta?”, “¿dónde está la biblioteca?”
   </p>
 `;
 
@@ -22,7 +21,7 @@ const conceptMap = [
   {
     id: "liquidez",
     title: "Liquidez",
-    keywords: ["liquidez", "liquidity", "ordenes", "stops", "stop", "equal highs", "equal lows"],
+    keywords: ["liquidez", "liquidity", "ordenes", "órdenes", "stops", "stop", "equal highs", "equal lows"],
     answer: `
       <p>La liquidez es donde probablemente hay órdenes esperando: stops, entradas tardías o zonas obvias donde muchos traders toman decisiones.</p>
       <ul>
@@ -50,11 +49,11 @@ const conceptMap = [
     title: "Swing High",
     keywords: ["swing high", "swinghigh", "maximo swing", "máximo swing", "high anterior", "maximo anterior", "máximo anterior"],
     answer: `
-      <p>Un swing high es un punto donde el precio hizo un máximo relevante y luego reaccionó hacia abajo.</p>
+      <p>Un swing high es un máximo relevante donde el precio reaccionó hacia abajo.</p>
       <ul>
-        <li>Puede funcionar como referencia de estructura.</li>
+        <li>Puede servir como referencia de estructura.</li>
         <li>Puede acumular liquidez por encima.</li>
-        <li>Si el precio lo rompe y vuelve debajo, puede ser señal de falta de aceptación.</li>
+        <li>Si el precio lo rompe y vuelve debajo, puede indicar falta de aceptación.</li>
       </ul>
     `
   },
@@ -63,7 +62,7 @@ const conceptMap = [
     title: "Swing Low",
     keywords: ["swing low", "swinglow", "minimo swing", "mínimo swing", "low anterior", "minimo anterior", "mínimo anterior"],
     answer: `
-      <p>Un swing low es un punto donde el precio hizo un mínimo relevante y luego reaccionó hacia arriba.</p>
+      <p>Un swing low es un mínimo relevante donde el precio reaccionó hacia arriba.</p>
       <ul>
         <li>Puede servir como referencia de invalidación.</li>
         <li>Puede acumular liquidez por debajo.</li>
@@ -139,13 +138,13 @@ const conceptMap = [
   {
     id: "rr",
     title: "Riesgo-beneficio / R:R",
-    keywords: ["riesgo beneficio", "r:r", "rr", "risk reward", "ratio", "beneficio", "reward"],
+    keywords: ["riesgo beneficio", "r:r", "rr", "1:1", "1:2", "1:3", "1:4", "risk reward", "ratio", "beneficio", "reward"],
     answer: `
       <p>R:R compara cuánto arriesgas contra cuánto podrías ganar.</p>
       <ul>
-        <li>Arriesgar $100 para buscar $200 = 1:2.</li>
+        <li>Arriesgar $100 para buscar $300 = 1:3.</li>
+        <li>Un buen R:R no arregla una mala entrada.</li>
         <li>Una buena zona con mal R:R puede seguir siendo una mala operación.</li>
-        <li>El stop debe tener sentido estructural, no solo ser pequeño.</li>
       </ul>
     `
   },
@@ -207,18 +206,133 @@ const conceptMap = [
   }
 ];
 
+const intentRules = [
+  {
+    id: "rr-liquidez",
+    title: "¿Un R:R 1:3 después de liquidez es bueno?",
+    keywordsAll: [["1:3", "rr", "r:r", "riesgo beneficio"], ["liquidez", "sweep", "barrida"]],
+    answer: `
+      <p>Hola, ¿qué tal? Un <strong>R:R 1:3 después de una toma de liquidez puede ser muy interesante</strong>, pero no es bueno solo por el número.</p>
+      <p>La lectura WLF sería:</p>
+      <ol>
+        <li><strong>Liquidez:</strong> ¿el precio realmente tomó un high/low importante o solo tocó una zona cualquiera?</li>
+        <li><strong>Reacción:</strong> ¿hubo rechazo, desplazamiento o recuperación clara?</li>
+        <li><strong>Invalidación:</strong> ¿tu stop está en un lugar lógico o solo pequeño para que el 1:3 se vea bonito?</li>
+        <li><strong>Target:</strong> ¿el TP está antes de una zona importante o lo estás poniendo demasiado lejos?</li>
+        <li><strong>Contexto:</strong> ¿estás a favor de estructura o peleando contra un movimiento fuerte?</li>
+      </ol>
+      <p><strong>Conclusión WLF:</strong> 1:3 es atractivo si la entrada nace de contexto + reacción + invalidación clara. Si solo es “liquidez + target lejano”, no es suficiente.</p>
+    `
+  },
+  {
+    id: "blow-account",
+    title: "Cómo evitar quemar una cuenta",
+    keywordsAny: ["quemar cuenta", "quemar una cuenta", "blow an account", "blow account", "explotar cuenta", "perder cuenta", "funded", "drawdown"],
+    answer: `
+      <p>Hola, ¿qué tal? Para evitar quemar una cuenta, el objetivo no es ganar más rápido; es <strong>dejar de destruirte en los días malos</strong>.</p>
+      <ol>
+        <li><strong>Límite diario:</strong> define una pérdida máxima diaria y respétala sin negociar.</li>
+        <li><strong>Máximo de operaciones:</strong> limita la cantidad de trades para evitar sobreoperar.</li>
+        <li><strong>Riesgo fijo:</strong> no subas lotaje para recuperar.</li>
+        <li><strong>No revenge trading:</strong> después de una pérdida emocional, pausa.</li>
+        <li><strong>Solo setups A/B:</strong> si la entrada es mediocre, no arriesgues la cuenta por ansiedad.</li>
+        <li><strong>Registro:</strong> anota si perdiste por setup malo, mala ejecución o emoción.</li>
+      </ol>
+      <p><strong>Plan simple WLF:</strong> si pierdes 2 trades seguidos o llegas a tu límite diario, paras. La cuenta se protege primero; las oportunidades vuelven mañana.</p>
+    `
+  },
+  {
+    id: "frustrated-plan",
+    title: "Plan cuando estás frustrado",
+    keywordsAny: ["frustrado", "frustrada", "frustrating", "frustrated", "estoy mal", "me siento mal", "no puedo", "perdiendo", "perdidas", "pérdidas"],
+    answer: `
+      <p>Hola, ¿qué tal? Primero: respira. Si estás frustrado, no necesitas una entrada; necesitas recuperar control.</p>
+      <p><strong>Plan WLF de 20 minutos:</strong></p>
+      <ol>
+        <li><strong>5 min fuera del gráfico:</strong> levántate, agua, respira. No mires velas.</li>
+        <li><strong>5 min revisión:</strong> escribe qué pasó: ¿setup malo, mala gestión o emoción?</li>
+        <li><strong>5 min reset:</strong> define una sola regla para volver: “solo entro si hay zona + reacción + R:R lógico”.</li>
+        <li><strong>5 min decisión:</strong> si sigues con rabia o ansiedad, cierras la sesión.</li>
+      </ol>
+      <p><strong>Frase WLF:</strong> hoy no tienes que recuperar dinero; tienes que recuperar disciplina.</p>
+    `
+  },
+  {
+    id: "overtrading",
+    title: "Cómo evitar sobreoperar",
+    keywordsAny: ["sobreoperar", "overtrade", "overtrading", "muchas operaciones", "muchos trades", "entro mucho", "operar mucho"],
+    answer: `
+      <p>Hola, ¿qué tal? Sobreoperar casi siempre viene de ansiedad, aburrimiento o necesidad de recuperar.</p>
+      <ol>
+        <li>Define máximo de trades por sesión.</li>
+        <li>Usa una checklist antes de cada entrada.</li>
+        <li>No operes en el centro del rango.</li>
+        <li>Después de una pérdida, espera al menos una nueva estructura clara.</li>
+        <li>Si estás buscando señales en temporalidades cada vez más pequeñas, probablemente estás forzando.</li>
+      </ol>
+      <p><strong>Regla WLF:</strong> menos trades, más intención.</p>
+    `
+  },
+  {
+    id: "portal-help",
+    title: "Cómo usar el portal WLF",
+    keywordsAny: ["portal", "web", "pagina", "página", "sala vip", "vip", "donde", "dónde", "biblioteca", "practica", "práctica", "videos", "curso", "audiolibros", "coach", "lecturas"],
+    answer: `
+      <p>Hola, ¿qué tal? Te explico la estructura del portal WLF:</p>
+      <ul>
+        <li><strong>Sala VIP:</strong> es la página principal privada. Desde ahí navegas a todo.</li>
+        <li><strong>Curso:</strong> videos y guías principales, como instalación de NinjaTrader.</li>
+        <li><strong>Práctica:</strong> preguntas interactivas para entrenar criterio.</li>
+        <li><strong>WLF Coach:</strong> este asistente para repasar conceptos del curso.</li>
+        <li><strong>Biblioteca:</strong> libros y PDFs dentro del lector WLF.</li>
+        <li><strong>Audiolibros:</strong> material complementario de mentalidad.</li>
+        <li><strong>Comunidad:</strong> enlaces oficiales como Telegram y TikTok.</li>
+      </ul>
+      <p><strong>Ruta sugerida:</strong> Curso → Práctica → WLF Coach → Biblioteca.</p>
+    `
+  },
+  {
+    id: "ninjatrader",
+    title: "Cómo instalar NinjaTrader",
+    keywordsAny: ["ninjatrader", "ninja trader", "instalar ninja", "install ninja", "descargar ninja", "download ninja"],
+    answer: `
+      <p>Hola, ¿qué tal? En el curso tienes una guía llamada <strong>4.1 - Cómo instalar NinjaTrader Desktop</strong>.</p>
+      <ol>
+        <li>Entra a la Sala VIP.</li>
+        <li>Abre el módulo del curso.</li>
+        <li>Busca <strong>4.1 - Cómo instalar NinjaTrader Desktop</strong>.</li>
+        <li>Ahí verás el resumen y el enlace oficial de NinjaTrader.</li>
+      </ol>
+      <p><strong>Nota:</strong> NinjaTrader Desktop es para Windows. Si usas firewall o antivirus, permite que NinjaTrader tenga acceso a internet.</p>
+    `
+  },
+  {
+    id: "login-access",
+    title: "Acceso y login",
+    keywordsAny: ["login", "entrar", "acceso", "no puedo entrar", "google", "gmail", "activar", "activado"],
+    answer: `
+      <p>Hola, ¿qué tal? El acceso al portal se activa manualmente con tu Gmail.</p>
+      <ul>
+        <li>Debes entrar usando el mismo Gmail que fue activado.</li>
+        <li>Si el correo no está activo, el sistema puede bloquear el acceso.</li>
+        <li>Si acabas de pagar, espera la confirmación de activación.</li>
+      </ul>
+      <p>Si sigues sin entrar, revisa que estás usando el Gmail correcto y contacta a WLF para validar tu acceso.</p>
+    `
+  }
+];
+
 const comboRules = [
   {
     ids: ["liquidez", "swinghigh"],
     title: "Liquidez sobre un Swing High",
     answer: `
-      <p>Cuando hablas de liquidez sobre un <strong>swing high</strong>, normalmente estás mirando una zona donde muchos traders pueden tener stops o compras tardías.</p>
+      <p>Cuando hablas de liquidez sobre un <strong>swing high</strong>, estás mirando una zona donde muchos traders pueden tener stops o compras tardías.</p>
       <ul>
         <li>Si el precio rompe ese swing high y acepta por encima, puede haber continuación.</li>
-        <li>Si rompe, toma liquidez y vuelve debajo, puede ser un sweep o falso breakout.</li>
+        <li>Si rompe, toma liquidez y vuelve debajo, puede ser sweep o falso breakout.</li>
         <li>La clave no es solo el high: mira la reacción después de tomarlo.</li>
       </ul>
-      <p><strong>Lectura WLF:</strong> liquidity above swing high = zona de atención, no entrada automática.</p>
     `
   },
   {
@@ -247,51 +361,16 @@ const comboRules = [
     `
   },
   {
-    ids: ["fvg", "swinghigh"],
-    title: "FVG cerca de Swing High",
+    ids: ["liquidez", "orderblock"],
+    title: "Liquidez + Order Block",
     answer: `
-      <p>Un FVG cerca de un <strong>swing high</strong> necesita contexto extra.</p>
+      <p>Un Order Block gana más contexto cuando aparece después de una toma de liquidez.</p>
       <ul>
-        <li>Si está después de romper y aceptar por encima, puede apoyar continuación.</li>
-        <li>Si aparece después de barrer el high y rechazar, puede ser parte de una trampa.</li>
-        <li>Revisa si estás comprando demasiado tarde o vendiendo sin confirmación.</li>
+        <li>La liquidez muestra dónde el mercado pudo limpiar órdenes.</li>
+        <li>El desplazamiento muestra intención.</li>
+        <li>El Order Block puede marcar una zona de posible reacción si el precio vuelve.</li>
       </ul>
-    `
-  },
-  {
-    ids: ["fvg", "swinglow"],
-    title: "FVG cerca de Swing Low",
-    answer: `
-      <p>Un FVG cerca de un <strong>swing low</strong> puede tener lecturas opuestas dependiendo de la reacción.</p>
-      <ul>
-        <li>Si el low fue barrido y el precio desplazó al alza, el FVG puede ser zona de interés alcista.</li>
-        <li>Si el precio rompe el low y acepta debajo, el FVG puede no tener fuerza alcista.</li>
-        <li>La reacción y aceptación son más importantes que el nombre del patrón.</li>
-      </ul>
-    `
-  },
-  {
-    ids: ["tendencia", "fvg"],
-    title: "FVG dentro de tendencia",
-    answer: `
-      <p>Un FVG dentro de una tendencia puede servir como zona de pullback, pero no todos tienen el mismo valor.</p>
-      <ul>
-        <li>Si la tendencia está sana, puedes mirar FVGs a favor de estructura.</li>
-        <li>Si el precio está muy extendido, entrar tarde puede ser peligroso.</li>
-        <li>Busca ubicación, reacción y R:R.</li>
-      </ul>
-    `
-  },
-  {
-    ids: ["rango", "fvg"],
-    title: "FVG dentro de rango",
-    answer: `
-      <p>Un FVG dentro de un rango suele ser más delicado porque hay más ruido.</p>
-      <ul>
-        <li>Los FVGs en el centro del rango suelen tener menos calidad.</li>
-        <li>Los extremos del rango dan mejor contexto.</li>
-        <li>Si no hay aceptación ni reacción clara, mejor esperar.</li>
-      </ul>
+      <p>No basta marcar el OB; espera reacción y riesgo aceptable.</p>
     `
   },
   {
@@ -319,19 +398,6 @@ const comboRules = [
       </ul>
       <p>Buen trading no es solo análisis; es ejecutar el riesgo como fue planeado.</p>
     `
-  },
-  {
-    ids: ["liquidez", "orderblock"],
-    title: "Liquidez + Order Block",
-    answer: `
-      <p>Un Order Block gana más contexto cuando aparece después de una toma de liquidez.</p>
-      <ul>
-        <li>La liquidez muestra dónde el mercado pudo limpiar órdenes.</li>
-        <li>El desplazamiento muestra intención.</li>
-        <li>El Order Block puede marcar una zona de posible reacción si el precio vuelve.</li>
-      </ul>
-      <p>No basta marcar el OB; espera reacción y riesgo aceptable.</p>
-    `
   }
 ];
 
@@ -346,7 +412,7 @@ const fallbackAnswer = {
       <li>Define invalidación: dónde tu idea deja de tener sentido.</li>
       <li>Evalúa R:R antes de pensar en entrar.</li>
     </ol>
-    <p>Puedes preguntarme combinando conceptos, por ejemplo: “liquidez sobre swing high”, “sweep con FVG”, “FOMO y R:R”.</p>
+    <p>También puedes preguntarme cosas como: “cómo evito quemar una cuenta”, “estoy frustrado”, “dónde está la biblioteca”, “cómo instalo NinjaTrader”.</p>
   `
 };
 
@@ -356,6 +422,30 @@ function normalizeText(text) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^\w\s:.-]/g, " ");
+}
+
+function containsAny(normalizedQuestion, keywords) {
+  return keywords.some((keyword) => normalizedQuestion.includes(normalizeText(keyword)));
+}
+
+function containsAllGroups(normalizedQuestion, groups) {
+  return groups.every((group) => containsAny(normalizedQuestion, group));
+}
+
+function findIntentAnswer(question) {
+  const normalizedQuestion = normalizeText(question);
+
+  for (const rule of intentRules) {
+    if (rule.keywordsAll && containsAllGroups(normalizedQuestion, rule.keywordsAll)) {
+      return rule;
+    }
+
+    if (rule.keywordsAny && containsAny(normalizedQuestion, rule.keywordsAny)) {
+      return rule;
+    }
+  }
+
+  return null;
 }
 
 function detectConcepts(question) {
@@ -377,9 +467,7 @@ function detectConcepts(question) {
 function findComboAnswer(detectedConcepts) {
   const ids = detectedConcepts.map((concept) => concept.id);
 
-  return comboRules.find((rule) => {
-    return rule.ids.every((id) => ids.includes(id));
-  });
+  return comboRules.find((rule) => rule.ids.every((id) => ids.includes(id)));
 }
 
 function buildSingleConceptAnswer(concept) {
@@ -421,6 +509,15 @@ function buildMultiConceptAnswer(detectedConcepts) {
 }
 
 function findAnswer(question) {
+  const intentAnswer = findIntentAnswer(question);
+
+  if (intentAnswer) {
+    return {
+      title: intentAnswer.title,
+      answer: intentAnswer.answer
+    };
+  }
+
   const detectedConcepts = detectConcepts(question);
 
   if (detectedConcepts.length === 0) {
@@ -490,7 +587,6 @@ function addInitialGreeting() {
   if (!chatMessages) return;
 
   chatMessages.innerHTML = "";
-
   addMessage("bot", "WLF Coach", greetingHtml);
 }
 

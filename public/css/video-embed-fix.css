@@ -1,7 +1,6 @@
-/* WLF Trading - Premium video overlay
-   Covers the Google Drive pop-out area with a small WLF branded badge.
-   The pop-out button is inside Google's cross-origin iframe, so this overlay
-   blocks that corner without affecting the main video/play area.
+/* WLF Trading - Refined video overlay
+   Small premium badge to cover Google Drive pop-out control.
+   Designed to block only the top-right corner without feeling heavy.
 */
 
 .video-frame,
@@ -10,71 +9,51 @@
   overflow: hidden;
 }
 
-/* Dark premium badge background */
+/* Small dark/gold badge */
 .video-frame::after,
 .lesson-video-frame::after {
-  content: "";
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 82px;
-  height: 62px;
-  z-index: 20;
-  pointer-events: auto;
-  border-radius: 18px;
-  border: 1px solid rgba(214, 168, 80, 0.30);
-  background:
-    linear-gradient(135deg, rgba(5, 10, 7, 0.98), rgba(20, 25, 16, 0.96));
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.35),
-    inset 0 0 18px rgba(214, 168, 80, 0.08);
-}
-
-/* WLF text inside the badge */
-.video-frame::before,
-.lesson-video-frame::before {
   content: "WLF";
   position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 82px;
-  height: 62px;
-  z-index: 21;
-  pointer-events: none;
+  top: 16px;
+  right: 16px;
+  width: 54px;
+  height: 42px;
+  z-index: 30;
+  pointer-events: auto;
+
   display: grid;
   place-items: center;
+
+  border-radius: 13px;
+  border: 1px solid rgba(214, 168, 80, 0.34);
+  background:
+    linear-gradient(135deg, rgba(6, 10, 7, 0.98), rgba(18, 21, 15, 0.96));
+
   color: #d6a850;
+  font-size: 0.76rem;
   font-weight: 950;
   letter-spacing: 0.08em;
-  font-size: 1.08rem;
-  text-shadow: 0 0 18px rgba(214, 168, 80, 0.25);
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.34),
+    inset 0 0 14px rgba(214, 168, 80, 0.08);
 }
 
-/* Optional small text feel without making it crowded */
-@media (min-width: 900px) {
-  .video-frame::before,
-  .lesson-video-frame::before {
-    content: "WLF";
-  }
+/* Remove old before badge if browser cached older CSS behavior */
+.video-frame::before,
+.lesson-video-frame::before {
+  content: none !important;
 }
 
-/* Smaller screens */
+/* Mobile */
 @media (max-width: 760px) {
   .video-frame::after,
   .lesson-video-frame::after {
     top: 10px;
     right: 10px;
-    width: 66px;
-    height: 50px;
-    border-radius: 15px;
-  }
-
-  .video-frame::before,
-  .lesson-video-frame::before {
-    top: 10px;
-    right: 10px;
-    width: 66px;
-    height: 50px;
-    font-size: 0.92rem;
+    width: 46px;
+    height: 36px;
+    border-radius: 11px;
+    font-size: 0.68rem;
   }
 }

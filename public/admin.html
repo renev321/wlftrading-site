@@ -33,7 +33,7 @@
         <p class="eyebrow">WLF Admin</p>
         <h1>Panel de administración</h1>
         <p class="hero-text">
-          Gestiona usuarios, roles y accesos del portal WLF sin tocar directamente la base de datos.
+          Gestiona usuarios, accesos, expiraciones y permisos del portal WLF.
         </p>
       </div>
 
@@ -49,8 +49,8 @@
     <section class="section admin-layout">
       <aside class="admin-sidebar">
         <button class="admin-tab is-active" data-tab="users">Usuarios</button>
-        <button class="admin-tab" data-tab="grant">Dar acceso</button>
-        <button class="admin-tab" data-tab="audit">Notas</button>
+        <button class="admin-tab" data-tab="grant">Nuevo / Dar acceso</button>
+        <button class="admin-tab" data-tab="help">Notas</button>
       </aside>
 
       <section class="admin-content">
@@ -61,8 +61,8 @@
             <div class="admin-panel-title">
               <div>
                 <p class="eyebrow">Usuarios</p>
-                <h2>Estudiantes y accesos</h2>
-                <p>Busca usuarios y revisa qué features tienen activas.</p>
+                <h2>Estudiantes y permisos</h2>
+                <p>Edita, activa/desactiva o elimina usuarios desde una tabla práctica.</p>
               </div>
 
               <button class="btn tiny ghost" id="refreshUsersBtn">Refrescar</button>
@@ -80,9 +80,9 @@
           <section class="admin-panel hidden" data-panel="grant">
             <div class="admin-panel-title">
               <div>
-                <p class="eyebrow">Accesos</p>
-                <h2>Dar o actualizar acceso</h2>
-                <p>Activa acceso por feature. Para herramientas mensuales, puedes usar fecha de expiración.</p>
+                <p class="eyebrow">Acceso</p>
+                <h2>Agregar usuario o dar acceso</h2>
+                <p>Usa VIP Bundle para curso normal. Usa Tools con expiración para suscripción mensual.</p>
               </div>
             </div>
 
@@ -142,29 +142,30 @@
             <div id="grantResult" class="admin-result hidden"></div>
           </section>
 
-          <section class="admin-panel hidden" data-panel="audit">
+          <section class="admin-panel hidden" data-panel="help">
             <div class="admin-panel-title">
               <div>
                 <p class="eyebrow">Notas</p>
-                <h2>Cómo usar este panel</h2>
+                <h2>Uso recomendado</h2>
               </div>
             </div>
 
             <div class="admin-note-card">
-              <h3>Flujo recomendado</h3>
+              <h3>Flujo normal</h3>
               <ol>
-                <li>El usuario paga el curso.</li>
-                <li>Agregas su Gmail usando <strong>VIP Bundle</strong>.</li>
-                <li>Si luego paga herramientas mensuales, le das acceso a <strong>Tools</strong> con fecha de expiración.</li>
-                <li>Si quieres otro admin, primero confirma bien el email y luego asigna <strong>Admin Panel</strong>.</li>
+                <li>Para un estudiante nuevo, usa <strong>Nuevo / Dar acceso</strong> con VIP Bundle.</li>
+                <li>Para editar un estudiante existente, ve a <strong>Usuarios → Edit</strong>.</li>
+                <li>Para pausar acceso, usa <strong>Disable</strong>.</li>
+                <li>Para eliminar un usuario, usa <strong>Delete</strong> y confirma.</li>
+                <li>Para Tools mensual, usa feature <strong>Tools</strong> con fecha de expiración.</li>
               </ol>
             </div>
 
             <div class="admin-note-card warning">
-              <h3>Importante</h3>
+              <h3>Delete vs Disable</h3>
               <p>
-                Este panel necesita endpoints backend para leer/escribir en D1. Si el backend no está conectado,
-                verás un error de API. En ese caso, aplica también el patch del Worker incluido en este paquete.
+                <strong>Disable</strong> es mejor si solo quieres bloquear acceso sin borrar historial.
+                <strong>Delete</strong> elimina el usuario y sus permisos de la base de datos.
               </p>
             </div>
           </section>
@@ -178,6 +179,84 @@
       </section>
     </section>
   </main>
+
+  <div id="editUserModal" class="admin-modal hidden" role="dialog" aria-modal="true">
+    <div class="admin-modal-backdrop" id="editModalBackdrop"></div>
+
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <div>
+          <p class="eyebrow">Editar usuario</p>
+          <h2 id="editModalTitle">Usuario</h2>
+        </div>
+
+        <button class="btn tiny ghost" type="button" id="closeEditModalBtn">Cerrar</button>
+      </div>
+
+      <form id="editUserForm" class="admin-form">
+        <input id="editOriginalEmail" type="hidden" />
+
+        <label>
+          Email
+          <input id="editEmail" type="email" required />
+        </label>
+
+        <label>
+          Nombre
+          <input id="editName" type="text" />
+        </label>
+
+        <label>
+          Status
+          <select id="editStatus">
+            <option value="active">active</option>
+            <option value="inactive">inactive</option>
+            <option value="disabled">disabled</option>
+          </select>
+        </label>
+
+        <label class="admin-check">
+          <input id="editCourseAccess" type="checkbox" />
+          <span>Course access activo</span>
+        </label>
+
+        <label>
+          Expira curso en
+          <input id="editExpiresAt" type="date" />
+        </label>
+
+        <label>
+          Notas
+          <textarea id="editNotes" rows="3"></textarea>
+        </label>
+
+        <div class="edit-features-block">
+          <h3>Features</h3>
+          <div class="feature-check-grid" id="editFeatureChecks"></div>
+        </div>
+
+        <div class="edit-features-block">
+          <h3>Roles</h3>
+          <label class="admin-check">
+            <input id="editRoleStudent" type="checkbox" />
+            <span>student</span>
+          </label>
+          <label class="admin-check">
+            <input id="editRoleAdmin" type="checkbox" />
+            <span>admin</span>
+          </label>
+        </div>
+
+        <div class="admin-form-actions">
+          <button class="btn primary" type="submit">Guardar cambios</button>
+          <button class="btn ghost" type="button" id="disableUserBtn">Disable</button>
+          <button class="btn danger" type="button" id="deleteUserBtn">Delete</button>
+        </div>
+      </form>
+
+      <div id="editResult" class="admin-result hidden"></div>
+    </div>
+  </div>
 
   <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/admin.js"></script>

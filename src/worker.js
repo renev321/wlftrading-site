@@ -20,6 +20,18 @@ export default {
       return handleGrantAccess(request, env);
     }
 
+    if (url.pathname === "/api/admin/update-user" && request.method === "POST") {
+      return handleUpdateUser(request, env);
+    }
+
+    if (url.pathname === "/api/admin/toggle-user" && request.method === "POST") {
+      return handleToggleUser(request, env);
+    }
+
+    if (url.pathname === "/api/admin/delete-user" && request.method === "POST") {
+      return handleDeleteUser(request, env);
+    }
+
     if (url.pathname === "/api/health") {
       return Response.json({ ok: true, service: "WLF Trading Worker + D1" });
     }
@@ -35,6 +47,22 @@ const VIP_BUNDLE_FEATURES = [
   "audiobooks",
   "coach",
   "community"
+];
+
+const ALL_FEATURES = [
+  "vip_course",
+  "practice",
+  "library",
+  "audiobooks",
+  "coach",
+  "community",
+  "tools",
+  "admin_panel"
+];
+
+const ALL_ROLES = [
+  "student",
+  "admin"
 ];
 
 function jsonResponse(data, status = 200) {
@@ -133,6 +161,7 @@ async function handleAdminUsers(request, env) {
         status,
         course_access,
         expires_at,
+        notes,
         created_at,
         updated_at
       FROM students
@@ -225,7 +254,9 @@ async function handleGrantAccess(request, env) {
       email,
       name,
       notes,
-      courseAccess: 1
+      courseAccess: 1,
+      status: "active",
+      expiresAt: null
     });
 
     await env.DB.prepare(`
@@ -238,29 +269,14 @@ async function handleGrantAccess(request, env) {
       : [featureCode];
 
     for (const code of features) {
-      await env.DB.prepare(`
-        INSERT INTO user_feature_access (
-          email,
-          feature_code,
-          access_type,
-          starts_at,
-          expires_at,
-          is_active,
-          granted_by,
-          notes
-        )
-        VALUES (?, ?, ?, datetime('now'), ?, 1, ?, ?)
-        ON CONFLICT(email, feature_code) DO UPDATE SET
-          access_type = excluded.access_type,
-          starts_at = datetime('now'),
-          expires_at = excluded.expires_at,
-          is_active = 1,
-          granted_by = excluded.granted_by,
-          granted_at = datetime('now'),
-          revoked_at = NULL,
-          revoked_by = NULL,
-          notes = excluded.notes
-      `).bind(email, code, accessType, expiresAt, admin.email, notes).run();
+      await grantFeature(env, {
+        email,
+        featureCode: code,
+        accessType,
+        expiresAt,
+        adminEmail: admin.email,
+        notes
+      });
     }
 
     if (featureCode === "admin_panel") {
@@ -270,23 +286,14 @@ async function handleGrantAccess(request, env) {
       `).bind(email, admin.email).run();
     }
 
-    await env.DB.prepare(`
-      INSERT INTO admin_audit_log (
-        admin_email,
-        action_code,
-        target_email,
-        target_feature_code,
-        new_value,
-        notes
-      )
-      VALUES (?, 'grant_access', ?, ?, ?, ?)
-    `).bind(
-      admin.email,
-      email,
-      featureCode,
-      JSON.stringify({ accessType, expiresAt, features }),
+    await audit(env, {
+      adminEmail: admin.email,
+      actionCode: "grant_access",
+      targetEmail: email,
+      targetFeatureCode: featureCode,
+      newValue: JSON.stringify({ accessType, expiresAt, features }),
       notes
-    ).run();
+    });
 
     return jsonResponse({ ok: true });
   } catch (error) {
@@ -295,6 +302,230 @@ async function handleGrantAccess(request, env) {
       detail: String(error?.message || error)
     }, 500);
   }
+}
+
+async function handleUpdateUser(request, env) {
+  const admin = await requireAdmin(request, env);
+  if (!admin.ok) return admin.response;
+
+  try {
+    const body = await request.json();
+
+    const originalEmail = String(body.original_email || "").trim().toLowerCase();
+    const email = String(body.email || "").trim().toLowerCase();
+    const name = String(body.name || "").trim();
+    const status = String(body.status || "active").trim().toLowerCase();
+    const courseAccess = Number(body.course_access || 0) === 1 ? 1 : 0;
+    const expiresAt = body.expires_at ? String(body.expires_at).trim() : null;
+    const notes = body.notes ? String(body.notes).trim() : null;
+    const features = Array.isArray(body.features) ? body.features : [];
+    const roles = Array.isArray(body.roles) ? body.roles : [];
+
+    if (!originalEmail || !email || !email.includes("@")) {
+      return jsonResponse({ error: "Valid email is required." }, 400);
+    }
+
+    if (!["active", "inactive", "disabled"].includes(status)) {
+      return jsonResponse({ error: "Invalid status." }, 400);
+    }
+
+    await env.DB.prepare(`
+      UPDATE students
+      SET
+        email = ?,
+        name = ?,
+        status = ?,
+        course_access = ?,
+        expires_at = ?,
+        notes = ?,
+        updated_at = CURRENT_TIMESTAMP
+      WHERE lower(email) = lower(?)
+    `).bind(email, name || null, status, courseAccess, expiresAt, notes, originalEmail).run();
+
+    if (originalEmail !== email) {
+      await env.DB.prepare(`UPDATE user_roles SET email = ? WHERE lower(email) = lower(?)`)
+        .bind(email, originalEmail).run();
+
+      await env.DB.prepare(`UPDATE user_feature_access SET email = ? WHERE lower(email) = lower(?)`)
+        .bind(email, originalEmail).run();
+    }
+
+    for (const role of ALL_ROLES) {
+      const shouldHaveRole = roles.includes(role);
+
+      if (shouldHaveRole) {
+        await env.DB.prepare(`
+          INSERT INTO user_roles (email, role_code, assigned_by, is_active, notes)
+          VALUES (?, ?, ?, 1, 'Updated from admin panel')
+          ON CONFLICT(email, role_code) DO UPDATE SET
+            is_active = 1,
+            assigned_by = excluded.assigned_by,
+            assigned_at = datetime('now'),
+            notes = excluded.notes
+        `).bind(email, role, admin.email).run();
+      } else {
+        await env.DB.prepare(`
+          UPDATE user_roles
+          SET is_active = 0
+          WHERE lower(email) = lower(?)
+            AND role_code = ?
+        `).bind(email, role).run();
+      }
+    }
+
+    for (const featureCode of ALL_FEATURES) {
+      const shouldHaveFeature = features.includes(featureCode);
+
+      if (shouldHaveFeature) {
+        await grantFeature(env, {
+          email,
+          featureCode,
+          accessType: featureCode === "tools" ? "monthly" : "manual",
+          expiresAt: featureCode === "tools" ? expiresAt : null,
+          adminEmail: admin.email,
+          notes
+        });
+      } else {
+        await env.DB.prepare(`
+          UPDATE user_feature_access
+          SET
+            is_active = 0,
+            revoked_at = datetime('now'),
+            revoked_by = ?
+          WHERE lower(email) = lower(?)
+            AND feature_code = ?
+        `).bind(admin.email, email, featureCode).run();
+      }
+    }
+
+    await audit(env, {
+      adminEmail: admin.email,
+      actionCode: "update_user",
+      targetEmail: email,
+      newValue: JSON.stringify({ status, courseAccess, expiresAt, features, roles }),
+      notes
+    });
+
+    return jsonResponse({ ok: true });
+  } catch (error) {
+    return jsonResponse({
+      error: "Could not update user.",
+      detail: String(error?.message || error)
+    }, 500);
+  }
+}
+
+async function handleToggleUser(request, env) {
+  const admin = await requireAdmin(request, env);
+  if (!admin.ok) return admin.response;
+
+  try {
+    const body = await request.json();
+    const email = String(body.email || "").trim().toLowerCase();
+    const enabled = Boolean(body.enabled);
+
+    if (!email || !email.includes("@")) {
+      return jsonResponse({ error: "Valid email is required." }, 400);
+    }
+
+    const status = enabled ? "active" : "disabled";
+    const courseAccess = enabled ? 1 : 0;
+
+    await env.DB.prepare(`
+      UPDATE students
+      SET status = ?, course_access = ?, updated_at = CURRENT_TIMESTAMP
+      WHERE lower(email) = lower(?)
+    `).bind(status, courseAccess, email).run();
+
+    await env.DB.prepare(`
+      UPDATE user_feature_access
+      SET is_active = ?
+      WHERE lower(email) = lower(?)
+    `).bind(enabled ? 1 : 0, email).run();
+
+    await audit(env, {
+      adminEmail: admin.email,
+      actionCode: enabled ? "enable_user" : "disable_user",
+      targetEmail: email,
+      newValue: JSON.stringify({ status, courseAccess })
+    });
+
+    return jsonResponse({ ok: true });
+  } catch (error) {
+    return jsonResponse({
+      error: "Could not toggle user.",
+      detail: String(error?.message || error)
+    }, 500);
+  }
+}
+
+async function handleDeleteUser(request, env) {
+  const admin = await requireAdmin(request, env);
+  if (!admin.ok) return admin.response;
+
+  try {
+    const body = await request.json();
+    const email = String(body.email || "").trim().toLowerCase();
+
+    if (!email || !email.includes("@")) {
+      return jsonResponse({ error: "Valid email is required." }, 400);
+    }
+
+    if (email === admin.email) {
+      return jsonResponse({ error: "You cannot delete your own admin user." }, 400);
+    }
+
+    await audit(env, {
+      adminEmail: admin.email,
+      actionCode: "delete_user",
+      targetEmail: email,
+      notes: "Deleted from admin panel"
+    });
+
+    await env.DB.prepare(`DELETE FROM user_feature_access WHERE lower(email) = lower(?)`).bind(email).run();
+    await env.DB.prepare(`DELETE FROM user_roles WHERE lower(email) = lower(?)`).bind(email).run();
+    await env.DB.prepare(`DELETE FROM students WHERE lower(email) = lower(?)`).bind(email).run();
+
+    return jsonResponse({ ok: true });
+  } catch (error) {
+    return jsonResponse({
+      error: "Could not delete user.",
+      detail: String(error?.message || error)
+    }, 500);
+  }
+}
+
+async function grantFeature(env, params) {
+  await env.DB.prepare(`
+    INSERT INTO user_feature_access (
+      email,
+      feature_code,
+      access_type,
+      starts_at,
+      expires_at,
+      is_active,
+      granted_by,
+      notes
+    )
+    VALUES (?, ?, ?, datetime('now'), ?, 1, ?, ?)
+    ON CONFLICT(email, feature_code) DO UPDATE SET
+      access_type = excluded.access_type,
+      starts_at = datetime('now'),
+      expires_at = excluded.expires_at,
+      is_active = 1,
+      granted_by = excluded.granted_by,
+      granted_at = datetime('now'),
+      revoked_at = NULL,
+      revoked_by = NULL,
+      notes = excluded.notes
+  `).bind(
+    params.email,
+    params.featureCode,
+    params.accessType,
+    params.expiresAt,
+    params.adminEmail,
+    params.notes
+  ).run();
 }
 
 async function upsertStudent(env, student) {
@@ -313,8 +544,9 @@ async function upsertStudent(env, student) {
           WHEN ? IS NOT NULL AND ? <> '' THEN ?
           ELSE name
         END,
-        status = 'active',
+        status = ?,
         course_access = ?,
+        expires_at = ?,
         notes = CASE
           WHEN ? IS NOT NULL AND ? <> '' THEN ?
           ELSE notes
@@ -325,7 +557,9 @@ async function upsertStudent(env, student) {
       student.name,
       student.name,
       student.name,
+      student.status || "active",
       student.courseAccess,
+      student.expiresAt,
       student.notes,
       student.notes,
       student.notes,
@@ -346,12 +580,37 @@ async function upsertStudent(env, student) {
       created_at,
       updated_at
     )
-    VALUES (?, ?, 'active', ?, NULL, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
   `).bind(
     student.email,
     student.name || null,
+    student.status || "active",
     student.courseAccess,
+    student.expiresAt || null,
     student.notes || null
+  ).run();
+}
+
+async function audit(env, params) {
+  await env.DB.prepare(`
+    INSERT INTO admin_audit_log (
+      admin_email,
+      action_code,
+      target_email,
+      target_feature_code,
+      old_value,
+      new_value,
+      notes
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).bind(
+    params.adminEmail,
+    params.actionCode,
+    params.targetEmail || null,
+    params.targetFeatureCode || null,
+    params.oldValue || null,
+    params.newValue || null,
+    params.notes || null
   ).run();
 }
 
@@ -410,11 +669,6 @@ async function isAdminEmail(env, email) {
   return Boolean(role && panel);
 }
 
-/**
- * Firebase ID token verification for Cloudflare Workers.
- * Expects frontend to send:
- * Authorization: Bearer <firebase-id-token>
- */
 async function getFirebaseUserFromRequest(request) {
   const authHeader = request.headers.get("Authorization") || "";
   const token = authHeader.startsWith("Bearer ")

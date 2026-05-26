@@ -256,5 +256,114 @@ export const courseModules = [
         status: "available"
       }
     ]
+  },
+  {
+    title: "Módulo 06 - Imbalance, FVG y liquidez",
+    description: "Conceptos clave para entender desequilibrio, zonas de entrega del precio y liquidez antes de estudiar patrones.",
+    lessons: [
+      {
+        title: "1 - Imbalance y FVG balanceado",
+        description: "Cómo reconocer un desequilibrio en el precio y diferenciar cuándo un FVG empieza a ser balanceado por el mercado.",
+        url: "https://drive.google.com/file/d/1Ju3iKejVaFbqQWgjaGxkuTgWKPP7t4-8/view",
+        embedUrl: "https://drive.google.com/file/d/1Ju3iKejVaFbqQWgjaGxkuTgWKPP7t4-8/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "2 - FVG no balanceado y lectura de reacción",
+        description: "Cómo interpretar un FVG que todavía no fue balanceado y qué observar cuando el precio vuelve a esa zona.",
+        url: "https://drive.google.com/file/d/1IXXwCfekiIneU00qRWO7guxhGQseAQhM/view",
+        embedUrl: "https://drive.google.com/file/d/1IXXwCfekiIneU00qRWO7guxhGQseAQhM/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "3 - Liquidez: dónde se acumulan las órdenes",
+        description: "Introducción a la liquidez: máximos, mínimos, zonas obvias, stops y puntos donde el mercado suele buscar participación.",
+        url: "https://drive.google.com/file/d/1jpxUInGLzlGDvYbNLK1KXcRn66liIDbN/view",
+        embedUrl: "https://drive.google.com/file/d/1jpxUInGLzlGDvYbNLK1KXcRn66liIDbN/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "4 - Liquidez: barridas, reacción y confirmación",
+        description: "Cómo analizar una toma de liquidez sin convertirla en una entrada automática: barrida, reacción, desplazamiento y riesgo.",
+        url: "https://drive.google.com/file/d/1RBQcUROVrY65TyIo8tisfENIRLogrS0g/view",
+        embedUrl: "https://drive.google.com/file/d/1RBQcUROVrY65TyIo8tisfENIRLogrS0g/preview",
+        type: "video",
+        status: "available"
+      }
+    ]
+  },
+  {
+    title: "Módulo 07 - Patrones de precio con contexto",
+    description: "Patrones clásicos explicados desde estructura, intención, liquidez y riesgo, evitando memorizar figuras sin contexto.",
+    lessons: [
+      {
+        title: "1 - Introducción a los patrones de precio",
+        description: "Cómo estudiar patrones sin operar dibujos de forma mecánica: contexto, estructura, confirmación y gestión.",
+        url: "https://drive.google.com/file/d/1qy3G6UmUeKkBvx32TNAm3-vhZiP8RWbM/view",
+        embedUrl: "https://drive.google.com/file/d/1qy3G6UmUeKkBvx32TNAm3-vhZiP8RWbM/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "2 - Bandera invertida y continuación bajista",
+        description: "Lectura de bandera invertida como pausa dentro de presión bajista. La bandera alcista conserva la misma lógica, pero desde la perspectiva contraria.",
+        url: "https://drive.google.com/file/d/1dMy-FlcVpTr5C1dyKIMu_pv6F3h4VAnN/view",
+        embedUrl: "https://drive.google.com/file/d/1dMy-FlcVpTr5C1dyKIMu_pv6F3h4VAnN/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "3 - Cuña descendente y pérdida de presión vendedora",
+        description: "Cómo leer una cuña descendente como compresión y posible agotamiento bajista. La cuña ascendente usa la misma lógica, pero invertida desde presión compradora.",
+        url: "https://drive.google.com/file/d/13g-ghNjy4r4p4aKW0IEA0Cd3pIo__gGU/view",
+        embedUrl: "https://drive.google.com/file/d/13g-ghNjy4r4p4aKW0IEA0Cd3pIo__gGU/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "4 - Rectángulo alcista y zona de acumulación",
+        description: "Cómo interpretar un rectángulo alcista como rango de pausa antes de continuación. El rectángulo bajista mantiene la misma lógica desde la perspectiva opuesta.",
+        url: "https://drive.google.com/file/d/1xgXY5z2GUZFp23Aepr8yIFffskMDZ6E2/view",
+        embedUrl: "https://drive.google.com/file/d/1xgXY5z2GUZFp23Aepr8yIFffskMDZ6E2/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "5 - Hombro cabeza hombro invertido",
+        description: "Patrón de posible reversión alcista donde el mercado deja de aceptar mínimos más bajos. El HCH tradicional conserva la misma estructura, pero invertida para contexto bajista.",
+        url: "https://drive.google.com/file/d/1lHEOBFXUqw8IGANhP-TrrXDYAhMleYwu/view",
+        embedUrl: "https://drive.google.com/file/d/1lHEOBFXUqw8IGANhP-TrrXDYAhMleYwu/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "6 - Triángulo simétrico y compresión del precio",
+        description: "Cómo entender el triángulo simétrico como compresión y espera de intención. La dirección no se asume: se confirma con ruptura, aceptación y contexto.",
+        url: "https://drive.google.com/file/d/1OrQgFlx2d96DlXjEUgGyla4lmnoIEpkU/view",
+        embedUrl: "https://drive.google.com/file/d/1OrQgFlx2d96DlXjEUgGyla4lmnoIEpkU/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "7 - Taza con asa y continuación estructural",
+        description: "Lectura de taza con asa como recuperación progresiva y pausa antes de posible continuación. Su versión invertida sigue la misma lógica desde presión bajista.",
+        url: "https://drive.google.com/file/d/1LKQ9RUo9aDSFOog6oZI1jqxA9GbQPidq/view",
+        embedUrl: "https://drive.google.com/file/d/1LKQ9RUo9aDSFOog6oZI1jqxA9GbQPidq/preview",
+        type: "video",
+        status: "available"
+      },
+      {
+        title: "8 - Cierre del módulo de patrones",
+        description: "Resumen final para recordar que los patrones no se operan por nombre, sino por contexto, liquidez, confirmación, invalidación y riesgo.",
+        url: "https://drive.google.com/file/d/1qPDGaOrg7whZewQrcYC1Nd4888SGy0Ls/view",
+        embedUrl: "https://drive.google.com/file/d/1qPDGaOrg7whZewQrcYC1Nd4888SGy0Ls/preview",
+        type: "video",
+        status: "available"
+      }
+    ]
   }
+
 ];

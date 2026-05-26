@@ -20,14 +20,14 @@ const links = {
 };
 
 const greetingHtml = `
-  <p>Hey, ¿qué tal? Soy tu WLF Coach 😄</p>
+  <p>Hey, ¿qué vola? Soy tu WLF Coach 😄</p>
   <p>
     Puedo ayudarte con conceptos del curso, psicología, cuentas de fondeo, NinjaTrader,
-    noticias, riesgo-beneficio y navegación del portal.
+    noticias, riesgo-beneficio, conceptos básicos de mercado y navegación del portal.
   </p>
   <p>
-    Pregúntame cosas como: “quemé mi cuenta, ¿qué hago?”, “¿un R:R 1:3 después de liquidez es bueno?”,
-    “¿dónde veo noticias?”, “¿cómo instalo NinjaTrader?”
+    Pregúntame cosas como: “¿qué son futuros?”, “¿qué son opciones?”, “quemé mi cuenta, ¿qué hago?”,
+    “¿un R:R 1:3 después de liquidez es bueno?”, “¿dónde veo noticias?”
   </p>
 `;
 
@@ -46,9 +46,9 @@ const intentRules = [
       <p>
         Estoy aquí para ayudarte a repasar el curso y pensar mejor antes de operar:
         liquidez, swings, FVG, Order Blocks, R:R, psicología, cuentas de fondeo,
-        NinjaTrader, noticias y cómo usar el portal.
+        NinjaTrader, noticias, futuros, opciones y cómo usar el portal.
       </p>
-      <p><strong>Pregúntame algo como:</strong> “¿cómo evito quemar una cuenta?” o “¿qué pasa si el precio barre un swing high?”</p>
+      <p><strong>Pregúntame algo como:</strong> “¿qué son futuros?”, “¿cómo evito quemar una cuenta?” o “¿qué pasa si el precio barre un swing high?”</p>
     `
   },
   {
@@ -82,6 +82,175 @@ const intentRules = [
       </p>
     `
   },
+
+  // MARKET BASICS
+  {
+    id: "futures",
+    title: "¿Qué son los futuros?",
+    keywordsAny: [
+      "que son futuros", "qué son futuros", "futuros", "futures", "contratos futuros",
+      "mercado de futuros", "future contract", "contrato futuro"
+    ],
+    answer: `
+      <p>Hola, ¿qué tal? Los <strong>futuros</strong> son contratos financieros donde se negocia el precio de un activo para una fecha futura.</p>
+      <p>En trading, muchos usan futuros para operar índices, materias primas, divisas o bonos, por ejemplo:</p>
+      <ul>
+        <li><strong>ES / MES:</strong> S&P 500.</li>
+        <li><strong>NQ / MNQ:</strong> Nasdaq 100.</li>
+        <li><strong>YM / MYM:</strong> Dow Jones.</li>
+        <li><strong>CL / MCL:</strong> petróleo.</li>
+        <li><strong>GC / MGC:</strong> oro.</li>
+      </ul>
+      <p><strong>WLF idea simple:</strong> un futuro te permite operar movimientos del mercado con apalancamiento. Eso puede amplificar ganancias, pero también pérdidas.</p>
+      <p><strong>Importante:</strong> antes de operar futuros debes entender contrato, tick, punto, margen, horario, volatilidad y gestión de riesgo.</p>
+    `
+  },
+  {
+    id: "options",
+    title: "¿Qué son las opciones?",
+    keywordsAny: [
+      "que son opciones", "qué son opciones", "opciones", "options", "call", "put",
+      "contrato de opcion", "contrato de opción", "opcion financiera", "opción financiera"
+    ],
+    answer: `
+      <p>Hola, ¿qué tal? Las <strong>opciones</strong> son contratos que dan el derecho, pero no la obligación, de comprar o vender un activo a un precio específico antes o en una fecha determinada.</p>
+      <ul>
+        <li><strong>Call:</strong> derecho a comprar.</li>
+        <li><strong>Put:</strong> derecho a vender.</li>
+        <li><strong>Strike:</strong> precio de ejercicio.</li>
+        <li><strong>Premium:</strong> precio que pagas o recibes por la opción.</li>
+        <li><strong>Expiration:</strong> fecha de vencimiento.</li>
+      </ul>
+      <p><strong>WLF idea simple:</strong> las opciones no se mueven solo por dirección. También influyen tiempo, volatilidad y distancia al strike.</p>
+      <p>Por eso, para principiantes, opciones suelen ser más complejas que comprar/vender futuros o CFDs.</p>
+    `
+  },
+  {
+    id: "futures-vs-options",
+    title: "Futuros vs Opciones",
+    keywordsAll: [["futuros", "futures"], ["opciones", "options", "call", "put"]],
+    answer: `
+      <p>Hola, ¿qué tal? Futuros y opciones son derivados, pero funcionan diferente.</p>
+      <ul>
+        <li><strong>Futuros:</strong> se mueven de forma más directa con el precio del activo. Si NQ sube o baja, tu contrato refleja ese movimiento por puntos/ticks.</li>
+        <li><strong>Opciones:</strong> dependen de dirección, tiempo, volatilidad, strike y vencimiento.</li>
+      </ul>
+      <p><strong>Comparación WLF:</strong></p>
+      <ol>
+        <li>Futuros = más directos, pero con apalancamiento fuerte.</li>
+        <li>Opciones = más flexibles, pero más variables que entender.</li>
+        <li>Ambos requieren gestión. Ninguno perdona operar sin plan.</li>
+      </ol>
+    `
+  },
+  {
+    id: "contract",
+    title: "¿Qué es un contrato?",
+    keywordsAny: [
+      "que es un contrato", "qué es un contrato", "contrato", "contracts", "contract",
+      "1 contrato", "un contrato"
+    ],
+    answer: `
+      <p>Hola, ¿qué tal? En futuros, un <strong>contrato</strong> representa una unidad de operación sobre un mercado específico.</p>
+      <p>Por ejemplo, operar 1 contrato de NQ no es lo mismo que operar 1 contrato de MNQ, porque el valor por punto es diferente.</p>
+      <ul>
+        <li><strong>NQ:</strong> contrato grande del Nasdaq.</li>
+        <li><strong>MNQ:</strong> micro contrato del Nasdaq.</li>
+        <li><strong>ES:</strong> contrato grande del S&P 500.</li>
+        <li><strong>MES:</strong> micro contrato del S&P 500.</li>
+      </ul>
+      <p><strong>WLF reminder:</strong> antes de subir contratos, entiende cuánto puedes perder por punto y dónde va tu stop.</p>
+    `
+  },
+  {
+    id: "tick-point",
+    title: "Ticks y puntos",
+    keywordsAny: [
+      "tick", "ticks", "punto", "puntos", "point", "points", "valor por punto",
+      "cuanto vale un tick", "cuánto vale un tick"
+    ],
+    answer: `
+      <p>Hola, ¿qué tal? En futuros, el precio se mueve en <strong>ticks</strong> y <strong>puntos</strong>.</p>
+      <ul>
+        <li><strong>Tick:</strong> movimiento mínimo del precio.</li>
+        <li><strong>Punto:</strong> conjunto de ticks según el instrumento.</li>
+        <li>El valor del tick/punto cambia dependiendo del contrato.</li>
+      </ul>
+      <p>Ejemplo simple: no es lo mismo un punto en NQ que un punto en MNQ. El contrato grande mueve más dinero.</p>
+      <p><strong>WLF:</strong> si no sabes cuánto vale cada tick, no sabes cuánto estás arriesgando.</p>
+    `
+  },
+  {
+    id: "margin",
+    title: "Margen",
+    keywordsAny: [
+      "margen", "margin", "intraday margin", "overnight margin", "margen intradia",
+      "margen intradía", "garantia", "garantía"
+    ],
+    answer: `
+      <p>Hola, ¿qué tal? El <strong>margen</strong> es la cantidad mínima que necesitas para abrir o mantener una posición apalancada.</p>
+      <ul>
+        <li><strong>Margen intradía:</strong> normalmente más bajo, usado durante la sesión.</li>
+        <li><strong>Margen overnight:</strong> suele ser más alto si mantienes la posición fuera del horario intradía.</li>
+      </ul>
+      <p><strong>Importante:</strong> que tengas margen para abrir una operación no significa que el riesgo sea pequeño.</p>
+      <p><strong>WLF:</strong> margen no es tu stop. Tu riesgo real depende de entrada, stop, tamaño y volatilidad.</p>
+    `
+  },
+  {
+    id: "leverage",
+    title: "Apalancamiento",
+    keywordsAny: [
+      "apalancamiento", "leverage", "apalancado", "apalancada", "leveraged"
+    ],
+    answer: `
+      <p>Hola, ¿qué tal? El <strong>apalancamiento</strong> te permite controlar una posición más grande con menos capital.</p>
+      <p>Eso puede ser útil, pero también peligroso:</p>
+      <ul>
+        <li>Amplifica ganancias.</li>
+        <li>Amplifica pérdidas.</li>
+        <li>Puede hacer que una mala decisión destruya la cuenta rápido.</li>
+      </ul>
+      <p><strong>WLF reminder:</strong> el apalancamiento no es el enemigo; el enemigo es usarlo sin gestión.</p>
+    `
+  },
+  {
+    id: "nq-es-micro",
+    title: "NQ, ES, MNQ y MES",
+    keywordsAny: [
+      "nq", "mnq", "es", "mes", "nasdaq", "s&p", "sp500", "s&p 500",
+      "micro contrato", "micro futures", "micro futuros"
+    ],
+    answer: `
+      <p>Hola, ¿qué tal? Estos son símbolos comunes de futuros de índices:</p>
+      <ul>
+        <li><strong>NQ:</strong> Nasdaq 100 contrato grande.</li>
+        <li><strong>MNQ:</strong> Micro Nasdaq 100.</li>
+        <li><strong>ES:</strong> S&P 500 contrato grande.</li>
+        <li><strong>MES:</strong> Micro S&P 500.</li>
+      </ul>
+      <p>Los micros permiten practicar y gestionar mejor el riesgo porque el valor por punto es menor que en el contrato grande.</p>
+      <p><strong>WLF:</strong> si estás aprendiendo, el tamaño pequeño suele ayudarte a sobrevivir mientras mejoras proceso.</p>
+    `
+  },
+  {
+    id: "cfd",
+    title: "¿Qué son CFDs?",
+    keywordsAny: [
+      "cfd", "cfds", "contrato por diferencia", "contratos por diferencia"
+    ],
+    answer: `
+      <p>Hola, ¿qué tal? Un <strong>CFD</strong> es un contrato por diferencia. Te permite especular sobre el movimiento de un activo sin comprar el activo real.</p>
+      <ul>
+        <li>Puedes operar al alza o a la baja.</li>
+        <li>Suelen tener apalancamiento.</li>
+        <li>Las condiciones dependen mucho del broker: spread, comisiones, swaps y ejecución.</li>
+      </ul>
+      <p><strong>WLF reminder:</strong> revisa costos, regulación y riesgo antes de operar CFDs.</p>
+    `
+  },
+
+  // REAL STUDENT QUESTIONS / RESOURCES
   {
     id: "burned-account",
     title: "Quemé una cuenta / fallé una cuenta",
@@ -523,7 +692,7 @@ const fallbackAnswer = {
       <li>Define invalidación: dónde tu idea deja de tener sentido.</li>
       <li>Evalúa R:R antes de pensar en entrar.</li>
     </ol>
-    <p>También puedes preguntarme: “quemé mi cuenta”, “estoy frustrado”, “noticias”, “NinjaTrader”, “cuentas de fondeo” o “dónde está la biblioteca”.</p>
+    <p>También puedes preguntarme: “qué son futuros”, “qué son opciones”, “qué es apalancamiento”, “quemé mi cuenta”, “noticias”, “NinjaTrader” o “dónde está la biblioteca”.</p>
   `
 };
 

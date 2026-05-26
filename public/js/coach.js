@@ -22,238 +22,125 @@ const links = {
 const greetingHtml = `
   <p>Hey, ¿qué vola? Soy tu WLF Coach 😄</p>
   <p>
-    Puedo ayudarte con conceptos del curso, psicología, cuentas de fondeo, NinjaTrader,
-    noticias, riesgo-beneficio, conceptos básicos de mercado y navegación del portal.
+    Puedes preguntarme sobre liquidez, swings, FVG, Order Blocks, R:R,
+    pullbacks, psicología, cuentas de fondeo, NinjaTrader, noticias, futuros,
+    opciones y cómo usar el portal.
   </p>
   <p>
-    Pregúntame cosas como: “¿qué son futuros?”, “¿qué son opciones?”, “quemé mi cuenta, ¿qué hago?”,
-    “¿un R:R 1:3 después de liquidez es bueno?”, “¿dónde veo noticias?”
+    Ejemplos: “¿un R:R 1:5 es bueno en pullback?”, “quemé mi cuenta, ¿qué hago?”,
+    “¿qué pasa si barre un swing high?”, “¿dónde veo noticias?”
   </p>
 `;
 
-const intentRules = [
+const responses = [
   {
     id: "greeting",
     title: "WLF Coach",
-    type: "greeting",
+    priority: 1000,
+    mode: "only",
     keywordsAny: [
       "hola", "hello", "hi", "hey", "sup", "que vola", "qué vola", "k vola", "q vola",
       "buenas", "buenos dias", "buenos días", "buenas tardes", "buenas noches",
-      "que tal", "qué tal", "saludos", "bro"
+      "que tal", "qué tal", "saludos"
     ],
     answer: `
       <p>Hey, ¿qué vola? 😄 Soy tu WLF Coach.</p>
       <p>
-        Estoy aquí para ayudarte a repasar el curso y pensar mejor antes de operar:
-        liquidez, swings, FVG, Order Blocks, R:R, psicología, cuentas de fondeo,
-        NinjaTrader, noticias, futuros, opciones y cómo usar el portal.
+        Estoy aquí para ayudarte a estudiar y razonar mejor:
+        liquidez, estructura, R:R, psicología, cuentas de fondeo, NinjaTrader,
+        noticias y uso del portal.
       </p>
-      <p><strong>Pregúntame algo como:</strong> “¿qué son futuros?”, “¿cómo evito quemar una cuenta?” o “¿qué pasa si el precio barre un swing high?”</p>
+      <p><strong>Pregúntame algo como:</strong> “¿un R:R 1:5 es bueno en pullback?” o “acabo de quemar mi cuenta, ¿qué hago?”</p>
     `
   },
   {
     id: "thanks",
     title: "De nada bro",
-    type: "closing",
-    keywordsAny: [
-      "gracias", "thanks", "thank you", "perfecto", "ok gracias", "nice", "bravo",
-      "genial", "muy bien", "super", "súper", "perfect"
-    ],
+    priority: 999,
+    mode: "only",
+    keywordsAny: ["gracias", "thanks", "thank you", "ok gracias", "perfecto gracias", "muchas gracias"],
     answer: `
       <p>De nada bro 😄</p>
-      <p>
-        Sigue estudiando con calma. Recuerda: la meta no es operar más, es operar mejor.
-      </p>
+      <p>Sigue con calma. La meta no es operar más, es operar mejor.</p>
       <p><strong>WLF reminder:</strong> contexto primero, riesgo después, entrada al final.</p>
     `
   },
   {
     id: "bye",
     title: "Nos vemos",
-    type: "closing",
-    keywordsAny: [
-      "bye", "adios", "adiós", "nos vemos", "hasta luego", "chao", "ciao",
-      "goodbye", "see you", "me voy"
-    ],
+    priority: 998,
+    mode: "only",
+    keywordsAny: ["bye", "adios", "adiós", "nos vemos", "hasta luego", "chao", "ciao", "goodbye", "see you"],
     answer: `
       <p>Nos vemos bro 😄</p>
-      <p>
-        Buen estudio y recuerda: si no hay claridad, no hay prisa.
-      </p>
+      <p>Buen estudio. Y recuerda: si no hay claridad, no hay prisa.</p>
     `
   },
 
-  // MARKET BASICS
   {
-    id: "futures",
-    title: "¿Qué son los futuros?",
-    keywordsAny: [
-      "que son futuros", "qué son futuros", "futuros", "futures", "contratos futuros",
-      "mercado de futuros", "future contract", "contrato futuro"
+    id: "rr-pullback-high",
+    title: "¿Un R:R 1:5 es bueno en pullback?",
+    priority: 950,
+    keywordsAll: [
+      ["1:5", "1 5", "uno a cinco", "rr alto", "r:r alto", "riesgo beneficio alto"],
+      ["pullback", "retroceso", "retest", "vuelve", "correccion", "corrección"]
     ],
     answer: `
-      <p>Hola, ¿qué tal? Los <strong>futuros</strong> son contratos financieros donde se negocia el precio de un activo para una fecha futura.</p>
-      <p>En trading, muchos usan futuros para operar índices, materias primas, divisas o bonos, por ejemplo:</p>
-      <ul>
-        <li><strong>ES / MES:</strong> S&P 500.</li>
-        <li><strong>NQ / MNQ:</strong> Nasdaq 100.</li>
-        <li><strong>YM / MYM:</strong> Dow Jones.</li>
-        <li><strong>CL / MCL:</strong> petróleo.</li>
-        <li><strong>GC / MGC:</strong> oro.</li>
-      </ul>
-      <p><strong>WLF idea simple:</strong> un futuro te permite operar movimientos del mercado con apalancamiento. Eso puede amplificar ganancias, pero también pérdidas.</p>
-      <p><strong>Importante:</strong> antes de operar futuros debes entender contrato, tick, punto, margen, horario, volatilidad y gestión de riesgo.</p>
-    `
-  },
-  {
-    id: "options",
-    title: "¿Qué son las opciones?",
-    keywordsAny: [
-      "que son opciones", "qué son opciones", "opciones", "options", "call", "put",
-      "contrato de opcion", "contrato de opción", "opcion financiera", "opción financiera"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? Las <strong>opciones</strong> son contratos que dan el derecho, pero no la obligación, de comprar o vender un activo a un precio específico antes o en una fecha determinada.</p>
-      <ul>
-        <li><strong>Call:</strong> derecho a comprar.</li>
-        <li><strong>Put:</strong> derecho a vender.</li>
-        <li><strong>Strike:</strong> precio de ejercicio.</li>
-        <li><strong>Premium:</strong> precio que pagas o recibes por la opción.</li>
-        <li><strong>Expiration:</strong> fecha de vencimiento.</li>
-      </ul>
-      <p><strong>WLF idea simple:</strong> las opciones no se mueven solo por dirección. También influyen tiempo, volatilidad y distancia al strike.</p>
-      <p>Por eso, para principiantes, opciones suelen ser más complejas que comprar/vender futuros o CFDs.</p>
-    `
-  },
-  {
-    id: "futures-vs-options",
-    title: "Futuros vs Opciones",
-    keywordsAll: [["futuros", "futures"], ["opciones", "options", "call", "put"]],
-    answer: `
-      <p>Hola, ¿qué tal? Futuros y opciones son derivados, pero funcionan diferente.</p>
-      <ul>
-        <li><strong>Futuros:</strong> se mueven de forma más directa con el precio del activo. Si NQ sube o baja, tu contrato refleja ese movimiento por puntos/ticks.</li>
-        <li><strong>Opciones:</strong> dependen de dirección, tiempo, volatilidad, strike y vencimiento.</li>
-      </ul>
-      <p><strong>Comparación WLF:</strong></p>
+      <p>Hola, ¿qué tal? Un <strong>R:R 1:5 en un pullback puede ser excelente</strong>, pero también puede ser una trampa si el target es fantasía.</p>
+      <p><strong>Lectura WLF:</strong></p>
       <ol>
-        <li>Futuros = más directos, pero con apalancamiento fuerte.</li>
-        <li>Opciones = más flexibles, pero más variables que entender.</li>
-        <li>Ambos requieren gestión. Ninguno perdona operar sin plan.</li>
+        <li><strong>Pullback válido:</strong> el retroceso debe venir hacia una zona lógica, no a cualquier precio.</li>
+        <li><strong>Estructura:</strong> si estás a favor de tendencia, el pullback tiene más sentido.</li>
+        <li><strong>Reacción:</strong> espera rechazo, desplazamiento o confirmación. No basta con tocar la zona.</li>
+        <li><strong>Stop real:</strong> si el stop está demasiado apretado solo para fabricar 1:5, no es buen R:R.</li>
+        <li><strong>Target realista:</strong> el TP debe estar antes de una zona donde el precio pueda reaccionar fuerte.</li>
       </ol>
+      <p><strong>Conclusión:</strong> 1:5 es bueno si el pullback tiene contexto, reacción e invalidación clara. Si solo se ve bonito en la calculadora, cuidado.</p>
     `
   },
   {
-    id: "contract",
-    title: "¿Qué es un contrato?",
-    keywordsAny: [
-      "que es un contrato", "qué es un contrato", "contrato", "contracts", "contract",
-      "1 contrato", "un contrato"
+    id: "rr-liquidity",
+    title: "¿Un R:R alto después de liquidez es bueno?",
+    priority: 940,
+    keywordsAll: [
+      ["rr", "r:r", "riesgo beneficio", "risk reward", "1:2", "1:3", "1:4", "1:5", "ratio"],
+      ["liquidez", "sweep", "barrida", "barre", "toma de liquidez"]
     ],
     answer: `
-      <p>Hola, ¿qué tal? En futuros, un <strong>contrato</strong> representa una unidad de operación sobre un mercado específico.</p>
-      <p>Por ejemplo, operar 1 contrato de NQ no es lo mismo que operar 1 contrato de MNQ, porque el valor por punto es diferente.</p>
-      <ul>
-        <li><strong>NQ:</strong> contrato grande del Nasdaq.</li>
-        <li><strong>MNQ:</strong> micro contrato del Nasdaq.</li>
-        <li><strong>ES:</strong> contrato grande del S&P 500.</li>
-        <li><strong>MES:</strong> micro contrato del S&P 500.</li>
-      </ul>
-      <p><strong>WLF reminder:</strong> antes de subir contratos, entiende cuánto puedes perder por punto y dónde va tu stop.</p>
+      <p>Hola, ¿qué tal? Un buen R:R después de tomar liquidez puede ser muy atractivo, pero el número no valida la operación.</p>
+      <p><strong>Preguntas WLF:</strong></p>
+      <ol>
+        <li>¿La liquidez tomada era importante o era un nivel menor?</li>
+        <li>¿El precio reaccionó con fuerza después del sweep?</li>
+        <li>¿Hay desplazamiento o cambio de carácter?</li>
+        <li>¿El stop está detrás de una invalidación lógica?</li>
+        <li>¿El target está antes de la próxima zona problemática?</li>
+      </ol>
+      <p><strong>Conclusión:</strong> R:R alto + liquidez es interesante solo si hay contexto y reacción. R:R alto sin calidad es solo ilusión matemática.</p>
     `
   },
   {
-    id: "tick-point",
-    title: "Ticks y puntos",
-    keywordsAny: [
-      "tick", "ticks", "punto", "puntos", "point", "points", "valor por punto",
-      "cuanto vale un tick", "cuánto vale un tick"
-    ],
+    id: "pullback",
+    title: "Pullback / Retroceso",
+    priority: 800,
+    keywordsAny: ["pullback", "retroceso", "retest", "correccion", "corrección", "vuelve a la zona", "volver a la zona"],
     answer: `
-      <p>Hola, ¿qué tal? En futuros, el precio se mueve en <strong>ticks</strong> y <strong>puntos</strong>.</p>
-      <ul>
-        <li><strong>Tick:</strong> movimiento mínimo del precio.</li>
-        <li><strong>Punto:</strong> conjunto de ticks según el instrumento.</li>
-        <li>El valor del tick/punto cambia dependiendo del contrato.</li>
-      </ul>
-      <p>Ejemplo simple: no es lo mismo un punto en NQ que un punto en MNQ. El contrato grande mueve más dinero.</p>
-      <p><strong>WLF:</strong> si no sabes cuánto vale cada tick, no sabes cuánto estás arriesgando.</p>
+      <p>Hola, ¿qué tal? Un pullback es un retroceso del precio hacia una zona donde podría continuar la estructura previa.</p>
+      <p><strong>Checklist WLF para pullbacks:</strong></p>
+      <ol>
+        <li>¿La tendencia o estructura previa es clara?</li>
+        <li>¿El precio vuelve a una zona lógica: FVG, OB, soporte/resistencia o zona de ruptura?</li>
+        <li>¿Hay reacción real o solo estás anticipando?</li>
+        <li>¿El stop queda detrás de una invalidación clara?</li>
+        <li>¿El R:R sigue siendo atractivo sin forzarlo?</li>
+      </ol>
+      <p><strong>Idea clave:</strong> no todo retroceso es oportunidad. Un buen pullback necesita contexto y reacción.</p>
     `
   },
-  {
-    id: "margin",
-    title: "Margen",
-    keywordsAny: [
-      "margen", "margin", "intraday margin", "overnight margin", "margen intradia",
-      "margen intradía", "garantia", "garantía"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? El <strong>margen</strong> es la cantidad mínima que necesitas para abrir o mantener una posición apalancada.</p>
-      <ul>
-        <li><strong>Margen intradía:</strong> normalmente más bajo, usado durante la sesión.</li>
-        <li><strong>Margen overnight:</strong> suele ser más alto si mantienes la posición fuera del horario intradía.</li>
-      </ul>
-      <p><strong>Importante:</strong> que tengas margen para abrir una operación no significa que el riesgo sea pequeño.</p>
-      <p><strong>WLF:</strong> margen no es tu stop. Tu riesgo real depende de entrada, stop, tamaño y volatilidad.</p>
-    `
-  },
-  {
-    id: "leverage",
-    title: "Apalancamiento",
-    keywordsAny: [
-      "apalancamiento", "leverage", "apalancado", "apalancada", "leveraged"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? El <strong>apalancamiento</strong> te permite controlar una posición más grande con menos capital.</p>
-      <p>Eso puede ser útil, pero también peligroso:</p>
-      <ul>
-        <li>Amplifica ganancias.</li>
-        <li>Amplifica pérdidas.</li>
-        <li>Puede hacer que una mala decisión destruya la cuenta rápido.</li>
-      </ul>
-      <p><strong>WLF reminder:</strong> el apalancamiento no es el enemigo; el enemigo es usarlo sin gestión.</p>
-    `
-  },
-  {
-    id: "nq-es-micro",
-    title: "NQ, ES, MNQ y MES",
-    keywordsAny: [
-      "nq", "mnq", "es", "mes", "nasdaq", "s&p", "sp500", "s&p 500",
-      "micro contrato", "micro futures", "micro futuros"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? Estos son símbolos comunes de futuros de índices:</p>
-      <ul>
-        <li><strong>NQ:</strong> Nasdaq 100 contrato grande.</li>
-        <li><strong>MNQ:</strong> Micro Nasdaq 100.</li>
-        <li><strong>ES:</strong> S&P 500 contrato grande.</li>
-        <li><strong>MES:</strong> Micro S&P 500.</li>
-      </ul>
-      <p>Los micros permiten practicar y gestionar mejor el riesgo porque el valor por punto es menor que en el contrato grande.</p>
-      <p><strong>WLF:</strong> si estás aprendiendo, el tamaño pequeño suele ayudarte a sobrevivir mientras mejoras proceso.</p>
-    `
-  },
-  {
-    id: "cfd",
-    title: "¿Qué son CFDs?",
-    keywordsAny: [
-      "cfd", "cfds", "contrato por diferencia", "contratos por diferencia"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? Un <strong>CFD</strong> es un contrato por diferencia. Te permite especular sobre el movimiento de un activo sin comprar el activo real.</p>
-      <ul>
-        <li>Puedes operar al alza o a la baja.</li>
-        <li>Suelen tener apalancamiento.</li>
-        <li>Las condiciones dependen mucho del broker: spread, comisiones, swaps y ejecución.</li>
-      </ul>
-      <p><strong>WLF reminder:</strong> revisa costos, regulación y riesgo antes de operar CFDs.</p>
-    `
-  },
-
-  // REAL STUDENT QUESTIONS / RESOURCES
   {
     id: "burned-account",
     title: "Quemé una cuenta / fallé una cuenta",
+    priority: 930,
     keywordsAny: [
       "queme una cuenta", "quemé una cuenta", "queme mi cuenta", "quemé mi cuenta",
       "acabo de quemar", "perdi mi cuenta", "perdí mi cuenta", "failed account",
@@ -264,80 +151,21 @@ const intentRules = [
     answer: `
       <p>Hola, ¿qué tal? Primero: respira. Quemar una cuenta duele, pero no significa que tú no sirvas para esto.</p>
       <p>Lo importante ahora es no saltar inmediatamente a otra cuenta con la misma mentalidad.</p>
-
       <p><strong>Plan WLF después de quemar una cuenta:</strong></p>
       <ol>
-        <li><strong>No compres otra cuenta hoy.</strong> Espera al menos 24 horas para bajar la emoción.</li>
-        <li><strong>Identifica la causa real:</strong> ¿fue sobreoperación, lotaje alto, revenge trading, noticia, no respetar stop o mala lectura?</li>
-        <li><strong>Escribe la regla rota.</strong> No digas “el mercado me hizo”. Di exactamente qué regla rompiste.</li>
-        <li><strong>Reduce el riesgo.</strong> Si vuelves, empieza con tamaño mínimo y objetivo de consistencia, no de recuperar.</li>
-        <li><strong>Define límites duros:</strong> máximo de pérdida diaria, máximo de trades y hora de parar.</li>
+        <li><strong>No compres otra cuenta hoy.</strong> Espera al menos 24 horas.</li>
+        <li><strong>Identifica la causa real:</strong> sobreoperación, lotaje alto, revenge, noticia, no respetar stop o mala lectura.</li>
+        <li><strong>Escribe la regla rota.</strong> Sé específico.</li>
+        <li><strong>Reduce riesgo.</strong> Vuelve con tamaño mínimo y objetivo de consistencia.</li>
+        <li><strong>Define límites duros:</strong> pérdida diaria, máximo de trades y hora de parar.</li>
       </ol>
-
-      <p><strong>WLF reminder:</strong> una cuenta se puede perder por una operación, pero normalmente se quema por una cadena de decisiones emocionales.</p>
-
-      <p><strong>Recomendado para estudiar:</strong></p>
-      <ul>
-        <li>Libro: <strong>Trading en la Zona</strong></li>
-        <li>Libro: <strong>El Trader Disciplinado</strong></li>
-        <li>Libro: <strong>Best Loser Wins</strong></li>
-        <li>Sección: <strong>Práctica → Psicología / Riesgo</strong></li>
-      </ul>
-    `
-  },
-  {
-    id: "avoid-blow-account",
-    title: "Cómo evitar quemar una cuenta",
-    keywordsAny: [
-      "evitar quemar", "como no quemar", "cómo no quemar", "avoid blowing", "avoid blow",
-      "proteger cuenta", "cuidar cuenta", "no perder cuenta", "no quemar cuenta",
-      "cuenta fondeo", "cuenta de fondeo", "cuentas de fondeo", "funded account",
-      "fondeada", "fondeo", "drawdown"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? Para no quemar una cuenta, necesitas reglas que te detengan antes de que la emoción tome el control.</p>
-
-      <ol>
-        <li><strong>Límite diario:</strong> si llegas a tu pérdida máxima, paras sin negociar.</li>
-        <li><strong>Máximo de trades:</strong> define cuántas operaciones puedes hacer por sesión.</li>
-        <li><strong>Riesgo fijo:</strong> no subas lotaje para recuperar.</li>
-        <li><strong>Evita noticias:</strong> si hay noticia fuerte cerca, reduce riesgo o espera.</li>
-        <li><strong>No operes frustrado:</strong> frustración + mercado = decisiones caras.</li>
-        <li><strong>Solo setups claros:</strong> zona + contexto + reacción + invalidación + R:R.</li>
-      </ol>
-
-      <p><strong>Regla simple WLF:</strong> si pierdes 2 trades seguidos o rompes una regla emocional, se termina la sesión.</p>
-
-      <p><strong>Recursos recomendados:</strong></p>
-      <ul>
-        <li>Biblioteca: <strong>Cómo no quemar una cuenta</strong></li>
-        <li>Biblioteca: <strong>Trading en la Zona</strong></li>
-        <li>Práctica: <strong>Riesgo</strong> y <strong>Psicología</strong></li>
-      </ul>
-    `
-  },
-  {
-    id: "rr-liquidity",
-    title: "¿Un R:R 1:3 después de liquidez es bueno?",
-    keywordsAll: [["1:3", "rr", "r:r", "riesgo beneficio", "risk reward"], ["liquidez", "sweep", "barrida"]],
-    answer: `
-      <p>Hola, ¿qué tal? Un R:R 1:3 después de una toma de liquidez puede ser muy atractivo, pero no es bueno solo por ser 1:3.</p>
-
-      <p><strong>Preguntas WLF:</strong></p>
-      <ol>
-        <li>¿La liquidez tomada era importante o era un nivel menor?</li>
-        <li>¿Hubo reacción clara después de tomarla?</li>
-        <li>¿Hay desplazamiento o confirmación?</li>
-        <li>¿El stop está en un lugar lógico o lo pusiste pequeño para forzar el 1:3?</li>
-        <li>¿El target está antes de la próxima zona problemática?</li>
-      </ol>
-
-      <p><strong>Conclusión:</strong> 1:3 es bueno si nace de contexto real. Si solo estás haciendo que el número se vea bonito, no es edge.</p>
+      <p><strong>Recomendado:</strong> Trading en la Zona, El Trader Disciplinado, Best Loser Wins y Práctica → Psicología / Riesgo.</p>
     `
   },
   {
     id: "frustrated-plan",
     title: "Estoy frustrado: plan WLF",
+    priority: 920,
     keywordsAny: [
       "frustrado", "frustrada", "frustrating", "frustrated", "estoy mal",
       "me siento mal", "rabia", "molesto", "molesta", "no puedo", "perdiendo",
@@ -345,224 +173,94 @@ const intentRules = [
     ],
     answer: `
       <p>Hola, ¿qué tal? Si estás frustrado, no necesitas otra entrada; necesitas recuperar control.</p>
-
       <p><strong>Plan WLF de 20 minutos:</strong></p>
       <ol>
         <li><strong>5 minutos fuera del gráfico:</strong> agua, respirar, caminar. Cero velas.</li>
-        <li><strong>5 minutos de revisión:</strong> escribe qué pasó: ¿mala entrada, mal riesgo, noticia, ansiedad o revenge?</li>
-        <li><strong>5 minutos de regla:</strong> decide una sola regla para volver. Ejemplo: “solo opero si hay zona + reacción + R:R lógico”.</li>
+        <li><strong>5 minutos de revisión:</strong> ¿mala entrada, mal riesgo, noticia, ansiedad o revenge?</li>
+        <li><strong>5 minutos de regla:</strong> “solo opero si hay zona + reacción + R:R lógico”.</li>
         <li><strong>5 minutos de decisión:</strong> si sigues con rabia, paras la sesión.</li>
       </ol>
-
       <p><strong>Frase WLF:</strong> hoy no tienes que recuperar dinero; tienes que recuperar disciplina.</p>
-
-      <p><strong>Recomendado:</strong></p>
-      <ul>
-        <li>Libro: <strong>Trading en la Zona</strong></li>
-        <li>Libro: <strong>El Trader Disciplinado</strong></li>
-        <li>Audiolibro: <strong>Mentalidad y disciplina</strong></li>
-        <li>Práctica: <strong>Psicología</strong></li>
-      </ul>
     `
   },
   {
     id: "overtrading",
     title: "Cómo evitar sobreoperar",
+    priority: 900,
     keywordsAny: [
       "sobreoperar", "sobre operar", "overtrade", "overtrading", "muchas operaciones",
       "muchos trades", "entro mucho", "operar mucho", "no paro", "no puedo parar"
     ],
     answer: `
       <p>Hola, ¿qué tal? Sobreoperar casi siempre viene de ansiedad, aburrimiento o necesidad de recuperar.</p>
-
       <ol>
         <li>Define máximo de trades por sesión.</li>
         <li>No operes en el centro del rango.</li>
         <li>Después de una pérdida, espera una nueva estructura clara.</li>
-        <li>Si estás bajando temporalidades para encontrar algo, probablemente estás forzando.</li>
-        <li>Usa una checklist antes de cada entrada.</li>
+        <li>Si bajas temporalidades para encontrar algo, probablemente estás forzando.</li>
+        <li>Usa checklist antes de cada entrada.</li>
       </ol>
-
       <p><strong>Regla WLF:</strong> menos trades, más intención.</p>
     `
   },
   {
-    id: "news",
-    title: "Noticias económicas",
-    keywordsAny: [
-      "noticias", "news", "calendario", "economic calendar", "nci", "cpi", "fomc",
-      "nfp", "fed", "powell", "inflacion", "inflación", "datos economicos", "datos económicos"
+    id: "sweep-swinghigh",
+    title: "Sweep sobre Swing High",
+    priority: 870,
+    keywordsAll: [
+      ["sweep", "barrida", "barre", "rompe y vuelve", "toma liquidez", "toma de liquidez"],
+      ["swing high", "high anterior", "maximo anterior", "máximo anterior", "maximo swing", "máximo swing"]
     ],
     answer: `
-      <p>Hola, ¿qué tal? Antes de operar, revisa si hay noticias importantes. Una buena zona puede fallar si entra volatilidad fuerte de noticia.</p>
-
-      <p><strong>Recursos:</strong></p>
+      <p>Hola, ¿qué tal? Si el precio barre un swing high, está entrando en una zona donde probablemente había stops y compras tardías.</p>
       <ul>
-        <li><a href="${links.nciNews}" target="_blank" rel="noopener">NCI Economic News</a></li>
-        <li><a href="${links.investingCalendar}" target="_blank" rel="noopener">Investing Economic Calendar</a></li>
-        <li><a href="${links.tradingEconomics}" target="_blank" rel="noopener">Trading Economics Calendar</a></li>
+        <li>Si rompe y acepta por encima, puede haber continuación.</li>
+        <li>Si rompe y vuelve debajo, puede ser sweep o falso breakout.</li>
+        <li>La clave es la reacción después de tomar la liquidez.</li>
       </ul>
-
-      <p><strong>WLF reminder:</strong> si hay noticia fuerte cerca, reduce riesgo, espera la primera reacción o evita operar el ruido inicial.</p>
+      <p><strong>WLF:</strong> liquidity above swing high = zona de atención, no entrada automática.</p>
     `
   },
   {
-    id: "ninjatrader",
-    title: "NinjaTrader",
-    keywordsAny: [
-      "ninjatrader", "ninja trader", "ninja", "instalar ninja", "install ninja",
-      "descargar ninja", "download ninja", "plataforma"
+    id: "sweep-fvg",
+    title: "Sweep + FVG",
+    priority: 860,
+    keywordsAll: [
+      ["sweep", "barrida", "toma de liquidez", "barre"],
+      ["fvg", "imbalance", "desequilibrio", "fair value gap"]
     ],
     answer: `
-      <p>Hola, ¿qué tal? Para NinjaTrader tienes una guía dentro del curso:</p>
-
+      <p>Hola, ¿qué tal? Sweep + FVG puede ser una combinación interesante porque une liquidez + desplazamiento.</p>
       <ol>
-        <li>Entra a <strong>Sala VIP</strong>.</li>
-        <li>Abre <strong>Curso</strong>.</li>
-        <li>Busca <strong>4.1 - Cómo instalar NinjaTrader Desktop</strong>.</li>
+        <li>Primero el precio toma liquidez.</li>
+        <li>Luego desplaza con fuerza.</li>
+        <li>Ese desplazamiento puede dejar un FVG.</li>
+        <li>Si el precio vuelve al FVG y reacciona, la idea gana valor.</li>
       </ol>
-
-      <p>También puedes revisar la guía oficial aquí:</p>
-      <p><a href="${links.ninjaInstall}" target="_blank" rel="noopener">Ver guía oficial de instalación de NinjaTrader</a></p>
-
-      <p><strong>Nota:</strong> NinjaTrader Desktop es para Windows. Si tienes firewall o antivirus, permite que NinjaTrader tenga acceso a internet.</p>
+      <p><strong>Ojo:</strong> si el precio vuelve al FVG y no reacciona, la zona pierde fuerza.</p>
     `
   },
   {
-    id: "funding-firms",
-    title: "Cuentas de fondeo",
-    keywordsAny: [
-      "fondeo", "fondeada", "cuentas de fondeo", "cuenta de fondeo", "funded",
-      "prop firm", "propfirm", "apex", "topstep", "take profit", "lucid", "tradeify", "myfundedfutures"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? Las cuentas de fondeo pueden ser útiles, pero tienes que tratarlas como un juego de reglas, no solo como trading.</p>
-
-      <p><strong>Antes de operar una fondeada revisa:</strong></p>
-      <ol>
-        <li>Drawdown máximo.</li>
-        <li>Límite diario.</li>
-        <li>Reglas de consistencia.</li>
-        <li>Noticias permitidas o restringidas.</li>
-        <li>Tamaño máximo de posición.</li>
-        <li>Reglas de payout.</li>
-      </ol>
-
-      <p><strong>Recursos:</strong></p>
-      <ul>
-        <li><a href="${links.apex}" target="_blank" rel="noopener">Apex Trader Funding</a></li>
-        <li><a href="${links.takeProfit}" target="_blank" rel="noopener">Take Profit Trader</a></li>
-        <li><a href="${links.lucid}" target="_blank" rel="noopener">Lucid Trading</a></li>
-        <li><a href="${links.topstep}" target="_blank" rel="noopener">Topstep</a></li>
-        <li><a href="${links.tradeify}" target="_blank" rel="noopener">Tradeify</a></li>
-        <li><a href="${links.myFundedFutures}" target="_blank" rel="noopener">MyFundedFutures</a></li>
-      </ul>
-
-      <p><strong>WLF reminder:</strong> en una fondeada, proteger reglas es tan importante como leer el mercado.</p>
-    `
-  },
-  {
-    id: "portal-help",
-    title: "Cómo usar el portal WLF",
-    keywordsAny: [
-      "portal", "web", "pagina", "página", "sala vip", "vip", "donde", "dónde",
-      "biblioteca", "practica", "práctica", "videos", "curso", "audiolibros",
-      "coach", "lecturas", "libros"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? Te explico la estructura del portal WLF:</p>
-
-      <ul>
-        <li><strong>Sala VIP:</strong> página principal privada.</li>
-        <li><strong>Curso:</strong> videos y guías principales.</li>
-        <li><strong>Práctica:</strong> preguntas interactivas para entrenar criterio.</li>
-        <li><strong>WLF Coach:</strong> este asistente para repasar conceptos.</li>
-        <li><strong>Biblioteca:</strong> libros y PDFs dentro del lector WLF.</li>
-        <li><strong>Audiolibros:</strong> material complementario de mentalidad.</li>
-        <li><strong>Comunidad:</strong> enlaces oficiales como Telegram y TikTok.</li>
-      </ul>
-
-      <p><strong>Ruta sugerida:</strong> Curso → Práctica → WLF Coach → Biblioteca.</p>
-    `
-  },
-  {
-    id: "login-access",
-    title: "Acceso y login",
-    keywordsAny: [
-      "login", "entrar", "acceso", "no puedo entrar", "google", "gmail",
-      "activar", "activado", "no me deja", "no abre", "no funciona"
-    ],
-    answer: `
-      <p>Hola, ¿qué tal? El acceso al portal se activa manualmente con tu Gmail.</p>
-      <ul>
-        <li>Debes entrar usando el mismo Gmail que fue activado.</li>
-        <li>Si el correo no está activo, el sistema puede bloquear el acceso.</li>
-        <li>Si acabas de pagar, espera la confirmación de activación.</li>
-      </ul>
-      <p>Si sigues sin entrar, revisa que estás usando el Gmail correcto y contacta a WLF para validar tu acceso.</p>
-    `
-  }
-];
-
-const conceptMap = [
-  {
-    id: "liquidez",
+    id: "liquidity",
     title: "Liquidez",
-    keywords: ["liquidez", "liquidity", "ordenes", "órdenes", "stops", "stop", "equal highs", "equal lows"],
+    priority: 600,
+    keywordsAny: ["liquidez", "liquidity", "equal highs", "equal lows", "stops", "ordenes", "órdenes"],
     answer: `
-      <p>La liquidez es donde probablemente hay órdenes esperando: stops, entradas tardías o zonas obvias donde muchos traders toman decisiones.</p>
+      <p>Hola, ¿qué tal? La liquidez es donde probablemente hay órdenes esperando: stops, entradas tardías o zonas obvias donde muchos traders toman decisiones.</p>
       <ul>
         <li>Highs y lows previos suelen acumular liquidez.</li>
         <li>Equal highs/equal lows pueden atraer al precio.</li>
-        <li>No es entrada automática; primero mira cómo reacciona el precio después de tomar esa liquidez.</li>
-      </ul>
-    `
-  },
-  {
-    id: "sweep",
-    title: "Sweep / barrida",
-    keywords: ["sweep", "barrida", "barre", "barrer", "toma de liquidez", "liquidez tomada", "fake breakout", "falso rompimiento"],
-    answer: `
-      <p>Un sweep ocurre cuando el precio rompe un high/low importante, toma liquidez y luego vuelve rápidamente a la zona previa.</p>
-      <ul>
-        <li>No toda ruptura es continuación.</li>
-        <li>Si rompe y vuelve, puede ser trampa o toma de liquidez.</li>
-        <li>La confirmación viene por reacción, cierre, desplazamiento y contexto.</li>
-      </ul>
-    `
-  },
-  {
-    id: "swinghigh",
-    title: "Swing High",
-    keywords: ["swing high", "swinghigh", "maximo swing", "máximo swing", "high anterior", "maximo anterior", "máximo anterior"],
-    answer: `
-      <p>Un swing high es un máximo relevante donde el precio reaccionó hacia abajo.</p>
-      <ul>
-        <li>Puede servir como referencia de estructura.</li>
-        <li>Puede acumular liquidez por encima.</li>
-        <li>Si el precio lo rompe y vuelve debajo, puede indicar falta de aceptación.</li>
-      </ul>
-    `
-  },
-  {
-    id: "swinglow",
-    title: "Swing Low",
-    keywords: ["swing low", "swinglow", "minimo swing", "mínimo swing", "low anterior", "minimo anterior", "mínimo anterior"],
-    answer: `
-      <p>Un swing low es un mínimo relevante donde el precio reaccionó hacia arriba.</p>
-      <ul>
-        <li>Puede servir como referencia de invalidación.</li>
-        <li>Puede acumular liquidez por debajo.</li>
-        <li>Si se rompe y recupera, puede mostrar barrida o rechazo.</li>
+        <li>No es entrada automática; primero mira cómo reacciona el precio después de tomarla.</li>
       </ul>
     `
   },
   {
     id: "fvg",
     title: "FVG / Imbalance",
-    keywords: ["fvg", "imbalance", "desequilibrio", "ineficiencia", "gap", "fair value gap"],
+    priority: 590,
+    keywordsAny: ["fvg", "imbalance", "desequilibrio", "ineficiencia", "gap", "fair value gap"],
     answer: `
-      <p>Un FVG es una huella de desequilibrio creada por un movimiento agresivo.</p>
+      <p>Hola, ¿qué tal? Un FVG es una huella de desequilibrio creada por un movimiento agresivo.</p>
       <ul>
         <li>Un FVG aislado no es suficiente.</li>
         <li>Gana valor si aparece después de liquidez tomada, desplazamiento y zona importante.</li>
@@ -573,9 +271,10 @@ const conceptMap = [
   {
     id: "orderblock",
     title: "Order Block",
-    keywords: ["order block", "orderblock", "ob", "bloque", "bloque de orden"],
+    priority: 580,
+    keywordsAny: ["order block", "orderblock", "ob", "bloque", "bloque de orden"],
     answer: `
-      <p>Un Order Block puede verse como una zona previa al desplazamiento donde el mercado dejó una decisión importante.</p>
+      <p>Hola, ¿qué tal? Un Order Block puede verse como una zona previa al desplazamiento donde el mercado dejó una decisión importante.</p>
       <ul>
         <li>No se opera solo por marcar la zona.</li>
         <li>Gana valor si se conecta con liquidez, desplazamiento y contexto.</li>
@@ -584,99 +283,133 @@ const conceptMap = [
     `
   },
   {
-    id: "rr",
+    id: "generic-rr",
     title: "Riesgo-beneficio / R:R",
-    keywords: ["riesgo beneficio", "r:r", "rr", "1:1", "1:2", "1:3", "1:4", "risk reward", "ratio", "beneficio", "reward"],
+    priority: 570,
+    keywordsAny: ["rr", "r:r", "riesgo beneficio", "risk reward", "ratio", "1:1", "1:2", "1:3", "1:4", "1:5"],
     answer: `
-      <p>R:R compara cuánto arriesgas contra cuánto podrías ganar.</p>
+      <p>Hola, ¿qué tal? R:R compara cuánto arriesgas contra cuánto podrías ganar.</p>
       <ul>
-        <li>Arriesgar $100 para buscar $300 = 1:3.</li>
+        <li>1:2 significa arriesgar 1 para buscar 2.</li>
+        <li>1:5 puede ser muy bueno, pero solo si el contexto y el target son realistas.</li>
         <li>Un buen R:R no arregla una mala entrada.</li>
-        <li>Una buena zona con mal R:R puede seguir siendo una mala operación.</li>
       </ul>
+      <p><strong>WLF:</strong> el R:R debe salir de una entrada lógica, no de forzar el stop o soñar el target.</p>
     `
   },
   {
-    id: "psicologia",
-    title: "Psicología",
-    keywords: ["psicologia", "psicología", "emocion", "emoción", "emocional", "disciplina", "mentalidad", "control"],
+    id: "news",
+    title: "Noticias económicas",
+    priority: 850,
+    keywordsAny: [
+      "noticias", "news", "calendario", "economic calendar", "nci", "cpi", "fomc",
+      "nfp", "fed", "powell", "inflacion", "inflación", "datos economicos", "datos económicos"
+    ],
     answer: `
-      <p>La psicología es ejecución bajo presión.</p>
+      <p>Hola, ¿qué tal? Antes de operar, revisa si hay noticias importantes. Una buena zona puede fallar si entra volatilidad fuerte de noticia.</p>
       <ul>
-        <li>No subir lotaje para recuperar.</li>
-        <li>No mover el stop por ego.</li>
-        <li>No convertir una pérdida normal en un día destruido.</li>
-        <li>Evaluar proceso, no solo resultado.</li>
+        <li><a href="${links.nciNews}" target="_blank" rel="noopener">NCI Economic News</a></li>
+        <li><a href="${links.investingCalendar}" target="_blank" rel="noopener">Investing Economic Calendar</a></li>
+        <li><a href="${links.tradingEconomics}" target="_blank" rel="noopener">Trading Economics Calendar</a></li>
       </ul>
+      <p><strong>WLF:</strong> si hay noticia fuerte cerca, reduce riesgo, espera la primera reacción o evita operar el ruido inicial.</p>
     `
   },
   {
-    id: "checklist",
-    title: "Checklist",
-    keywords: ["checklist", "antes de entrar", "revisar", "entrada", "operar", "confirmacion", "confirmación"],
+    id: "ninjatrader",
+    title: "NinjaTrader",
+    priority: 840,
+    keywordsAny: [
+      "ninjatrader", "ninja trader", "ninja", "instalar ninja", "install ninja",
+      "descargar ninja", "download ninja", "plataforma"
+    ],
     answer: `
-      <p>Antes de entrar, revisa:</p>
+      <p>Hola, ¿qué tal? Para NinjaTrader tienes una guía dentro del curso:</p>
       <ol>
-        <li>¿Estoy en una zona importante o en medio de la nada?</li>
-        <li>¿Hay contexto: tendencia, rango, liquidez o estructura?</li>
-        <li>¿Hay reacción o solo estoy adivinando?</li>
-        <li>¿Dónde queda invalidada mi idea?</li>
-        <li>¿El R:R tiene sentido?</li>
-        <li>¿Estoy entrando por plan o por emoción?</li>
+        <li>Entra a <strong>Sala VIP</strong>.</li>
+        <li>Abre <strong>Curso</strong>.</li>
+        <li>Busca <strong>4.1 - Cómo instalar NinjaTrader Desktop</strong>.</li>
       </ol>
+      <p><a href="${links.ninjaInstall}" target="_blank" rel="noopener">Ver guía oficial de instalación de NinjaTrader</a></p>
     `
-  }
-];
-
-const comboRules = [
+  },
   {
-    ids: ["liquidez", "swinghigh"],
-    title: "Liquidez sobre un Swing High",
+    id: "funding",
+    title: "Cuentas de fondeo",
+    priority: 830,
+    keywordsAny: [
+      "fondeo", "fondeada", "cuentas de fondeo", "cuenta de fondeo", "funded",
+      "prop firm", "propfirm", "apex", "topstep", "take profit", "lucid", "tradeify", "myfundedfutures"
+    ],
     answer: `
-      <p>Hola, ¿qué tal? Cuando hablas de liquidez sobre un <strong>swing high</strong>, estás mirando una zona donde muchos traders pueden tener stops o compras tardías.</p>
+      <p>Hola, ¿qué tal? Las cuentas de fondeo son útiles, pero debes tratarlas como un juego de reglas, no solo como trading.</p>
+      <ol>
+        <li>Drawdown máximo.</li>
+        <li>Límite diario.</li>
+        <li>Reglas de consistencia.</li>
+        <li>Noticias permitidas o restringidas.</li>
+        <li>Tamaño máximo de posición.</li>
+        <li>Reglas de payout.</li>
+      </ol>
       <ul>
-        <li>Si el precio rompe ese swing high y acepta por encima, puede haber continuación.</li>
-        <li>Si rompe, toma liquidez y vuelve debajo, puede ser sweep o falso breakout.</li>
-        <li>La clave no es solo el high: mira la reacción después de tomarlo.</li>
+        <li><a href="${links.apex}" target="_blank" rel="noopener">Apex Trader Funding</a></li>
+        <li><a href="${links.takeProfit}" target="_blank" rel="noopener">Take Profit Trader</a></li>
+        <li><a href="${links.topstep}" target="_blank" rel="noopener">Topstep</a></li>
       </ul>
     `
   },
   {
-    ids: ["liquidez", "swinglow"],
-    title: "Liquidez debajo de un Swing Low",
+    id: "futures",
+    title: "¿Qué son los futuros?",
+    priority: 760,
+    keywordsAny: ["que son futuros", "qué son futuros", "futuros", "futures", "contratos futuros", "mercado de futuros"],
     answer: `
-      <p>Hola, ¿qué tal? La liquidez debajo de un <strong>swing low</strong> suele estar relacionada con stops de compradores o ventas tardías.</p>
+      <p>Hola, ¿qué tal? Los futuros son contratos financieros donde se negocia el precio de un activo para una fecha futura.</p>
       <ul>
-        <li>Si el precio rompe y sigue aceptando abajo, puede continuar la presión bajista.</li>
-        <li>Si rompe y recupera rápido, puede ser sweep bajista y rechazo.</li>
-        <li>Busca desplazamiento o recuperación clara antes de sacar conclusión.</li>
+        <li><strong>NQ / MNQ:</strong> Nasdaq 100.</li>
+        <li><strong>ES / MES:</strong> S&P 500.</li>
+        <li><strong>YM / MYM:</strong> Dow Jones.</li>
+        <li><strong>CL / MCL:</strong> petróleo.</li>
       </ul>
+      <p><strong>WLF:</strong> futuros permiten operar con apalancamiento. Eso puede amplificar ganancias, pero también pérdidas.</p>
     `
   },
   {
-    ids: ["sweep", "fvg"],
-    title: "Sweep + FVG",
+    id: "options",
+    title: "¿Qué son las opciones?",
+    priority: 750,
+    keywordsAny: ["que son opciones", "qué son opciones", "opciones", "options", "call", "put", "strike", "premium"],
     answer: `
-      <p>Hola, ¿qué tal? La combinación <strong>sweep + FVG</strong> puede ser mucho más interesante que un FVG aislado.</p>
+      <p>Hola, ¿qué tal? Las opciones son contratos que dan el derecho, pero no la obligación, de comprar o vender un activo a un precio específico.</p>
       <ul>
-        <li>Primero el precio toma liquidez.</li>
-        <li>Luego deja desplazamiento fuerte.</li>
-        <li>Ese desplazamiento puede crear un FVG como zona de posible reacción.</li>
+        <li><strong>Call:</strong> derecho a comprar.</li>
+        <li><strong>Put:</strong> derecho a vender.</li>
+        <li><strong>Strike:</strong> precio de ejercicio.</li>
+        <li><strong>Premium:</strong> precio de la opción.</li>
       </ul>
-      <p><strong>WLF:</strong> el FVG gana valor porque viene después de una toma de liquidez y reacción fuerte.</p>
+      <p><strong>WLF:</strong> opciones no dependen solo de dirección; también importan tiempo, volatilidad y vencimiento.</p>
     `
   },
   {
-    ids: ["liquidez", "orderblock"],
-    title: "Liquidez + Order Block",
+    id: "portal",
+    title: "Cómo usar el portal WLF",
+    priority: 740,
+    keywordsAny: [
+      "portal", "web", "pagina", "página", "sala vip", "vip", "donde", "dónde",
+      "biblioteca", "practica", "práctica", "videos", "curso", "audiolibros",
+      "coach", "lecturas", "libros"
+    ],
     answer: `
-      <p>Hola, ¿qué tal? Un Order Block gana más contexto cuando aparece después de una toma de liquidez.</p>
+      <p>Hola, ¿qué tal? Te explico la estructura del portal WLF:</p>
       <ul>
-        <li>La liquidez muestra dónde el mercado pudo limpiar órdenes.</li>
-        <li>El desplazamiento muestra intención.</li>
-        <li>El Order Block puede marcar una zona de posible reacción si el precio vuelve.</li>
+        <li><strong>Sala VIP:</strong> página principal privada.</li>
+        <li><strong>Curso:</strong> videos y guías principales.</li>
+        <li><strong>Práctica:</strong> preguntas interactivas.</li>
+        <li><strong>WLF Coach:</strong> este asistente.</li>
+        <li><strong>Biblioteca:</strong> libros y PDFs.</li>
+        <li><strong>Audiolibros:</strong> mentalidad y disciplina.</li>
       </ul>
-      <p>No basta marcar el OB; espera reacción y riesgo aceptable.</p>
+      <p><strong>Ruta sugerida:</strong> Curso → Práctica → WLF Coach → Biblioteca.</p>
     `
   }
 ];
@@ -686,172 +419,91 @@ const fallbackAnswer = {
   answer: `
     <p>Hola, ¿qué tal? No encontré una respuesta exacta, pero podemos razonarlo con el marco WLF:</p>
     <ol>
-      <li>Define el contexto: tendencia, rango o zona importante.</li>
-      <li>Busca liquidez: swing highs/lows, equal highs/lows o zonas obvias.</li>
-      <li>Observa la reacción: aceptación, rechazo, sweep o desplazamiento.</li>
+      <li>Define contexto: tendencia, rango o zona importante.</li>
+      <li>Busca liquidez: swing highs/lows o zonas obvias.</li>
+      <li>Observa reacción: aceptación, rechazo, sweep o desplazamiento.</li>
       <li>Define invalidación: dónde tu idea deja de tener sentido.</li>
-      <li>Evalúa R:R antes de pensar en entrar.</li>
+      <li>Evalúa R:R sin forzar el stop ni soñar el target.</li>
     </ol>
-    <p>También puedes preguntarme: “qué son futuros”, “qué son opciones”, “qué es apalancamiento”, “quemé mi cuenta”, “noticias”, “NinjaTrader” o “dónde está la biblioteca”.</p>
+    <p>Prueba con: “R:R 1:5 en pullback”, “quemé mi cuenta”, “noticias”, “NinjaTrader”, “FVG con sweep”.</p>
   `
 };
 
 function normalizeText(text) {
-  return text
+  return String(text || "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[¿?¡!,;()]/g, " ")
     .replace(/[^\w\s:.-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-function containsAny(normalizedQuestion, keywords) {
-  return keywords.some((keyword) => normalizedQuestion.includes(normalizeText(keyword)));
+function containsAny(q, keywords) {
+  return keywords.some((keyword) => q.includes(normalizeText(keyword)));
 }
 
-function containsAllGroups(normalizedQuestion, groups) {
-  return groups.every((group) => containsAny(normalizedQuestion, group));
+function containsAllGroups(q, groups) {
+  return groups.every((group) => containsAny(q, group));
 }
 
-function isOnlyGreeting(question) {
-  const q = normalizeText(question);
-  const greetingWords = [
-    "hola", "hello", "hi", "hey", "sup", "que vola", "k vola", "q vola",
-    "buenas", "buenos dias", "buenas tardes", "buenas noches", "que tal", "saludos"
-  ];
-
-  return greetingWords.some((word) => q === normalizeText(word) || q === `${normalizeText(word)} bro`);
+function isOnlyModeMatch(q, rule) {
+  const wordCount = q.split(/\s+/).filter(Boolean).length;
+  return wordCount <= 3 && containsAny(q, rule.keywordsAny || []);
 }
 
-function isOnlyClosing(question) {
-  const q = normalizeText(question);
-  const closings = [
-    "bye", "adios", "nos vemos", "hasta luego", "chao", "ciao",
-    "gracias", "thanks", "thank you", "ok gracias", "perfecto gracias"
-  ];
-
-  return closings.some((word) => q === normalizeText(word));
-}
-
-function findIntentAnswer(question) {
-  const normalizedQuestion = normalizeText(question);
-
-  if (isOnlyGreeting(question)) {
-    return intentRules.find((rule) => rule.id === "greeting");
+function scoreRule(q, rule) {
+  if (rule.mode === "only") {
+    return isOnlyModeMatch(q, rule) ? rule.priority : -1;
   }
 
-  if (isOnlyClosing(question)) {
-    if (containsAny(normalizedQuestion, ["gracias", "thanks", "thank you"])) {
-      return intentRules.find((rule) => rule.id === "thanks");
-    }
-
-    return intentRules.find((rule) => rule.id === "bye");
+  if (rule.keywordsAll && !containsAllGroups(q, rule.keywordsAll)) {
+    return -1;
   }
 
-  for (const rule of intentRules) {
-    if (rule.type === "greeting" || rule.type === "closing") continue;
+  if (rule.keywordsAny && !containsAny(q, rule.keywordsAny)) {
+    return -1;
+  }
 
-    if (rule.keywordsAll && containsAllGroups(normalizedQuestion, rule.keywordsAll)) {
-      return rule;
-    }
+  let score = rule.priority || 0;
 
-    if (rule.keywordsAny && containsAny(normalizedQuestion, rule.keywordsAny)) {
-      return rule;
+  if (rule.keywordsAll) {
+    for (const group of rule.keywordsAll) {
+      for (const keyword of group) {
+        if (q.includes(normalizeText(keyword))) score += 8;
+      }
     }
   }
 
-  return null;
-}
+  if (rule.keywordsAny) {
+    for (const keyword of rule.keywordsAny) {
+      if (q.includes(normalizeText(keyword))) score += 4;
+    }
+  }
 
-function detectConcepts(question) {
-  const normalizedQuestion = normalizeText(question);
-
-  return conceptMap
-    .map((concept) => {
-      const score = concept.keywords.reduce((total, keyword) => {
-        return total + (normalizedQuestion.includes(normalizeText(keyword)) ? 1 : 0);
-      }, 0);
-
-      return { ...concept, score };
-    })
-    .filter((concept) => concept.score > 0)
-    .sort((a, b) => b.score - a.score);
-}
-
-function findComboAnswer(detectedConcepts) {
-  const ids = detectedConcepts.map((concept) => concept.id);
-  return comboRules.find((rule) => rule.ids.every((id) => ids.includes(id)));
-}
-
-function buildSingleConceptAnswer(concept) {
-  return {
-    title: concept.title,
-    answer: `
-      <p>Hola, ¿qué tal? Buena pregunta.</p>
-      ${concept.answer}
-      <p><strong>Recuerda:</strong> el concepto por sí solo no es una señal. Siempre combínalo con contexto, reacción e invalidación.</p>
-    `
-  };
-}
-
-function buildMultiConceptAnswer(detectedConcepts) {
-  const mainConcepts = detectedConcepts.slice(0, 3);
-
-  return {
-    title: `Relación: ${mainConcepts.map((item) => item.title).join(" + ")}`,
-    answer: `
-      <p>Hola, ¿qué tal? Aquí estás mezclando varios conceptos, así que la lectura debe hacerse por capas.</p>
-
-      ${mainConcepts.map((concept) => `
-        <div class="coach-mini-section">
-          <strong>${concept.title}</strong>
-          ${concept.answer}
-        </div>
-      `).join("")}
-
-      <p><strong>Lectura WLF:</strong> cuando combines conceptos, no preguntes “¿compro o vendo?”. Pregunta:</p>
-      <ol>
-        <li>¿Dónde está la liquidez?</li>
-        <li>¿Qué estructura domina?</li>
-        <li>¿Qué reacción dejó el precio?</li>
-        <li>¿Dónde queda mi invalidación?</li>
-        <li>¿El R:R sigue teniendo sentido?</li>
-      </ol>
-    `
-  };
+  return score;
 }
 
 function findAnswer(question) {
-  const intentAnswer = findIntentAnswer(question);
+  const q = normalizeText(question);
 
-  if (intentAnswer) {
-    return {
-      title: intentAnswer.title,
-      answer: intentAnswer.answer
-    };
+  let bestRule = null;
+  let bestScore = -1;
+
+  for (const rule of responses) {
+    const score = scoreRule(q, rule);
+    if (score > bestScore) {
+      bestScore = score;
+      bestRule = rule;
+    }
   }
 
-  const detectedConcepts = detectConcepts(question);
-
-  if (detectedConcepts.length === 0) {
+  if (!bestRule || bestScore < 0) {
     return fallbackAnswer;
   }
 
-  const comboAnswer = findComboAnswer(detectedConcepts);
-
-  if (comboAnswer) {
-    return {
-      title: comboAnswer.title,
-      answer: comboAnswer.answer
-    };
-  }
-
-  if (detectedConcepts.length === 1) {
-    return buildSingleConceptAnswer(detectedConcepts[0]);
-  }
-
-  return buildMultiConceptAnswer(detectedConcepts);
+  return bestRule;
 }
 
 function addMessage(role, title, html) {
@@ -871,7 +523,7 @@ function addMessage(role, title, html) {
 }
 
 function submitQuestion(question) {
-  const cleanQuestion = question.trim();
+  const cleanQuestion = String(question || "").trim();
   if (!cleanQuestion) return;
 
   addMessage("user", "Pregunta", `<p>${cleanQuestion}</p>`);
@@ -880,12 +532,11 @@ function submitQuestion(question) {
 
   setTimeout(() => {
     addMessage("bot", response.title, response.answer);
-  }, 180);
+  }, 160);
 }
 
 coachForm.addEventListener("submit", (event) => {
   event.preventDefault();
-
   submitQuestion(coachInput.value);
   coachInput.value = "";
   coachInput.focus();
@@ -899,7 +550,6 @@ document.querySelectorAll(".coach-chip").forEach((button) => {
 
 function addInitialGreeting() {
   if (!chatMessages) return;
-
   chatMessages.innerHTML = "";
   addMessage("bot", "WLF Coach", greetingHtml);
 }

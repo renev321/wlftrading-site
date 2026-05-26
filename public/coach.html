@@ -36,7 +36,8 @@
         <h1>Pregunta sobre el curso.</h1>
         <p class="hero-text">
           Un asistente educativo para repasar conceptos de WLF: liquidez, swings,
-          tendencias, FVG, Order Blocks, riesgo-beneficio, psicología y gestión.
+          tendencias, FVG, Order Blocks, riesgo-beneficio, psicología, fondeo,
+          NinjaTrader, noticias y uso del portal.
         </p>
 
         <div class="coach-actions">
@@ -49,7 +50,7 @@
         <span class="status-dot"></span>
         <div>
           <strong>Asistente educativo</strong>
-          <p>No da señales de compra o venta. Ayuda a entender y razonar.</p>
+          <p>No da señales de compra o venta. Ayuda a estudiar, razonar y proteger la cuenta.</p>
         </div>
       </div>
     </section>
@@ -58,34 +59,30 @@
       <aside class="coach-sidebar">
         <p class="eyebrow">Preguntas rápidas</p>
 
+        <button class="coach-chip" data-question="Hola">Saludar</button>
         <button class="coach-chip" data-question="¿Qué es liquidez en trading?">Liquidez</button>
-        <button class="coach-chip" data-question="¿Qué es un sweep de liquidez?">Sweep</button>
-        <button class="coach-chip" data-question="¿Cómo leo los swings del mercado?">Swings</button>
-        <button class="coach-chip" data-question="¿Cómo identifico una tendencia?">Tendencia</button>
+        <button class="coach-chip" data-question="¿Qué pasa si el precio barre un swing high?">Sweep + Swing High</button>
+        <button class="coach-chip" data-question="¿Un R:R 1:3 después de tomar liquidez es bueno?">R:R 1:3 + Liquidez</button>
+        <button class="coach-chip" data-question="¿Un R:R 1:5 es bueno si estamos en pullback?">R:R 1:5 + Pullback</button>
+        <button class="coach-chip" data-question="¿Qué debo revisar antes de operar un pullback?">Pullback</button>
         <button class="coach-chip" data-question="¿Qué es un FVG y cuándo tiene valor?">FVG</button>
-        <button class="coach-chip" data-question="¿Qué es un Order Block?">Order Block</button>
-        <button class="coach-chip" data-question="¿Cómo calcular riesgo beneficio?">R:R</button>
-        <button class="coach-chip" data-question="¿Qué revisar antes de entrar?">Checklist</button>
-        <button class="coach-chip" data-question="¿Qué hacer si siento FOMO?">FOMO</button>
-        <button class="coach-chip" data-question="¿Qué significa operar con contexto?">Contexto</button>
+        <button class="coach-chip" data-question="¿Qué es un Order Block con contexto?">Order Block</button>
+        <button class="coach-chip" data-question="Acabo de quemar mi cuenta, ¿qué hago?">Quemé mi cuenta</button>
+        <button class="coach-chip" data-question="Estoy frustrado, dame un plan para calmarme.">Frustración</button>
+        <button class="coach-chip" data-question="¿Cómo evito sobreoperar?">Sobreoperar</button>
+        <button class="coach-chip" data-question="¿Dónde veo noticias económicas antes de operar?">Noticias</button>
+        <button class="coach-chip" data-question="¿Cómo instalo NinjaTrader?">NinjaTrader</button>
+        <button class="coach-chip" data-question="¿Qué son cuentas de fondeo y qué debo revisar?">Cuentas de fondeo</button>
+        <button class="coach-chip" data-question="¿Qué son futuros?">Futuros</button>
+        <button class="coach-chip" data-question="¿Qué son opciones?">Opciones</button>
+        <button class="coach-chip" data-question="¿Dónde está la biblioteca y cómo uso el portal?">Portal</button>
       </aside>
 
       <section class="coach-chat-shell">
         <div id="loadingBox" class="status-box">Validando tu acceso...</div>
 
         <div id="coachApp" class="coach-app hidden">
-          <div class="coach-chat" id="chatMessages">
-            <div class="coach-message bot">
-              <div class="message-avatar">W</div>
-              <div class="message-bubble">
-                <strong>WLF Coach</strong>
-                <p>
-                  Pregúntame sobre conceptos del curso. Por ejemplo:
-                  “¿qué es liquidez?”, “¿cómo calculo R:R?”, “¿qué reviso antes de entrar?”
-                </p>
-              </div>
-            </div>
-          </div>
+          <div class="coach-chat" id="chatMessages"></div>
 
           <form id="coachForm" class="coach-form">
             <input

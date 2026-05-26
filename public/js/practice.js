@@ -535,6 +535,542 @@ const questions = [
     ],
     correct: 0,
     explanation: "Un trade puede ganar y seguir siendo mala ejecución. WLF evalúa proceso, no solo resultado."
+  },
+
+  // ESTRUCTURA - EXTRA
+  {
+    category: "estructura",
+    title: "Soporte que aguanta pero no impulsa",
+    context: "El precio toca soporte tres veces. No rompe, pero cada rebote es más débil y con menos distancia.",
+    options: [
+      "Comprar porque el soporte se respetó tres veces y eso siempre es fuerza.",
+      "Observar posible absorción/debilidad: que no rompa no significa que tenga fuerza para subir.",
+      "Vender automáticamente porque el soporte tocado varias veces siempre cae.",
+      "Mover el soporte a cada nuevo toque para que la idea siga viva."
+    ],
+    correct: 1,
+    explanation: "Un soporte puede aguantar y aun así perder calidad. Si los rebotes son cada vez más débiles, puede haber absorción o falta de interés comprador."
+  },
+  {
+    category: "estructura",
+    title: "Ruptura limpia pero sin continuación",
+    context: "El precio rompe una resistencia con buen cierre, pero las siguientes velas quedan laterales justo encima sin avanzar.",
+    options: [
+      "Asumir que la ruptura sigue siendo perfecta porque el primer cierre fue limpio.",
+      "Esperar aceptación real o continuación; una ruptura sin avance puede convertirse en trampa.",
+      "Entrar short sin mirar nada porque toda pausa después de ruptura es reversa.",
+      "Comprar más fuerte porque mientras no vuelva debajo, no existe riesgo."
+    ],
+    correct: 1,
+    explanation: "La ruptura limpia es una pista, pero la aceptación posterior confirma calidad. Si no hay continuación, conviene esperar más información."
+  },
+  {
+    category: "estructura",
+    title: "Zona vieja vs estructura actual",
+    context: "Tienes marcada una resistencia antigua. El precio llega allí, pero la estructura actual viene con mínimos crecientes y presión constante.",
+    options: [
+      "Vender la resistencia antigua sin mirar la estructura actual.",
+      "Pesar la zona antigua contra la estructura actual antes de tomar una decisión.",
+      "Ignorar la resistencia porque toda tendencia rompe todo.",
+      "Comprar justo en la resistencia porque la presión siempre gana."
+    ],
+    correct: 1,
+    explanation: "Una zona histórica importa, pero no se analiza sola. La estructura actual puede aumentar o reducir la calidad de esa zona."
+  },
+  {
+    category: "estructura",
+    title: "Falsa comodidad en una línea perfecta",
+    context: "Trazas una línea de tendencia muy limpia. El precio la toca otra vez, pero llega con una vela enorme y volumen/agresividad evidente.",
+    options: [
+      "Comprar solo porque la línea se ve perfecta.",
+      "Esperar reacción: una línea bonita no cancela una llegada agresiva.",
+      "Vender porque toda línea de tendencia se rompe al final.",
+      "Eliminar la línea porque una vela grande invalida cualquier análisis."
+    ],
+    correct: 1,
+    explanation: "La estética de una línea no es edge. Si la llegada es agresiva, la reacción manda más que el dibujo."
+  },
+  {
+    category: "estructura",
+    title: "Rango que empieza a inclinarse",
+    context: "El mercado estaba lateral, pero los últimos mínimos dentro del rango empiezan a ser cada vez más altos.",
+    options: [
+      "Seguir tratando el rango exactamente igual sin notar el cambio interno.",
+      "Reconocer presión interna alcista y esperar ruptura/aceptación o reacción en extremos.",
+      "Comprar en cualquier punto del rango porque los mínimos suben.",
+      "Vender cada mínimo más alto porque el rango todavía existe."
+    ],
+    correct: 1,
+    explanation: "Dentro de un rango pueden aparecer pistas de presión. Mínimos crecientes no son entrada automática, pero sí cambian la lectura."
+  },
+
+  // LIQUIDEZ - EXTRA
+  {
+    category: "liquidez",
+    title: "Barrida sin desplazamiento posterior",
+    context: "El precio toma un máximo anterior y vuelve ligeramente debajo, pero no aparece desplazamiento fuerte ni rechazo claro.",
+    options: [
+      "Vender automáticamente porque ya tomó liquidez.",
+      "Ser prudente: sin desplazamiento o reacción clara, la barrida todavía no confirma intención.",
+      "Comprar porque si no cayó rápido, entonces debe subir mucho.",
+      "Ignorar completamente la zona porque la liquidez ya fue tomada."
+    ],
+    correct: 1,
+    explanation: "La toma de liquidez es solo una parte. Sin reacción clara, puede ser ruido o pausa antes de continuación."
+  },
+  {
+    category: "liquidez",
+    title: "Equal lows demasiado obvios",
+    context: "Ves varios mínimos iguales. Todo el mundo en el chat habla de comprar allí porque el soporte se ve perfecto.",
+    options: [
+      "Comprar justo encima porque si todos lo ven, es más seguro.",
+      "Considerar que debajo puede haber liquidez y esperar cómo reacciona si la toman.",
+      "Vender antes de que llegue porque los equal lows siempre se rompen.",
+      "Ignorar esos mínimos porque lo obvio nunca importa."
+    ],
+    correct: 1,
+    explanation: "Los niveles muy obvios pueden acumular stops. La oportunidad puede aparecer después de la toma y reacción, no necesariamente antes."
+  },
+  {
+    category: "liquidez",
+    title: "Liquidez tomada contra tendencia fuerte",
+    context: "En tendencia bajista fuerte, el precio barre un low y rebota un poco, pero la estructura mayor sigue bajista.",
+    options: [
+      "Comprar grande porque toda barrida de low es reversa.",
+      "Exigir más confirmación si la idea va contra una tendencia fuerte.",
+      "Vender sin plan porque la tendencia manda siempre.",
+      "Ignorar la barrida porque en tendencia no existe liquidez."
+    ],
+    correct: 1,
+    explanation: "Una barrida puede generar reacción, pero si va contra tendencia fuerte necesitas más pruebas y mejor ubicación."
+  },
+  {
+    category: "liquidez",
+    title: "Toma de liquidez antes de noticia",
+    context: "El precio barre un high justo minutos antes de una noticia fuerte. La reacción inicial parece bajista.",
+    options: [
+      "Operar de inmediato porque sweep antes de noticia es señal perfecta.",
+      "Ser cuidadoso: la noticia puede distorsionar la reacción y aumentar el riesgo.",
+      "Ignorar la noticia si el patrón se ve claro.",
+      "Aumentar contratos porque habrá más volatilidad."
+    ],
+    correct: 1,
+    explanation: "La liquidez cerca de noticias puede ser peligrosa. El contexto de calendario cambia la calidad del setup."
+  },
+  {
+    category: "liquidez",
+    title: "Liquidez interna vs externa",
+    context: "El precio está en rango. Acaba de tomar un pequeño high interno, pero todavía no llegó al high principal del rango.",
+    options: [
+      "Tratar la toma interna como si fuera el objetivo mayor del movimiento.",
+      "Distinguir entre liquidez interna y externa antes de asumir reversa fuerte.",
+      "Vender siempre en cualquier high interno.",
+      "Comprar porque toda liquidez interna lleva al high externo sin excepción."
+    ],
+    correct: 1,
+    explanation: "No toda liquidez tiene el mismo peso. La liquidez interna puede ser solo un paso antes de buscar niveles externos."
+  },
+
+  // SWINGS - EXTRA
+  {
+    category: "swings",
+    title: "Rompimiento de swing con vela cerrando apenas encima",
+    context: "El precio rompe un swing high por pocos ticks y cierra apenas encima, sin desplazamiento claro.",
+    options: [
+      "Asumir cambio total de estructura porque rompió por poco.",
+      "Esperar aceptación o continuación antes de dar mucho peso a la ruptura.",
+      "Vender automáticamente porque toda ruptura pequeña falla.",
+      "Ignorar el swing porque fue roto aunque sea por poco."
+    ],
+    correct: 1,
+    explanation: "Romper por poco no siempre significa aceptación. La calidad del cierre y la continuación importan."
+  },
+  {
+    category: "swings",
+    title: "Swing low protegido varias veces",
+    context: "En tendencia alcista, el mismo swing low ha sido defendido varias veces, pero cada defensa sale con menos fuerza.",
+    options: [
+      "Comprar cada defensa porque el swing sigue vivo.",
+      "Vigilar debilitamiento: protección repetida con rebotes débiles puede anticipar ruptura.",
+      "Vender sin esperar ruptura porque seguro caerá.",
+      "Mover el swing low más abajo para que siga protegido."
+    ],
+    correct: 1,
+    explanation: "Un swing defendido puede seguir siendo válido, pero si la reacción pierde fuerza, hay que leer la calidad."
+  },
+  {
+    category: "swings",
+    title: "Swing menor que confunde el sesgo",
+    context: "En gráfico de 5 minutos ves un swing bajista, pero en 1 hora la estructura sigue claramente alcista.",
+    options: [
+      "Cambiar todo el sesgo por el swing de 5 minutos.",
+      "Separar estructura menor de estructura mayor antes de decidir.",
+      "Ignorar el 5 minutos siempre porque solo importa 1 hora.",
+      "Operar ambos sentidos sin plan para cubrir posibilidades."
+    ],
+    correct: 1,
+    explanation: "Los swings se leen por jerarquía. Un swing menor puede ser solo pullback dentro de estructura mayor."
+  },
+  {
+    category: "swings",
+    title: "Swing high como target, no como entrada",
+    context: "Ves un swing high limpio por encima. Tu entrada long está cerca, pero el swing high está a pocos ticks y podría reaccionar.",
+    options: [
+      "Ignorar el swing porque solo importa la entrada.",
+      "Considerar ese swing como posible target/obstáculo y evaluar si el R:R compensa.",
+      "Comprar más porque el swing atraerá precio y nunca rechazará.",
+      "Vender directamente porque todo swing high es techo."
+    ],
+    correct: 1,
+    explanation: "Un swing puede ser objetivo de liquidez y también obstáculo. Debe entrar en la evaluación del target."
+  },
+  {
+    category: "swings",
+    title: "Estructura rota pero no aceptada",
+    context: "El precio rompe un swing low importante, pero rápidamente recupera el nivel y cierra por encima.",
+    options: [
+      "Confirmar tendencia bajista solo porque rompió.",
+      "Considerar posible falsa ruptura/barrida y esperar nueva estructura.",
+      "Comprar sin stop porque recuperó el nivel.",
+      "Eliminar todos los swings anteriores."
+    ],
+    correct: 1,
+    explanation: "La recuperación rápida de un swing roto puede cambiar la lectura hacia barrida o falta de aceptación."
+  },
+
+  // TENDENCIAS - EXTRA
+  {
+    category: "tendencias",
+    title: "Pullback perfecto pero tendencia agotada",
+    context: "El precio vuelve a una zona de pullback ideal, pero la tendencia previa venía con velas cada vez más pequeñas y divergencia de impulso.",
+    options: [
+      "Comprar igual porque la zona de pullback es perfecta.",
+      "Ser más selectivo: una zona buena pierde calidad si la tendencia llega agotada.",
+      "Vender automáticamente porque toda divergencia cambia tendencia.",
+      "Ignorar el agotamiento porque solo importa la zona."
+    ],
+    correct: 1,
+    explanation: "Un pullback técnico necesita contexto de fuerza. Si la tendencia está agotada, la entrada requiere más confirmación."
+  },
+  {
+    category: "tendencias",
+    title: "Tendencia fuerte cerca de resistencia mayor",
+    context: "El mercado sube fuerte y ordenado, pero llega a una resistencia diaria importante.",
+    options: [
+      "Comprar sin esperar porque la tendencia siempre rompe resistencias.",
+      "Reconocer tendencia, pero esperar reacción/aceptación en la resistencia mayor.",
+      "Vender automáticamente porque resistencia diaria siempre manda.",
+      "Ignorar la resistencia porque está en temporalidad mayor."
+    ],
+    correct: 1,
+    explanation: "Tendencia fuerte y zona mayor pueden chocar. La decisión depende de aceptación o rechazo."
+  },
+  {
+    category: "tendencias",
+    title: "Tendencia con pullbacks demasiado violentos",
+    context: "El precio sigue haciendo máximos más altos, pero cada pullback baja con velas muy agresivas.",
+    options: [
+      "Seguir considerando la tendencia igual de sana.",
+      "Notar que la tendencia puede estar perdiendo calidad aunque aún no esté rota.",
+      "Vender cada pullback porque una vela roja fuerte siempre cambia tendencia.",
+      "Comprar más contratos porque los máximos siguen subiendo."
+    ],
+    correct: 1,
+    explanation: "La secuencia puede seguir alcista, pero la calidad de los pullbacks revela presión contraria."
+  },
+  {
+    category: "tendencias",
+    title: "Entrada a favor de tendencia pero tarde",
+    context: "La tendencia es alcista clara. Después de tres velas fuertes seguidas, piensas entrar long lejos de cualquier zona.",
+    options: [
+      "Entrar porque operar a favor de tendencia siempre es correcto.",
+      "Esperar mejor ubicación; estar a favor de tendencia no justifica perseguir precio.",
+      "Vender porque tres velas fuertes siempre retroceden.",
+      "Usar stop enorme para compensar la mala entrada."
+    ],
+    correct: 1,
+    explanation: "A favor de tendencia no significa a cualquier precio. La ubicación sigue siendo parte del edge."
+  },
+  {
+    category: "tendencias",
+    title: "Rango después de tendencia",
+    context: "Tras una tendencia fuerte, el precio deja de hacer nuevos máximos y empieza a oscilar entre dos zonas.",
+    options: [
+      "Seguir operando como tendencia hasta que el rango sea imposible de ignorar.",
+      "Adaptar la lectura: puede estar entrando en balance, no todo pullback será continuación.",
+      "Vender todo porque la tendencia terminó.",
+      "Comprar todo toque inferior con tamaño máximo."
+    ],
+    correct: 1,
+    explanation: "Cuando la tendencia pasa a balance, la estrategia debe adaptarse. El contexto cambió."
+  },
+
+  // FVG - EXTRA
+  {
+    category: "fvg",
+    title: "FVG muy limpio pero contra estructura",
+    context: "Aparece un FVG alcista perfecto, pero la estructura mayor sigue bajista y el precio está cerca de resistencia.",
+    options: [
+      "Comprar porque el FVG se ve perfecto.",
+      "Ser selectivo: un FVG limpio contra estructura necesita más confirmación.",
+      "Vender automáticamente porque todo FVG contra tendencia falla.",
+      "Ignorar la estructura porque el FVG manda."
+    ],
+    correct: 1,
+    explanation: "La limpieza visual del FVG no supera por sí sola el contexto estructural."
+  },
+  {
+    category: "fvg",
+    title: "FVG que no ofrece R:R",
+    context: "El precio vuelve a un FVG interesante, pero el stop lógico queda lejos y el primer obstáculo está cerca.",
+    options: [
+      "Tomarlo porque el FVG es bueno.",
+      "Descartar o esperar mejor precio porque la relación riesgo-beneficio no compensa.",
+      "Reducir el stop al azar para hacer que el R:R se vea mejor.",
+      "Aumentar contratos porque el target está cerca."
+    ],
+    correct: 1,
+    explanation: "Un FVG con mala relación riesgo-beneficio no es una buena operación solo por existir."
+  },
+  {
+    category: "fvg",
+    title: "FVG mitigado varias veces",
+    context: "El precio ya entró varias veces en el mismo FVG y cada reacción fue más débil.",
+    options: [
+      "Confiar más porque la zona reaccionó muchas veces.",
+      "Considerar que la zona puede estar perdiendo fuerza tras varias mitigaciones.",
+      "Comprar siempre la tercera visita porque es más precisa.",
+      "Ignorar las reacciones previas."
+    ],
+    correct: 1,
+    explanation: "Una zona puede debilitarse tras múltiples visitas. La calidad de reacción importa."
+  },
+  {
+    category: "fvg",
+    title: "FVG y noticia cercana",
+    context: "El precio está regresando a un FVG perfecto, pero faltan 3 minutos para una noticia de alto impacto.",
+    options: [
+      "Entrar porque la noticia dará el impulso necesario.",
+      "Evitar o reducir exposición: la noticia puede invalidar la lectura técnica.",
+      "Aumentar tamaño porque habrá volatilidad.",
+      "Mover el stop más lejos sin cambiar tamaño."
+    ],
+    correct: 1,
+    explanation: "La noticia puede convertir un setup técnico en una apuesta de volatilidad."
+  },
+  {
+    category: "fvg",
+    title: "FVG como confirmación, no como excusa",
+    context: "Ya quieres comprar por sesgo personal. Encuentras un FVG pequeño y lo usas para justificar la entrada.",
+    options: [
+      "Entrar porque al final encontraste una razón técnica.",
+      "Preguntarte si el FVG realmente tiene contexto o solo confirma tu sesgo.",
+      "Ignorar todo FVG pequeño siempre.",
+      "Subir lotaje porque hay confluencia."
+    ],
+    correct: 1,
+    explanation: "Un concepto técnico no debe usarse para justificar una operación emocional. Primero contexto, luego setup."
+  },
+
+  // ORDER BLOCK - EXTRA
+  {
+    category: "orderblock",
+    title: "OB bonito pero sin reacción",
+    context: "El precio vuelve a un Order Block marcado. Toca la zona, pero no hay rechazo ni desplazamiento.",
+    options: [
+      "Entrar porque tocar la zona es suficiente.",
+      "Esperar reacción: la zona por sí sola no confirma intención.",
+      "Eliminar todos los OB del gráfico.",
+      "Duplicar si entra más profundo en la zona."
+    ],
+    correct: 1,
+    explanation: "El OB es una zona de interés. La reacción confirma si hay participación real."
+  },
+  {
+    category: "orderblock",
+    title: "OB después de manipulación dudosa",
+    context: "Marcas un OB porque hubo una vela grande, pero no hubo liquidez previa ni cambio claro de estructura.",
+    options: [
+      "Tratarlo como institucional solo porque la vela fue grande.",
+      "Dar menos peso al OB si no está conectado con liquidez o desplazamiento claro.",
+      "Operarlo sin stop porque los OB grandes son fuertes.",
+      "Cambiar el nombre del OB para que encaje mejor."
+    ],
+    correct: 1,
+    explanation: "Un OB gana valor por contexto, no solo por el tamaño de una vela."
+  },
+  {
+    category: "orderblock",
+    title: "OB dentro de rango estrecho",
+    context: "Dentro de un rango pequeño marcas varios OB alcistas y bajistas muy cerca unos de otros.",
+    options: [
+      "Operar cada OB porque hay muchas zonas.",
+      "Reconocer ruido: demasiados OB dentro de rango estrecho pueden no tener edge.",
+      "Elegir el OB más reciente siempre.",
+      "Aumentar lotaje porque hay muchas oportunidades."
+    ],
+    correct: 1,
+    explanation: "Cuando todo está muy comprimido, muchas zonas se solapan y pierden claridad."
+  },
+  {
+    category: "orderblock",
+    title: "OB como zona de invalidación",
+    context: "Tienes una idea long desde un OB. El precio entra, reacciona poco y luego cierra fuerte debajo de la zona.",
+    options: [
+      "Aceptar que la idea puede estar invalidada.",
+      "Mantener porque el OB original era claro.",
+      "Promediar porque ahora está más barato.",
+      "Mover el OB hacia abajo."
+    ],
+    correct: 0,
+    explanation: "Si el precio rompe y acepta debajo del OB, la idea debe revisarse. No se mueve la zona para evitar aceptar pérdida."
+  },
+  {
+    category: "orderblock",
+    title: "OB y target bloqueado",
+    context: "La entrada desde un OB se ve bien, pero justo antes del target hay un FVG contrario y un swing high fuerte.",
+    options: [
+      "Ignorar obstáculos porque el OB es fuerte.",
+      "Evaluar si el target realista debe ajustarse antes de esas zonas.",
+      "Cancelar todo análisis porque hay muchas zonas.",
+      "Aumentar stop para buscar target más grande."
+    ],
+    correct: 1,
+    explanation: "El target debe considerar obstáculos. Una buena entrada puede perder calidad si el camino está bloqueado."
+  },
+
+  // RIESGO - EXTRA
+  {
+    category: "riesgo",
+    title: "R:R 1:5 en pullback",
+    context: "Ves un pullback hacia una zona lógica. El R:R puede ser 1:5, pero el stop queda muy apretado debajo de una micro vela.",
+    options: [
+      "Tomarlo porque 1:5 siempre compensa.",
+      "Revisar si el stop es una invalidación real o solo está forzado para lograr 1:5.",
+      "Aumentar contratos porque el R:R es alto.",
+      "Entrar sin target porque puede correr más."
+    ],
+    correct: 1,
+    explanation: "Un R:R alto solo vale si el stop tiene sentido. Si está forzado, el número es una ilusión."
+  },
+  {
+    category: "riesgo",
+    title: "Riesgo bajo pero probabilidad pobre",
+    context: "Puedes entrar con stop pequeño, pero la entrada está en medio del rango y sin contexto claro.",
+    options: [
+      "Tomarla porque el stop pequeño hace que sea buena.",
+      "Evitar confundir poco riesgo en ticks con buena oportunidad.",
+      "Aumentar tamaño porque el stop es pequeño.",
+      "Tomar varias entradas pequeñas hasta que una funcione."
+    ],
+    correct: 1,
+    explanation: "Un stop pequeño no convierte una mala ubicación en buen setup."
+  },
+  {
+    category: "riesgo",
+    title: "Parar después de ganar",
+    context: "Ya alcanzaste tu objetivo diario. Aparece otro setup decente y quieres seguir operando.",
+    options: [
+      "Seguir porque el mercado está dando dinero.",
+      "Considerar parar o reducir riesgo; proteger un buen día también es gestión.",
+      "Aumentar lotaje porque estás en racha.",
+      "Operar sin plan porque ya ganaste."
+    ],
+    correct: 1,
+    explanation: "La gestión también aplica en días verdes. Devolver ganancias por exceso de confianza es común."
+  },
+  {
+    category: "riesgo",
+    title: "Mover stop a BE demasiado pronto",
+    context: "La operación avanza un poco a favor. Mueves a break-even inmediatamente y el precio te saca antes de ir al target.",
+    options: [
+      "Mover a BE siempre apenas puedas.",
+      "Evaluar si el BE prematuro corta operaciones normales antes de que respiren.",
+      "Nunca mover a BE bajo ningún caso.",
+      "Quitar el stop después de moverlo mal."
+    ],
+    correct: 1,
+    explanation: "Break-even puede proteger, pero si se usa por miedo, puede destruir setups válidos."
+  },
+  {
+    category: "riesgo",
+    title: "Setup A+ con cuenta en drawdown",
+    context: "Aparece un setup muy bueno, pero estás en drawdown emocional y vienes de romper reglas esta semana.",
+    options: [
+      "Operarlo más grande porque es A+ y puedes recuperar.",
+      "Tomar tamaño reducido o no operar si tu estado psicológico está comprometido.",
+      "Ignorar el estado emocional porque el setup manda.",
+      "Entrar sin registrar nada para no presionarte."
+    ],
+    correct: 1,
+    explanation: "El contexto no es solo mercado; también es tu estado. Buen setup + mala mente puede terminar mal."
+  },
+
+  // PSICOLOGIA - EXTRA
+  {
+    category: "psicologia",
+    title: "Confianza después de una racha ganadora",
+    context: "Llevas varios trades ganados. Empiezas a sentir que puedes leer cualquier movimiento.",
+    options: [
+      "Aumentar riesgo porque estás en buena racha.",
+      "Mantener reglas: la confianza excesiva puede ser tan peligrosa como el miedo.",
+      "Operar más setups porque estás caliente.",
+      "Eliminar checklist para fluir mejor."
+    ],
+    correct: 1,
+    explanation: "La euforia también rompe cuentas. Ganar no autoriza abandonar proceso."
+  },
+  {
+    category: "psicologia",
+    title: "Miedo después de una pérdida correcta",
+    context: "Perdiste siguiendo tu plan. Ahora aparece el mismo setup válido, pero tienes miedo de tomarlo.",
+    options: [
+      "Evitarlo porque perder una vez invalida el sistema.",
+      "Diferenciar pérdida correcta de mala ejecución antes de cambiar conducta.",
+      "Duplicar para recuperar la pérdida anterior.",
+      "Entrar tarde para sentir más confirmación."
+    ],
+    correct: 1,
+    explanation: "Una pérdida dentro del plan no necesariamente indica error. El peligro es cambiar reglas por dolor emocional."
+  },
+  {
+    category: "psicologia",
+    title: "Cambiar de estrategia en medio de la sesión",
+    context: "Tu estrategia no dio entrada. Ves otra idea en redes y quieres aplicarla en vivo.",
+    options: [
+      "Probarla porque si otros ganan con eso, debe funcionar.",
+      "No mezclar estrategias en vivo; estudia y prueba fuera de sesión.",
+      "Combinar ambas para tener más señales.",
+      "Cambiar todo si tu estrategia está aburrida."
+    ],
+    correct: 1,
+    explanation: "Cambiar de sistema por impulso suele venir de ansiedad. Lo nuevo se prueba fuera del riesgo real."
+  },
+  {
+    category: "psicologia",
+    title: "Culpar al mercado",
+    context: "Después de una pérdida, dices que el mercado estuvo manipulado, pero no revisas si entraste tarde o sin confirmación.",
+    options: [
+      "Aceptar que toda pérdida fue manipulación.",
+      "Revisar primero tu ejecución antes de culpar al mercado.",
+      "Aumentar stop para evitar manipulaciones.",
+      "Dejar de registrar trades porque te molesta."
+    ],
+    correct: 1,
+    explanation: "Puede haber barridas y manipulación, pero tu responsabilidad es plan, entrada, stop y gestión."
+  },
+  {
+    category: "psicologia",
+    title: "Operar para sentirte productivo",
+    context: "Pasaste dos horas sin entrada. Sientes que si no operas, perdiste el día.",
+    options: [
+      "Tomar un trade pequeño para justificar el tiempo.",
+      "Aceptar que no operar también puede ser una decisión profesional.",
+      "Buscar señales en temporalidades más bajas hasta encontrar algo.",
+      "Entrar en cualquier ruptura para cerrar la sesión con acción."
+    ],
+    correct: 1,
+    explanation: "No operar cuando no hay edge es parte del trabajo. Productividad no es cantidad de trades."
   }
 ];
 

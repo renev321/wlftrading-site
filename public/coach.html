@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>WLF Coach | WLF Trading</title>
+
+  <link rel="icon" type="image/png" href="/assets/logo-wlf.png" />
+  <link rel="apple-touch-icon" href="/assets/logo-wlf.png" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/member-area.css" />
+  <link rel="stylesheet" href="/css/coach.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <img src="/assets/logo-wlf.png" alt="WLF Trading" class="brand-logo" />
+    </a>
+
+    <nav class="nav">
+      <a href="/">Inicio</a>
+      <a href="/dashboard.html">Sala VIP</a>
+      <a href="/practice.html">Práctica</a>
+      <a href="/reading.html">Biblioteca</a>
+      <span id="userEmail" class="user-email">Validando...</span>
+      <button class="btn tiny ghost" id="logoutBtn">Salir</button>
+    </nav>
+  </header>
+
+  <main class="coach-page">
+    <section class="section coach-hero">
+      <div>
+        <p class="eyebrow">WLF Coach</p>
+        <h1>Pregunta sobre el curso.</h1>
+        <p class="hero-text">
+          Un asistente educativo para repasar conceptos de WLF: liquidez, swings,
+          tendencias, FVG, Order Blocks, riesgo-beneficio, psicología y gestión.
+        </p>
+
+        <div class="coach-actions">
+          <a class="btn ghost" href="/dashboard.html">Volver a Sala VIP</a>
+          <a class="btn ghost" href="/practice.html">Ir a Práctica</a>
+        </div>
+      </div>
+
+      <div class="coach-status-card">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Asistente educativo</strong>
+          <p>No da señales de compra o venta. Ayuda a entender y razonar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section coach-layout">
+      <aside class="coach-sidebar">
+        <p class="eyebrow">Preguntas rápidas</p>
+
+        <button class="coach-chip" data-question="¿Qué es liquidez en trading?">Liquidez</button>
+        <button class="coach-chip" data-question="¿Qué es un sweep de liquidez?">Sweep</button>
+        <button class="coach-chip" data-question="¿Cómo leo los swings del mercado?">Swings</button>
+        <button class="coach-chip" data-question="¿Cómo identifico una tendencia?">Tendencia</button>
+        <button class="coach-chip" data-question="¿Qué es un FVG y cuándo tiene valor?">FVG</button>
+        <button class="coach-chip" data-question="¿Qué es un Order Block?">Order Block</button>
+        <button class="coach-chip" data-question="¿Cómo calcular riesgo beneficio?">R:R</button>
+        <button class="coach-chip" data-question="¿Qué revisar antes de entrar?">Checklist</button>
+        <button class="coach-chip" data-question="¿Qué hacer si siento FOMO?">FOMO</button>
+        <button class="coach-chip" data-question="¿Qué significa operar con contexto?">Contexto</button>
+      </aside>
+
+      <section class="coach-chat-shell">
+        <div id="loadingBox" class="status-box">Validando tu acceso...</div>
+
+        <div id="coachApp" class="coach-app hidden">
+          <div class="coach-chat" id="chatMessages">
+            <div class="coach-message bot">
+              <div class="message-avatar">W</div>
+              <div class="message-bubble">
+                <strong>WLF Coach</strong>
+                <p>
+                  Pregúntame sobre conceptos del curso. Por ejemplo:
+                  “¿qué es liquidez?”, “¿cómo calculo R:R?”, “¿qué reviso antes de entrar?”
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <form id="coachForm" class="coach-form">
+            <input
+              id="coachInput"
+              type="text"
+              placeholder="Escribe tu pregunta..."
+              autocomplete="off"
+            />
+            <button class="btn primary" type="submit">Enviar</button>
+          </form>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/coach.js"></script>
+</body>
+</html>

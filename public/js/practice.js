@@ -1075,6 +1075,8 @@ const questions = [
 ];
 
 let filteredQuestions = [...questions];
+let currentCategory = "all";
+let isRandomMode = false;
 let currentIndex = 0;
 let score = 0;
 let answeredQuestions = new Set();
@@ -1098,6 +1100,101 @@ const summaryText = document.getElementById("summaryText");
 const prevBtn = document.getElementById("prevQuestionBtn");
 const nextBtn = document.getElementById("nextQuestionBtn");
 const restartBtn = document.getElementById("restartBtn");
+
+function shuffleArray(items) {
+  const shuffled = [...items];
+
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
+function buildQuestionList(category) {
+  const baseList = category === "all"
+    ? [...questions]
+    : questions.filter((question) => question.category === category);
+
+  return isRandomMode ? shuffleArray(baseList) : baseList;
+}
+
+function injectPracticeModeToggle() {
+  if (document.getElementById("practiceModeToggle")) return;
+
+  const filterContainer = document.querySelector(".practice-filters")
+    || document.querySelector(".practice-filter")?.parentElement
+    || practiceApp?.parentElement;
+
+  if (!filterContainer) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.id = "practiceModeToggle";
+  wrapper.className = "practice-mode-toggle";
+  wrapper.innerHTML = `
+    <span class="practice-mode-label">Modo:</span>
+    <button class="practice-mode-btn is-active" type="button" data-practice-mode="normal">Normal</button>
+    <button class="practice-mode-btn" type="button" data-practice-mode="random">Aleatorio</button>
+  `;
+
+  filterContainer.insertAdjacentElement("afterend", wrapper);
+
+  if (!document.getElementById("practiceModeToggleStyle")) {
+    const style = document.createElement("style");
+    style.id = "practiceModeToggleStyle";
+    style.textContent = `
+      .practice-mode-toggle {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin: 16px 0 18px;
+        padding: 12px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.035);
+        border-radius: 18px;
+      }
+
+      .practice-mode-label {
+        color: var(--muted);
+        font-weight: 850;
+        margin-right: 2px;
+      }
+
+      .practice-mode-btn {
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.045);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 9px 14px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .practice-mode-btn:hover,
+      .practice-mode-btn.is-active {
+        border-color: rgba(51,209,96,0.30);
+        background: rgba(51,209,96,0.09);
+        color: var(--green);
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  wrapper.querySelectorAll("[data-practice-mode]").forEach((button) => {
+    button.addEventListener("click", () => {
+      wrapper.querySelectorAll("[data-practice-mode]").forEach((item) => {
+        item.classList.remove("is-active");
+      });
+
+      button.classList.add("is-active");
+      isRandomMode = button.dataset.practiceMode === "random";
+      applyFilter(currentCategory);
+    });
+  });
+}
+
 
 function normalizeCategory(category) {
   const labels = {
@@ -1187,9 +1284,8 @@ function showSummary() {
 }
 
 function applyFilter(category) {
-  filteredQuestions = category === "all"
-    ? [...questions]
-    : questions.filter((question) => question.category === category);
+  currentCategory = category || "all";
+  filteredQuestions = buildQuestionList(currentCategory);
 
   currentIndex = 0;
   score = 0;
@@ -1232,17 +1328,13 @@ if (nextBtn) {
 
 if (restartBtn) {
   restartBtn.addEventListener("click", () => {
-    currentIndex = 0;
-    score = 0;
-    answeredQuestions = new Set();
-    practiceSummary.classList.add("hidden");
-    practiceApp.classList.remove("hidden");
-    renderQuestion();
+    applyFilter(currentCategory);
   });
 }
 
 requireActiveUser(() => {
   loadingBox?.classList.add("hidden");
   practiceApp.classList.remove("hidden");
-  renderQuestion();
+  injectPracticeModeToggle();
+  applyFilter(currentCategory);
 });

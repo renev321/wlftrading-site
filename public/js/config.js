@@ -44,7 +44,7 @@ export const audiobookLinks = [
 export const toolLinks = [
   {
     title: "Herramienta WLF 01",
-    description: "Espacio para indicadores, calculadoras, plantillas o recursos privados del grupo.",
+    description: "Espacio reservado para futuros recursos privados del grupo.",
     url: "#",
     tag: "Próximamente"
   },
@@ -56,59 +56,6 @@ export const toolLinks = [
   }
 ];
 
-// Book library.
-// For Google Drive embedded PDFs, use:
-// https://drive.google.com/file/d/FILE_ID/preview
-export const bookLinks = [
-  {
-    title: "La biblia de las velas",
-    description: "Lectura técnica para reforzar la interpretación de velas, estructura y reacción del precio.",
-    url: "https://drive.google.com/file/d/1Dc2jtlOfeb7JuQGfSwPKl3JtHcAT_6oS/view",
-    embedUrl: "https://drive.google.com/file/d/1Dc2jtlOfeb7JuQGfSwPKl3JtHcAT_6oS/preview",
-    tag: "Velas",
-    type: "PDF",
-    status: "available"
-  },
-  {
-    title: "12 reglas para vivir",
-    description: "Material de mentalidad y disciplina personal para reforzar carácter, orden y responsabilidad.",
-    url: "https://drive.google.com/file/d/1YMMWA3V__6li1GKiLa7RDF-NIuzVxmkz/view",
-    embedUrl: "https://drive.google.com/file/d/1YMMWA3V__6li1GKiLa7RDF-NIuzVxmkz/preview",
-    tag: "Mentalidad",
-    type: "PDF",
-    status: "available"
-  },
-  {
-    title: "Cómo no quemar una cuenta",
-    description: "Lectura enfocada en riesgo, control emocional y errores comunes que destruyen cuentas.",
-    url: "https://drive.google.com/file/d/18CrXWWhd5oN7a-8fpCDHvh4t5gzmBf3m/view",
-    embedUrl: "https://drive.google.com/file/d/18CrXWWhd5oN7a-8fpCDHvh4t5gzmBf3m/preview",
-    tag: "Riesgo",
-    type: "PDF",
-    status: "available"
-  }
-];
-
-export const summaryLinks = [
-  {
-    title: "Resumen 01 - Reglas de estudio",
-    description: "Notas rápidas para estudiar el curso sin saltar de concepto en concepto.",
-    url: "#",
-    tag: "Resumen",
-    type: "Nota"
-  },
-  {
-    title: "Resumen 02 - Gestión de riesgo",
-    description: "Espacio para checklist o resumen de gestión antes de operar.",
-    url: "#",
-    tag: "Resumen",
-    type: "Nota"
-  }
-];
-
-// Course video infrastructure.
-// For Google Drive embedded videos, use:
-// https://drive.google.com/file/d/FILE_ID/preview
 export const courseModules = [
   {
     title: "Módulo 01 - Bienvenida y presentación",
@@ -159,6 +106,40 @@ export const courseModules = [
         embedUrl: "https://drive.google.com/file/d/1qNthYJR_f_lLRXJazxealdqMZWTBhb2C/preview",
         type: "video",
         status: "available"
+      },
+      {
+        title: "4.1 - Cómo instalar NinjaTrader Desktop",
+        description: "Guía rápida para descargar e instalar NinjaTrader Desktop en Windows usando la guía oficial.",
+        type: "article",
+        status: "available",
+        tag: "Guía oficial",
+        externalUrl: "https://support.ninjatrader.com/s/article/NinjaTrader-Desktop-Installation-Guide?language=en_US",
+        externalLabel: "Ver guía oficial de NinjaTrader",
+        article: {
+          intro: "Después de conocer las herramientas que utilizaremos, el siguiente paso es instalar NinjaTrader Desktop correctamente.",
+          sections: [
+            {
+              title: "Para instalar NinjaTrader Desktop en Windows:",
+              items: [
+                "Inicia sesión en tu Panel de NinjaTrader.",
+                "Haz clic en Download desde la página principal o desde el menú de tu cuenta.",
+                "En Most Recent Release, selecciona Download Now para descargar el instalador.",
+                "Ejecuta el archivo descargado y sigue los pasos del asistente de instalación.",
+                "Cuando termine la instalación, abre NinjaTrader e inicia sesión con tu cuenta."
+              ]
+            },
+            {
+              title: "Notas importantes:",
+              items: [
+                "NinjaTrader Desktop está diseñado para Windows.",
+                "Si usas firewall o antivirus, asegúrate de permitir que NinjaTrader tenga acceso a internet para evitar problemas al iniciar sesión.",
+                "Para móvil, descarga la app desde la tienda de iOS o Google Play.",
+                "Usa siempre la guía oficial si la plataforma cambia algún paso de instalación."
+              ]
+            }
+          ],
+          footer: "Esta lección es una guía rápida. Para cualquier cambio reciente o detalle técnico, revisa siempre la documentación oficial de NinjaTrader."
+        }
       }
     ]
   },

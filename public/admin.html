@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Admin Panel | WLF Trading</title>
+
+  <link rel="icon" type="image/png" href="/assets/logo-wlf.png" />
+  <link rel="apple-touch-icon" href="/assets/logo-wlf.png" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/member-area.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <img src="/assets/logo-wlf.png" alt="WLF Trading" class="brand-logo" />
+    </a>
+
+    <nav class="nav">
+      <a href="/">Inicio</a>
+      <a href="/dashboard.html">Sala VIP</a>
+      <span id="userEmail" class="user-email">Validando...</span>
+      <button class="btn tiny ghost" id="logoutBtn">Salir</button>
+    </nav>
+  </header>
+
+  <main class="admin-page">
+    <section class="section admin-hero">
+      <div>
+        <p class="eyebrow">WLF Admin</p>
+        <h1>Panel de administración</h1>
+        <p class="hero-text">
+          Gestiona usuarios, roles y accesos del portal WLF sin tocar directamente la base de datos.
+        </p>
+      </div>
+
+      <div class="admin-status-card" id="adminStatusCard">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Validando permisos</strong>
+          <p>Comprobando si tu cuenta tiene acceso de administrador.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section admin-layout">
+      <aside class="admin-sidebar">
+        <button class="admin-tab is-active" data-tab="users">Usuarios</button>
+        <button class="admin-tab" data-tab="grant">Dar acceso</button>
+        <button class="admin-tab" data-tab="audit">Notas</button>
+      </aside>
+
+      <section class="admin-content">
+        <div id="loadingBox" class="status-box">Validando acceso admin...</div>
+
+        <div id="adminApp" class="admin-app hidden">
+          <section class="admin-panel" data-panel="users">
+            <div class="admin-panel-title">
+              <div>
+                <p class="eyebrow">Usuarios</p>
+                <h2>Estudiantes y accesos</h2>
+                <p>Busca usuarios y revisa qué features tienen activas.</p>
+              </div>
+
+              <button class="btn tiny ghost" id="refreshUsersBtn">Refrescar</button>
+            </div>
+
+            <div class="admin-search">
+              <input id="userSearchInput" type="text" placeholder="Buscar por email o nombre..." />
+            </div>
+
+            <div id="usersTable" class="admin-table-shell">
+              Cargando usuarios...
+            </div>
+          </section>
+
+          <section class="admin-panel hidden" data-panel="grant">
+            <div class="admin-panel-title">
+              <div>
+                <p class="eyebrow">Accesos</p>
+                <h2>Dar o actualizar acceso</h2>
+                <p>Activa acceso por feature. Para herramientas mensuales, puedes usar fecha de expiración.</p>
+              </div>
+            </div>
+
+            <form id="grantAccessForm" class="admin-form">
+              <label>
+                Email del usuario
+                <input id="grantEmail" type="email" placeholder="student@gmail.com" required />
+              </label>
+
+              <label>
+                Nombre
+                <input id="grantName" type="text" placeholder="Nombre opcional" />
+              </label>
+
+              <label>
+                Feature
+                <select id="grantFeature" required>
+                  <option value="vip_bundle">VIP Bundle - Curso + Práctica + Biblioteca + Coach + Comunidad</option>
+                  <option value="vip_course">Curso VIP</option>
+                  <option value="practice">Práctica</option>
+                  <option value="library">Biblioteca</option>
+                  <option value="audiobooks">Audiolibros</option>
+                  <option value="coach">WLF Coach</option>
+                  <option value="community">Comunidad</option>
+                  <option value="tools">Tools / Toolkit</option>
+                  <option value="admin_panel">Admin Panel</option>
+                </select>
+              </label>
+
+              <label>
+                Tipo de acceso
+                <select id="grantAccessType">
+                  <option value="manual">Manual</option>
+                  <option value="lifetime">Lifetime</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="trial">Trial</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </label>
+
+              <label>
+                Expira en
+                <input id="grantExpiresAt" type="date" />
+              </label>
+
+              <label>
+                Notas
+                <textarea id="grantNotes" rows="3" placeholder="Pago confirmado, acceso mensual, etc."></textarea>
+              </label>
+
+              <div class="admin-form-actions">
+                <button class="btn primary" type="submit">Guardar acceso</button>
+                <button class="btn ghost" type="button" id="clearGrantFormBtn">Limpiar</button>
+              </div>
+            </form>
+
+            <div id="grantResult" class="admin-result hidden"></div>
+          </section>
+
+          <section class="admin-panel hidden" data-panel="audit">
+            <div class="admin-panel-title">
+              <div>
+                <p class="eyebrow">Notas</p>
+                <h2>Cómo usar este panel</h2>
+              </div>
+            </div>
+
+            <div class="admin-note-card">
+              <h3>Flujo recomendado</h3>
+              <ol>
+                <li>El usuario paga el curso.</li>
+                <li>Agregas su Gmail usando <strong>VIP Bundle</strong>.</li>
+                <li>Si luego paga herramientas mensuales, le das acceso a <strong>Tools</strong> con fecha de expiración.</li>
+                <li>Si quieres otro admin, primero confirma bien el email y luego asigna <strong>Admin Panel</strong>.</li>
+              </ol>
+            </div>
+
+            <div class="admin-note-card warning">
+              <h3>Importante</h3>
+              <p>
+                Este panel necesita endpoints backend para leer/escribir en D1. Si el backend no está conectado,
+                verás un error de API. En ese caso, aplica también el patch del Worker incluido en este paquete.
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <div id="adminDenied" class="admin-denied hidden">
+          <h2>Acceso no autorizado</h2>
+          <p>Tu cuenta no tiene permisos de administrador para usar esta página.</p>
+          <a class="btn ghost" href="/dashboard.html">Volver a Sala VIP</a>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

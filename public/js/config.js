@@ -66,8 +66,8 @@ export const toolLinks = [
 // We do not use the raw Google Drive / folder numbering as the public lesson title.
 export const courseModules = [
   {
-    title: "Módulo 01 - Bienvenida y presentación",
-    description: "Primeros pasos para entender cómo aprovechar el curso WLF Trading.",
+    title: "Módulo 01 - Bienvenida y método de estudio",
+    description: "Primeros pasos para entender el enfoque del curso, cómo estudiarlo y cómo aprovechar mejor cada módulo.",
     lessons: [
       {
         title: "1 - Para quién es este curso",
@@ -78,8 +78,8 @@ export const courseModules = [
         status: "available"
       },
       {
-        title: "2 - Presentación del curso WLF Trading",
-        description: "Presentación general del curso, estructura del contenido y enfoque WLF.",
+        title: "2 - Cómo aprovechar el curso WLF Trading",
+        description: "Cómo estudiar el contenido, avanzar con orden y sacarle más valor al método WLF.",
         url: "https://drive.google.com/file/d/1TdZeijseEQy_dpo_WNEUv1hqYgl6cWR-/view",
         embedUrl: "https://drive.google.com/file/d/1TdZeijseEQy_dpo_WNEUv1hqYgl6cWR-/preview",
         type: "video",
@@ -88,35 +88,35 @@ export const courseModules = [
     ]
   },
   {
-    title: "Módulo 02 - Bases importantes",
-    description: "Ruido, rentabilidad, herramientas y conceptos base antes de entrar en estructuras más avanzadas.",
+    title: "Módulo 02 - Mentalidad base del trader",
+    description: "Fundamentos mentales y prácticos para estudiar trading con más claridad, proceso y disciplina.",
     lessons: [
       {
-        title: "1 - Ruido y confusión",
-        description: "Cómo reducir ruido visual y mental para interpretar el mercado con más claridad.",
+        title: "1 - El ruido que confunde al trader",
+        description: "Cómo identificar y reducir el ruido que afecta la lectura del mercado y la toma de decisiones.",
         url: "https://drive.google.com/file/d/13_ibb4WDTqXrZd85nY5iTswnJz-ZuhLb/view",
         embedUrl: "https://drive.google.com/file/d/13_ibb4WDTqXrZd85nY5iTswnJz-ZuhLb/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "2 - Rentabilidad",
-        description: "La rentabilidad entendida desde proceso, expectativa, riesgo y consistencia.",
+        title: "2 - La rentabilidad como proceso",
+        description: "Por qué la rentabilidad no nace de una sola operación, sino de proceso, repetición, riesgo y consistencia.",
         url: "https://drive.google.com/file/d/1nKV8Ij1JRwCNkAN9xbYVEVIe9W44A-IZ/view",
         embedUrl: "https://drive.google.com/file/d/1nKV8Ij1JRwCNkAN9xbYVEVIe9W44A-IZ/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "3 - Herramientas utilizadas",
-        description: "Herramientas principales utilizadas durante el curso y cómo entender su función.",
+        title: "3 - Herramientas que usaremos en el curso",
+        description: "Revisión de las herramientas principales del curso y para qué sirve cada una dentro del proceso WLF.",
         url: "https://drive.google.com/file/d/1qNthYJR_f_lLRXJazxealdqMZWTBhb2C/view",
         embedUrl: "https://drive.google.com/file/d/1qNthYJR_f_lLRXJazxealdqMZWTBhb2C/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "4 - Cómo instalar NinjaTrader Desktop",
+        title: "4 - Instalación de NinjaTrader Desktop",
         description: "Guía rápida para descargar e instalar NinjaTrader Desktop en Windows usando la guía oficial.",
         type: "article",
         status: "available",
@@ -152,12 +152,12 @@ export const courseModules = [
     ]
   },
   {
-    title: "Módulo 03 - Smart Money / Dinero Inteligente",
-    description: "Primeros conceptos de dinero inteligente y lectura institucional.",
+    title: "Módulo 03 - Introducción al Smart Money",
+    description: "Introducción a la idea de dinero inteligente y cómo usarla como contexto sin operar conceptos aislados.",
     lessons: [
       {
-        title: "1 - Dinero inteligente",
-        description: "Introducción al concepto de dinero inteligente y cómo usarlo como contexto.",
+        title: "1 - Qué es el dinero inteligente",
+        description: "Qué significa dinero inteligente, cómo interpretarlo y por qué debe combinarse con estructura, liquidez y riesgo.",
         url: "https://drive.google.com/file/d/1IzCU8kMCeyFMv_fA4BLmtQVAl8_WJXdY/view",
         embedUrl: "https://drive.google.com/file/d/1IzCU8kMCeyFMv_fA4BLmtQVAl8_WJXdY/preview",
         type: "video",
@@ -166,28 +166,28 @@ export const courseModules = [
     ]
   },
   {
-    title: "Módulo 04 - NinjaTrader",
-    description: "Primeros pasos, plataforma y configuración base para trabajar con NinjaTrader.",
+    title: "Módulo 04 - Preparación de la plataforma",
+    description: "Preparación inicial de NinjaTrader para estudiar, practicar y seguir el curso con una plataforma ordenada.",
     lessons: [
       {
-        title: "1 - NinjaTrader: primeros pasos",
-        description: "Introducción práctica a NinjaTrader y primeros elementos que debes conocer dentro de la plataforma.",
+        title: "1 - Conociendo NinjaTrader",
+        description: "Primer contacto con NinjaTrader, sus áreas principales y los elementos básicos que necesitas reconocer.",
         url: "https://drive.google.com/file/d/1Wr3Hc4GVRtMsrWlqErMkhMNUPxiu10La/view",
         embedUrl: "https://drive.google.com/file/d/1Wr3Hc4GVRtMsrWlqErMkhMNUPxiu10La/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "2 - Plataforma NinjaTrader",
-        description: "Revisión de la plataforma, navegación principal y puntos importantes para trabajar con claridad.",
+        title: "2 - Navegación básica de la plataforma",
+        description: "Cómo moverte dentro de NinjaTrader y ubicar las secciones principales sin perderte en la plataforma.",
         url: "https://drive.google.com/file/d/1vOkzaj21UkPqVHAcyld5r1Iz_fAz6InP/view",
         embedUrl: "https://drive.google.com/file/d/1vOkzaj21UkPqVHAcyld5r1Iz_fAz6InP/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "3 - Configuración de NinjaTrader",
-        description: "Configuraciones iniciales para dejar NinjaTrader más cómodo y listo para el estudio del curso.",
+        title: "3 - Configuración inicial de NinjaTrader",
+        description: "Ajustes iniciales para dejar NinjaTrader más limpio, cómodo y preparado para el proceso de aprendizaje.",
         url: "https://drive.google.com/file/d/14JzxxWfpyegzTjyDkSOvvLUZYHKWGx4_/view",
         embedUrl: "https://drive.google.com/file/d/14JzxxWfpyegzTjyDkSOvvLUZYHKWGx4_/preview",
         type: "video",
@@ -196,60 +196,60 @@ export const courseModules = [
     ]
   },
   {
-    title: "Módulo 05 - Price Action, Order Book y Swings",
-    description: "Lectura de velas, Order Book, swings y soporte/resistencia con criterio WLF.",
+    title: "Módulo 05 - Lectura del precio y estructura",
+    description: "Aprende a leer el precio desde sus bases: velas, swings, estructura, zonas y contexto.",
     lessons: [
       {
-        title: "1 - Price Action: qué es una vela",
-        description: "Concepto base de vela, lectura del cuerpo, mechas, intención y reacción del precio.",
+        title: "1 - Anatomía de una vela",
+        description: "Cómo leer una vela desde su cuerpo, mechas, intención, presión y reacción del precio.",
         url: "https://drive.google.com/file/d/1sYxSoPK4BTgQvy0cYY_PLZ-1WRUWHtkS/view",
         embedUrl: "https://drive.google.com/file/d/1sYxSoPK4BTgQvy0cYY_PLZ-1WRUWHtkS/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "2 - Order Book",
-        description: "Introducción al Order Book y cómo interpretarlo sin perder el contexto del precio.",
+        title: "2 - Introducción al Order Book",
+        description: "Primer acercamiento al Order Book y cómo usarlo como apoyo sin desconectarte del contexto del precio.",
         url: "https://drive.google.com/file/d/1XQixOveJs2QQH7Zfl4Cu6DpeUwDmrc7g/view",
         embedUrl: "https://drive.google.com/file/d/1XQixOveJs2QQH7Zfl4Cu6DpeUwDmrc7g/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "3 - Swing Book",
-        description: "Base conceptual para entender swings y cómo usarlos como referencia de estructura.",
+        title: "3 - Qué son los swings del mercado",
+        description: "Qué son los swings, por qué importan y cómo ayudan a ordenar la lectura de la estructura.",
         url: "https://drive.google.com/file/d/1B8VwJQpk4t4_Ddlc6OMzM7Oh3GDUhUVx/view",
         embedUrl: "https://drive.google.com/file/d/1B8VwJQpk4t4_Ddlc6OMzM7Oh3GDUhUVx/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "4 - Swing Definition gráfico",
-        description: "Explicación visual de swings, puntos de giro y referencias importantes del mercado.",
+        title: "4 - Cómo identificar swings en el gráfico",
+        description: "Cómo reconocer swings visualmente en el gráfico y diferenciar puntos de giro relevantes de ruido.",
         url: "https://drive.google.com/file/d/1jCCMgH8Y2K2PEShWDQ501mnkFhsMn6G_/view",
         embedUrl: "https://drive.google.com/file/d/1jCCMgH8Y2K2PEShWDQ501mnkFhsMn6G_/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "5 - Validación de swings",
-        description: "Cómo validar swings con criterio y evitar leer cualquier movimiento pequeño como estructura real.",
+        title: "5 - Validación de swings importantes",
+        description: "Cómo validar swings con criterio y evitar tratar cualquier movimiento pequeño como estructura importante.",
         url: "https://drive.google.com/file/d/120Knlf97mHdX4XyKn8OzCUuyvjjWQfdr/view",
         embedUrl: "https://drive.google.com/file/d/120Knlf97mHdX4XyKn8OzCUuyvjjWQfdr/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "6 - Swing Right/Wrong: conclusión",
-        description: "Comparación entre lecturas correctas e incorrectas de swings para mejorar criterio.",
+        title: "6 - Lecturas correctas e incorrectas de swings",
+        description: "Comparación práctica entre buenas y malas lecturas de swings para entrenar criterio.",
         url: "https://drive.google.com/file/d/1JGKOMvcqGHmHA98QP7kjG1wwWNZiuWHP/view",
         embedUrl: "https://drive.google.com/file/d/1JGKOMvcqGHmHA98QP7kjG1wwWNZiuWHP/preview",
         type: "video",
         status: "available"
       },
       {
-        title: "7 - Soporte y resistencia",
-        description: "Cómo entender soporte y resistencia como zonas de decisión, no como líneas mágicas.",
+        title: "7 - Soportes y resistencias con contexto",
+        description: "Cómo interpretar soportes y resistencias como zonas de decisión, liquidez y reacción, no como líneas mágicas.",
         url: "https://drive.google.com/file/d/15-QK9t5sbyt2mSvrd6VwxLVYv0kjRDaF/view",
         embedUrl: "https://drive.google.com/file/d/15-QK9t5sbyt2mSvrd6VwxLVYv0kjRDaF/preview",
         type: "video",

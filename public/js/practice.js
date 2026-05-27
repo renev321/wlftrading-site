@@ -2446,10 +2446,10 @@ async function generateResultCard() {
   ctx.fillRect(0, 0, width, height);
 
   // Premium glass panel: smaller, more transparent, background still visible.
-  const panelX = 132;
-  const panelY = 140;
-  const panelW = 720;
-  const panelH = 575;
+  const panelX = 150;
+  const panelY = 128;
+  const panelW = 760;
+  const panelH = 635;
 
   fillRoundedRect(ctx, panelX, panelY, panelW, panelH, 34, "rgba(4, 8, 6, 0.42)");
 
@@ -2457,7 +2457,7 @@ async function generateResultCard() {
   ctx.strokeStyle = "rgba(214, 178, 91, 0.36)";
   ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.roundRect(panelX + 24, panelY + 26, panelW - 48, panelH - 52, 22);
+  ctx.roundRect(panelX + 26, panelY + 28, panelW - 52, panelH - 56, 24);
   ctx.stroke();
   ctx.restore();
 
@@ -2468,7 +2468,7 @@ async function generateResultCard() {
     ctx.shadowColor = "rgba(0, 0, 0, 0.65)";
     ctx.shadowBlur = 20;
     ctx.shadowOffsetY = 8;
-    ctx.drawImage(badge, width - 360, 132, 210, 210);
+    ctx.drawImage(badge, width - 350, 150, 205, 205);
     ctx.restore();
   }
 
@@ -2488,30 +2488,30 @@ async function generateResultCard() {
 
   ctx.fillStyle = "#d6b25b";
   ctx.font = "800 34px Arial, sans-serif";
-  ctx.fillText("RESULTADO WLF", panelX + 62, panelY + 92);
+  ctx.fillText("RESULTADO WLF", panelX + 64, panelY + 104);
 
   ctx.fillStyle = "#fff7e6";
   ctx.font = "900 104px Arial, sans-serif";
-  ctx.fillText(`${score} / ${totalQuestions}`, panelX + 58, panelY + 235);
+  ctx.fillText(`${score} / ${totalQuestions}`, panelX + 60, panelY + 252);
 
   ctx.fillStyle = "#f4e4b6";
   ctx.font = "800 48px Arial, sans-serif";
-  ctx.fillText(profile.title, panelX + 62, panelY + 350);
+  ctx.fillText(profile.title, panelX + 64, panelY + 378);
 
   ctx.fillStyle = "rgba(255, 248, 232, 0.96)";
   ctx.font = "700 28px Arial, sans-serif";
-  ctx.fillText(`Tema: ${topicLabel}`, panelX + 62, panelY + 430);
+  ctx.fillText(`Tema: ${topicLabel}`, panelX + 64, panelY + 466);
 
   ctx.fillStyle = "rgba(255, 248, 232, 0.92)";
   ctx.font = "650 30px Arial, sans-serif";
-  const phraseLines = wrapText(ctx, profile.phrase, panelW - 130);
+  const phraseLines = wrapText(ctx, profile.phrase, panelW - 150);
   phraseLines.slice(0, 2).forEach((line, index) => {
-    ctx.fillText(line, panelX + 62, panelY + 494 + index * 38);
+    ctx.fillText(line, panelX + 64, panelY + 548 + index * 38);
   });
 
   ctx.font = "800 24px Arial, sans-serif";
   ctx.fillStyle = "rgba(214, 178, 91, 0.96)";
-  ctx.fillText("WLF Trading", panelX + 62, panelY + panelH - 30);
+  ctx.fillText("WLF Trading", panelX + 64, panelY + panelH - 48);
 
   ctx.shadowBlur = 0;
   ctx.shadowOffsetY = 0;

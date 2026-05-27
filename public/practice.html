@@ -143,6 +143,44 @@
         max-height: 260px;
       }
     }
+  
+    /* v63 polish: smaller topic panel and cleaner balance with the question area */
+    .practice-layout {
+      grid-template-columns: minmax(190px, 220px) minmax(0, 1fr) !important;
+      align-items: start !important;
+    }
+
+    .practice-sidebar {
+      width: 100%;
+      max-width: 220px;
+      padding: 0.75rem !important;
+      gap: 0.35rem !important;
+      max-height: min(620px, calc(100vh - 150px)) !important;
+    }
+
+    .practice-filter {
+      min-height: auto !important;
+      padding: 0.72rem 0.85rem !important;
+      font-size: 0.94rem !important;
+      line-height: 1.1 !important;
+      border-radius: 14px !important;
+    }
+
+    .practice-content {
+      max-width: 100% !important;
+    }
+
+    @media (max-width: 1040px) {
+      .practice-layout {
+        grid-template-columns: 1fr !important;
+      }
+
+      .practice-sidebar {
+        max-width: none;
+        max-height: 250px !important;
+      }
+    }
+
   </style>
 
 </head>

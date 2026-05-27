@@ -2413,108 +2413,105 @@ async function generateResultCard() {
 
   ctx.clearRect(0, 0, width, height);
 
-  // Always draw a dark premium base first.
+  // Dark premium base, so the card never looks empty even if an asset has transparency.
   const baseGradient = ctx.createLinearGradient(0, 0, width, height);
   baseGradient.addColorStop(0, "#030705");
-  baseGradient.addColorStop(0.42, "#07120b");
+  baseGradient.addColorStop(0.45, "#08120d");
   baseGradient.addColorStop(1, "#120d06");
   ctx.fillStyle = baseGradient;
   ctx.fillRect(0, 0, width, height);
 
-  // Subtle market-style glow and grid so transparent backgrounds still look premium.
-  const glow = ctx.createRadialGradient(width * 0.78, height * 0.20, 40, width * 0.78, height * 0.20, 760);
-  glow.addColorStop(0, "rgba(214, 178, 91, 0.22)");
-  glow.addColorStop(0.45, "rgba(51, 209, 96, 0.08)");
-  glow.addColorStop(1, "rgba(0, 0, 0, 0)");
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, width, height);
-
-  ctx.save();
-  ctx.globalAlpha = 0.18;
-  ctx.strokeStyle = "rgba(214, 178, 91, 0.34)";
-  ctx.lineWidth = 2;
-  for (let x = 120; x < width - 120; x += 120) {
-    ctx.beginPath();
-    ctx.moveTo(x, 120);
-    ctx.lineTo(x, height - 120);
-    ctx.stroke();
-  }
-  for (let y = 120; y < height - 120; y += 90) {
-    ctx.beginPath();
-    ctx.moveTo(120, y);
-    ctx.lineTo(width - 120, y);
-    ctx.stroke();
-  }
-  ctx.restore();
-
-  // Draw random background if available.
+  // Background asset.
   if (background) {
     ctx.save();
-    ctx.globalAlpha = 0.82;
+    ctx.globalAlpha = 0.96;
     coverImage(ctx, background, 0, 0, width, height);
     ctx.restore();
   }
 
-  // Dark readable layer.
-  const readability = ctx.createLinearGradient(0, 0, width, height);
-  readability.addColorStop(0, "rgba(0, 0, 0, 0.78)");
-  readability.addColorStop(0.45, "rgba(0, 0, 0, 0.55)");
-  readability.addColorStop(1, "rgba(0, 0, 0, 0.35)");
-  ctx.fillStyle = readability;
+  // Global cinematic dark layer. Keeps image premium but does not hide the background.
+  const cinematic = ctx.createLinearGradient(0, 0, width, height);
+  cinematic.addColorStop(0, "rgba(0, 0, 0, 0.48)");
+  cinematic.addColorStop(0.45, "rgba(0, 0, 0, 0.25)");
+  cinematic.addColorStop(1, "rgba(0, 0, 0, 0.38)");
+  ctx.fillStyle = cinematic;
   ctx.fillRect(0, 0, width, height);
 
-  // Main content panel.
-  fillRoundedRect(ctx, 108, 116, 860, 670, 36, "rgba(5, 9, 7, 0.72)");
-  ctx.strokeStyle = "rgba(214, 178, 91, 0.42)";
-  ctx.lineWidth = 3;
-  ctx.strokeRect(138, 148, 800, 610);
+  // Soft readable area only behind the text, not a huge box.
+  const textGlow = ctx.createRadialGradient(420, 440, 20, 420, 440, 620);
+  textGlow.addColorStop(0, "rgba(0, 0, 0, 0.70)");
+  textGlow.addColorStop(0.55, "rgba(0, 0, 0, 0.38)");
+  textGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
+  ctx.fillStyle = textGlow;
+  ctx.fillRect(0, 0, width, height);
 
+  // Premium glass panel: smaller, more transparent, background still visible.
+  const panelX = 132;
+  const panelY = 140;
+  const panelW = 720;
+  const panelH = 575;
+
+  fillRoundedRect(ctx, panelX, panelY, panelW, panelH, 34, "rgba(4, 8, 6, 0.42)");
+
+  ctx.save();
+  ctx.strokeStyle = "rgba(214, 178, 91, 0.36)";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.roundRect(panelX + 24, panelY + 26, panelW - 48, panelH - 52, 22);
+  ctx.stroke();
+  ctx.restore();
+
+  // Badge on the right, clear but not overpowering.
   if (badge) {
     ctx.save();
-    ctx.globalAlpha = 0.96;
-    ctx.drawImage(badge, width - 380, 128, 210, 210);
+    ctx.globalAlpha = 0.98;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.65)";
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetY = 8;
+    ctx.drawImage(badge, width - 360, 132, 210, 210);
     ctx.restore();
   }
 
+  // Border last so it frames everything.
   if (border) {
     ctx.save();
-    ctx.globalAlpha = 0.92;
+    ctx.globalAlpha = 0.94;
     ctx.drawImage(border, 0, 0, width, height);
     ctx.restore();
   }
 
-  // Text shadow for readability.
-  ctx.shadowColor = "rgba(0, 0, 0, 0.85)";
-  ctx.shadowBlur = 16;
+  // Strong readable text.
+  ctx.shadowColor = "rgba(0, 0, 0, 0.90)";
+  ctx.shadowBlur = 18;
   ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 4;
+  ctx.shadowOffsetY = 5;
 
   ctx.fillStyle = "#d6b25b";
   ctx.font = "800 34px Arial, sans-serif";
-  ctx.fillText("RESULTADO WLF", 170, 220);
+  ctx.fillText("RESULTADO WLF", panelX + 62, panelY + 92);
 
   ctx.fillStyle = "#fff7e6";
   ctx.font = "900 104px Arial, sans-serif";
-  ctx.fillText(`${score} / ${totalQuestions}`, 166, 360);
+  ctx.fillText(`${score} / ${totalQuestions}`, panelX + 58, panelY + 235);
 
   ctx.fillStyle = "#f4e4b6";
   ctx.font = "800 48px Arial, sans-serif";
-  ctx.fillText(profile.title, 170, 478);
+  ctx.fillText(profile.title, panelX + 62, panelY + 350);
 
   ctx.fillStyle = "rgba(255, 248, 232, 0.96)";
-  ctx.font = "600 28px Arial, sans-serif";
-  ctx.fillText(`Tema: ${topicLabel}`, 170, 560);
+  ctx.font = "700 28px Arial, sans-serif";
+  ctx.fillText(`Tema: ${topicLabel}`, panelX + 62, panelY + 430);
 
-  ctx.fillStyle = "rgba(255, 248, 232, 0.90)";
-  ctx.font = "600 30px Arial, sans-serif";
-  const phraseLines = wrapText(ctx, profile.phrase, 720);
+  ctx.fillStyle = "rgba(255, 248, 232, 0.92)";
+  ctx.font = "650 30px Arial, sans-serif";
+  const phraseLines = wrapText(ctx, profile.phrase, panelW - 130);
   phraseLines.slice(0, 2).forEach((line, index) => {
-    ctx.fillText(line, 170, 640 + index * 42);
+    ctx.fillText(line, panelX + 62, panelY + 510 + index * 40);
   });
 
-  ctx.font = "700 24px Arial, sans-serif";
-  ctx.fillStyle = "rgba(214, 178, 91, 0.94)";
-  ctx.fillText("WLF Trading", 170, 735);
+  ctx.font = "800 24px Arial, sans-serif";
+  ctx.fillStyle = "rgba(214, 178, 91, 0.96)";
+  ctx.fillText("WLF Trading", panelX + 62, panelY + panelH - 46);
 
   ctx.shadowBlur = 0;
   ctx.shadowOffsetY = 0;

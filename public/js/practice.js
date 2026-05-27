@@ -2413,7 +2413,7 @@ async function generateResultCard() {
 
   ctx.clearRect(0, 0, width, height);
 
-  // Dark premium base, so the card never looks empty even if an asset has transparency.
+  // Dark premium base, so the card never looks empty.
   const baseGradient = ctx.createLinearGradient(0, 0, width, height);
   baseGradient.addColorStop(0, "#030705");
   baseGradient.addColorStop(0.45, "#08120d");
@@ -2424,89 +2424,86 @@ async function generateResultCard() {
   // Background asset.
   if (background) {
     ctx.save();
-    ctx.globalAlpha = 0.96;
+    ctx.globalAlpha = 0.98;
     coverImage(ctx, background, 0, 0, width, height);
     ctx.restore();
   }
 
-  // Global cinematic dark layer. Keeps image premium but does not hide the background.
+  // Cinematic dark layer, no visible text box.
   const cinematic = ctx.createLinearGradient(0, 0, width, height);
-  cinematic.addColorStop(0, "rgba(0, 0, 0, 0.48)");
-  cinematic.addColorStop(0.45, "rgba(0, 0, 0, 0.25)");
-  cinematic.addColorStop(1, "rgba(0, 0, 0, 0.38)");
+  cinematic.addColorStop(0, "rgba(0, 0, 0, 0.38)");
+  cinematic.addColorStop(0.45, "rgba(0, 0, 0, 0.22)");
+  cinematic.addColorStop(1, "rgba(0, 0, 0, 0.34)");
   ctx.fillStyle = cinematic;
   ctx.fillRect(0, 0, width, height);
 
-  // Soft readable area only behind the text, not a huge box.
-  const textGlow = ctx.createRadialGradient(420, 440, 20, 420, 440, 620);
-  textGlow.addColorStop(0, "rgba(0, 0, 0, 0.70)");
-  textGlow.addColorStop(0.55, "rgba(0, 0, 0, 0.38)");
+  // Soft center glow only for readability. It is not a rectangle/box.
+  const textGlow = ctx.createRadialGradient(width / 2, height * 0.50, 40, width / 2, height * 0.50, 560);
+  textGlow.addColorStop(0, "rgba(0, 0, 0, 0.48)");
+  textGlow.addColorStop(0.48, "rgba(0, 0, 0, 0.28)");
   textGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
   ctx.fillStyle = textGlow;
   ctx.fillRect(0, 0, width, height);
 
-  // Premium glass panel: smaller, more transparent, background still visible.
-  const panelX = 235;
-  const panelY = 138;
-  const panelW = 730;
-  const panelH = 610;
-
-  fillRoundedRect(ctx, panelX, panelY, panelW, panelH, 34, "rgba(4, 8, 6, 0.34)");
-
-  // Badge on the right, clear but not overpowering.
+  // Badge: centered above the text, small enough to feel premium, not invasive.
   if (badge) {
     ctx.save();
-    ctx.globalAlpha = 0.98;
-    ctx.shadowColor = "rgba(0, 0, 0, 0.65)";
-    ctx.shadowBlur = 20;
+    ctx.globalAlpha = 0.96;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.72)";
+    ctx.shadowBlur = 22;
     ctx.shadowOffsetY = 8;
-    ctx.drawImage(badge, width - 340, 150, 205, 205);
+    ctx.drawImage(badge, (width / 2) - 70, 112, 140, 140);
     ctx.restore();
   }
 
-  // Border last so it frames everything.
+  // Border frames the final card.
   if (border) {
     ctx.save();
-    ctx.globalAlpha = 0.94;
+    ctx.globalAlpha = 0.95;
     ctx.drawImage(border, 0, 0, width, height);
     ctx.restore();
   }
 
-  // Strong readable text.
-  ctx.shadowColor = "rgba(0, 0, 0, 0.90)";
-  ctx.shadowBlur = 18;
+  // Centered premium text.
+  ctx.textAlign = "center";
+  ctx.textBaseline = "alphabetic";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.92)";
+  ctx.shadowBlur = 20;
   ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 5;
+  ctx.shadowOffsetY = 6;
+
+  const centerX = width / 2;
 
   ctx.fillStyle = "#d6b25b";
   ctx.font = "800 34px Arial, sans-serif";
-  ctx.fillText("RESULTADO WLF", panelX + 66, panelY + 108);
+  ctx.fillText("RESULTADO WLF", centerX, 305);
 
   ctx.fillStyle = "#fff7e6";
-  ctx.font = "900 104px Arial, sans-serif";
-  ctx.fillText(`${score} / ${totalQuestions}`, panelX + 62, panelY + 250);
+  ctx.font = "900 108px Arial, sans-serif";
+  ctx.fillText(`${score} / ${totalQuestions}`, centerX, 440);
 
   ctx.fillStyle = "#f4e4b6";
-  ctx.font = "800 48px Arial, sans-serif";
-  ctx.fillText(profile.title, panelX + 66, panelY + 374);
+  ctx.font = "800 50px Arial, sans-serif";
+  ctx.fillText(profile.title, centerX, 535);
 
   ctx.fillStyle = "rgba(255, 248, 232, 0.96)";
   ctx.font = "700 28px Arial, sans-serif";
-  ctx.fillText(`Tema: ${topicLabel}`, panelX + 66, panelY + 452);
+  ctx.fillText(`Tema: ${topicLabel}`, centerX, 595);
 
   ctx.fillStyle = "rgba(255, 248, 232, 0.92)";
   ctx.font = "650 30px Arial, sans-serif";
-  const phraseLines = wrapText(ctx, profile.phrase, panelW - 145);
+  const phraseLines = wrapText(ctx, profile.phrase, 900);
   phraseLines.slice(0, 2).forEach((line, index) => {
-    ctx.fillText(line, panelX + 66, panelY + 524 + index * 38);
+    ctx.fillText(line, centerX, 660 + index * 38);
   });
 
   ctx.font = "800 24px Arial, sans-serif";
   ctx.fillStyle = "rgba(214, 178, 91, 0.96)";
-  ctx.fillText("WLF Trading", panelX + 66, panelY + panelH - 42);
+  ctx.fillText("WLF Trading", centerX, 755);
 
   ctx.shadowBlur = 0;
   ctx.shadowOffsetY = 0;
+  ctx.textAlign = "start";
 
   const blob = await canvasToBlob(canvas);
   const dataUrl = canvas.toDataURL("image/png", 1);

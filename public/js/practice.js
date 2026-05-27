@@ -2166,14 +2166,7 @@ const summaryTopicPill = document.getElementById("summaryTopicPill");
 const resultCardPreview = document.getElementById("resultCardPreview");
 const resultCanvas = document.getElementById("resultCanvas");
 const shareToggleBtn = document.getElementById("shareToggleBtn");
-const sharePanel = document.getElementById("sharePanel");
 const shareFeedback = document.getElementById("shareFeedback");
-const nativeShareBtn = document.getElementById("nativeShareBtn");
-const shareTelegramBtn = document.getElementById("shareTelegramBtn");
-const shareWhatsAppBtn = document.getElementById("shareWhatsAppBtn");
-const shareXBtn = document.getElementById("shareXBtn");
-const shareFacebookBtn = document.getElementById("shareFacebookBtn");
-const shareDiscordBtn = document.getElementById("shareDiscordBtn");
 const downloadCardBtn = document.getElementById("downloadCardBtn");
 const copyResultBtn = document.getElementById("copyResultBtn");
 
@@ -2327,29 +2320,6 @@ function setShareFeedback(message) {
   }
 }
 
-function updateShareLinks(resultText) {
-  const pageUrl = `${window.location.origin}/practice.html`;
-  const encodedText = encodeURIComponent(resultText);
-  const encodedUrl = encodeURIComponent(pageUrl);
-
-  if (shareTelegramBtn) {
-    shareTelegramBtn.href = `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`;
-  }
-
-  if (shareWhatsAppBtn) {
-    shareWhatsAppBtn.href = `https://wa.me/?text=${encodeURIComponent(`${resultText}
-${pageUrl}`)}`;
-  }
-
-  if (shareXBtn) {
-    shareXBtn.href = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
-  }
-
-  if (shareFacebookBtn) {
-    shareFacebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
-  }
-}
-
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -2427,11 +2397,14 @@ async function generateResultCard() {
   const backgroundPath = chooseRandom(RESULT_CARD_ASSETS.backgrounds);
   const borderPath = chooseRandom(RESULT_CARD_ASSETS.borders);
   const badgePath = getBadgeForProfile(profile);
-  const [background, border, badge] = await Promise.all([
-    loadImage(backgroundPath),
-    loadImage(borderPath),
-    loadImage(badgePath)
-  ]);
+
+  let background = null;
+  let border = null;
+  let badge = null;
+
+  try { background = await loadImage(backgroundPath); } catch (error) { console.warn(error); }
+  try { border = await loadImage(borderPath); } catch (error) { console.warn(error); }
+  try { badge = await loadImage(badgePath); } catch (error) { console.warn(error); }
 
   const canvas = resultCanvas;
   const ctx = canvas.getContext("2d");
@@ -2439,51 +2412,112 @@ async function generateResultCard() {
   const height = canvas.height;
 
   ctx.clearRect(0, 0, width, height);
-  coverImage(ctx, background, 0, 0, width, height);
 
-  const overlay = ctx.createLinearGradient(0, 0, width, height);
-  overlay.addColorStop(0, "rgba(8, 10, 15, 0.22)");
-  overlay.addColorStop(0.55, "rgba(9, 12, 18, 0.62)");
-  overlay.addColorStop(1, "rgba(7, 9, 14, 0.86)");
-  ctx.fillStyle = overlay;
+  // Always draw a dark premium base first.
+  const baseGradient = ctx.createLinearGradient(0, 0, width, height);
+  baseGradient.addColorStop(0, "#030705");
+  baseGradient.addColorStop(0.42, "#07120b");
+  baseGradient.addColorStop(1, "#120d06");
+  ctx.fillStyle = baseGradient;
   ctx.fillRect(0, 0, width, height);
 
-  fillRoundedRect(ctx, 94, 96, 860, 700, 36, "rgba(9, 12, 18, 0.52)");
-  fillRoundedRect(ctx, 112, 118, 424, 72, 22, "rgba(255, 255, 255, 0.06)");
-  fillRoundedRect(ctx, 112, 206, 284, 58, 20, "rgba(214, 178, 91, 0.14)");
-  fillRoundedRect(ctx, 416, 206, 300, 58, 20, "rgba(255, 255, 255, 0.05)");
+  // Subtle market-style glow and grid so transparent backgrounds still look premium.
+  const glow = ctx.createRadialGradient(width * 0.78, height * 0.20, 40, width * 0.78, height * 0.20, 760);
+  glow.addColorStop(0, "rgba(214, 178, 91, 0.22)");
+  glow.addColorStop(0.45, "rgba(51, 209, 96, 0.08)");
+  glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, width, height);
 
-  ctx.drawImage(badge, width - 350, 122, 190, 190);
-  ctx.drawImage(border, 0, 0, width, height);
+  ctx.save();
+  ctx.globalAlpha = 0.18;
+  ctx.strokeStyle = "rgba(214, 178, 91, 0.34)";
+  ctx.lineWidth = 2;
+  for (let x = 120; x < width - 120; x += 120) {
+    ctx.beginPath();
+    ctx.moveTo(x, 120);
+    ctx.lineTo(x, height - 120);
+    ctx.stroke();
+  }
+  for (let y = 120; y < height - 120; y += 90) {
+    ctx.beginPath();
+    ctx.moveTo(120, y);
+    ctx.lineTo(width - 120, y);
+    ctx.stroke();
+  }
+  ctx.restore();
 
-  ctx.fillStyle = "rgba(214, 178, 91, 0.96)";
+  // Draw random background if available.
+  if (background) {
+    ctx.save();
+    ctx.globalAlpha = 0.82;
+    coverImage(ctx, background, 0, 0, width, height);
+    ctx.restore();
+  }
+
+  // Dark readable layer.
+  const readability = ctx.createLinearGradient(0, 0, width, height);
+  readability.addColorStop(0, "rgba(0, 0, 0, 0.78)");
+  readability.addColorStop(0.45, "rgba(0, 0, 0, 0.55)");
+  readability.addColorStop(1, "rgba(0, 0, 0, 0.35)");
+  ctx.fillStyle = readability;
+  ctx.fillRect(0, 0, width, height);
+
+  // Main content panel.
+  fillRoundedRect(ctx, 108, 116, 860, 670, 36, "rgba(5, 9, 7, 0.72)");
+  ctx.strokeStyle = "rgba(214, 178, 91, 0.42)";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(138, 148, 800, 610);
+
+  if (badge) {
+    ctx.save();
+    ctx.globalAlpha = 0.96;
+    ctx.drawImage(badge, width - 380, 128, 210, 210);
+    ctx.restore();
+  }
+
+  if (border) {
+    ctx.save();
+    ctx.globalAlpha = 0.92;
+    ctx.drawImage(border, 0, 0, width, height);
+    ctx.restore();
+  }
+
+  // Text shadow for readability.
+  ctx.shadowColor = "rgba(0, 0, 0, 0.85)";
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 4;
+
+  ctx.fillStyle = "#d6b25b";
+  ctx.font = "800 34px Arial, sans-serif";
+  ctx.fillText("RESULTADO WLF", 170, 220);
+
+  ctx.fillStyle = "#fff7e6";
+  ctx.font = "900 104px Arial, sans-serif";
+  ctx.fillText(`${score} / ${totalQuestions}`, 166, 360);
+
+  ctx.fillStyle = "#f4e4b6";
+  ctx.font = "800 48px Arial, sans-serif";
+  ctx.fillText(profile.title, 170, 478);
+
+  ctx.fillStyle = "rgba(255, 248, 232, 0.96)";
+  ctx.font = "600 28px Arial, sans-serif";
+  ctx.fillText(`Tema: ${topicLabel}`, 170, 560);
+
+  ctx.fillStyle = "rgba(255, 248, 232, 0.90)";
   ctx.font = "600 30px Arial, sans-serif";
-  ctx.fillText("RESULTADO WLF", 132, 164);
-
-  ctx.fillStyle = "#f7f0df";
-  ctx.font = "700 86px Arial, sans-serif";
-  ctx.fillText(`${score} / ${totalQuestions}`, 130, 340);
-
-  ctx.fillStyle = "#f0e7d4";
-  ctx.font = "700 44px Arial, sans-serif";
-  ctx.fillText(profile.title, 132, 454);
-
-  ctx.fillStyle = "rgba(245, 239, 229, 0.90)";
-  ctx.font = "500 26px Arial, sans-serif";
-  ctx.fillText(`Tema: ${topicLabel}`, 136, 246);
-  ctx.fillText("WLF Trading", 444, 246);
-
-  ctx.fillStyle = "rgba(234, 226, 209, 0.92)";
-  ctx.font = "500 30px Arial, sans-serif";
-  const phraseLines = wrapText(ctx, profile.phrase, 700);
-  phraseLines.forEach((line, index) => {
-    ctx.fillText(line, 132, 538 + index * 40);
+  const phraseLines = wrapText(ctx, profile.phrase, 720);
+  phraseLines.slice(0, 2).forEach((line, index) => {
+    ctx.fillText(line, 170, 640 + index * 42);
   });
 
-  ctx.fillStyle = "rgba(255,255,255,0.78)";
-  ctx.font = "500 22px Arial, sans-serif";
-  const footer = "Entrenar criterio también es construir disciplina.";
-  ctx.fillText(footer, 132, 694);
+  ctx.font = "700 24px Arial, sans-serif";
+  ctx.fillStyle = "rgba(214, 178, 91, 0.94)";
+  ctx.fillText("WLF Trading", 170, 735);
+
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
 
   const blob = await canvasToBlob(canvas);
   const dataUrl = canvas.toDataURL("image/png", 1);
@@ -2494,8 +2528,6 @@ async function generateResultCard() {
   if (resultCardPreview) {
     resultCardPreview.src = dataUrl;
   }
-
-  updateShareLinks(resultText);
 
   currentResultCard = {
     backgroundPath,
@@ -2588,7 +2620,6 @@ function selectAnswer(answerIndex) {
 async function showSummary() {
   practiceApp.classList.add("hidden");
   practiceSummary.classList.remove("hidden");
-  sharePanel?.classList.add("hidden");
   setShareFeedback("");
   currentResultCard = null;
 
@@ -2636,7 +2667,6 @@ function applyFilter(category) {
 
   practiceSummary.classList.add("hidden");
   practiceApp.classList.remove("hidden");
-  sharePanel?.classList.add("hidden");
   setShareFeedback("");
 
   renderQuestion();
@@ -2694,23 +2724,14 @@ async function handleNativeShare() {
       return;
     }
 
-    setShareFeedback("Tu navegador no soporta compartir imagen directamente. Usa Descargar imagen.");
+    await handleDownloadCard();
+    setShareFeedback("Tu navegador no soporta compartir directo. Descargué la imagen para que la puedas enviar.");
   } catch (error) {
     if (error?.name !== "AbortError") {
       console.error(error);
-      setShareFeedback("No se pudo compartir directamente. Usa Descargar imagen.");
+      await handleDownloadCard();
+      setShareFeedback("No se pudo compartir directo. Descargué la imagen para que la puedas enviar.");
     }
-  }
-}
-
-async function handleDiscordShare() {
-  try {
-    const result = await ensureResultCard();
-    await navigator.clipboard.writeText(result.text);
-    setShareFeedback("Resultado copiado para Discord. También puedes descargar la imagen y subirla allí.");
-  } catch (error) {
-    console.error(error);
-    setShareFeedback("No se pudo preparar el resultado para Discord.");
   }
 }
 
@@ -2750,16 +2771,7 @@ if (restartBtn) {
 }
 
 if (shareToggleBtn) {
-  shareToggleBtn.addEventListener("click", async () => {
-    try {
-      await ensureResultCard();
-      sharePanel?.classList.toggle("hidden");
-      setShareFeedback(sharePanel?.classList.contains("hidden") ? "" : "Elige dónde quieres compartir tu resultado.");
-    } catch (error) {
-      console.error(error);
-      setShareFeedback("No se pudo preparar el panel de compartir.");
-    }
-  });
+  shareToggleBtn.addEventListener("click", handleNativeShare);
 }
 
 if (downloadCardBtn) {
@@ -2770,13 +2782,7 @@ if (copyResultBtn) {
   copyResultBtn.addEventListener("click", handleCopyResult);
 }
 
-if (nativeShareBtn) {
-  nativeShareBtn.addEventListener("click", handleNativeShare);
-}
 
-if (shareDiscordBtn) {
-  shareDiscordBtn.addEventListener("click", handleDiscordShare);
-}
 
 
 let practiceInitialized = false;

@@ -2506,12 +2506,12 @@ async function generateResultCard() {
   ctx.font = "650 30px Arial, sans-serif";
   const phraseLines = wrapText(ctx, profile.phrase, panelW - 130);
   phraseLines.slice(0, 2).forEach((line, index) => {
-    ctx.fillText(line, panelX + 62, panelY + 510 + index * 40);
+    ctx.fillText(line, panelX + 62, panelY + 494 + index * 38);
   });
 
   ctx.font = "800 24px Arial, sans-serif";
   ctx.fillStyle = "rgba(214, 178, 91, 0.96)";
-  ctx.fillText("WLF Trading", panelX + 62, panelY + panelH - 46);
+  ctx.fillText("WLF Trading", panelX + 62, panelY + panelH - 30);
 
   ctx.shadowBlur = 0;
   ctx.shadowOffsetY = 0;

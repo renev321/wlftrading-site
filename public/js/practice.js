@@ -3422,7 +3422,6 @@ let currentIndex = 0;
 let score = 0;
 let answeredQuestions = new Set();
 let currentResultCard = null;
-let activeStudentName = "";
 
 const RESULT_CARD_ASSETS = {
   backgrounds: [
@@ -3610,92 +3609,54 @@ function getBadgeForProfile(profile) {
 }
 
 
-function cleanStudentName(value) {
-  const cleaned = String(value || "")
-    .replace(/<[^>]*>/g, "")
-    .replace(/[\r\n\t]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+let studentDisplayName = "Trader WLF";
+let studentNameLoadPromise = null;
 
-  // Never use an email or the first part of an email as the public student name.
+function cleanStudentName(value) {
+  const cleaned = String(value || "").replace(/\s+/g, " ").trim();
+
   if (!cleaned || cleaned.includes("@") || /validando/i.test(cleaned)) {
     return "";
   }
 
-  return cleaned.slice(0, 48);
+  return cleaned;
 }
 
-function setActiveStudentName(value) {
-  const cleaned = cleanStudentName(value);
+function setStudentDisplayNameFromData(data) {
+  const possibleName = cleanStudentName(
+    data?.name ||
+    data?.student?.name ||
+    data?.user?.name ||
+    data?.profile?.name ||
+    data?.member?.name
+  );
 
-  if (cleaned && cleaned !== activeStudentName) {
-    activeStudentName = cleaned;
+  if (possibleName) {
+    studentDisplayName = possibleName;
     currentResultCard = null;
   }
 
-  return activeStudentName;
+  return studentDisplayName;
 }
 
-function getEmailFromHeader() {
-  const emailNode = document.getElementById("userEmail");
-  const raw = String(emailNode?.textContent || "").trim().toLowerCase();
-
-  if (!raw || !raw.includes("@") || /validando/i.test(raw)) {
-    return "";
+async function loadStudentDisplayName() {
+  if (studentNameLoadPromise) {
+    return studentNameLoadPromise;
   }
 
-  return raw;
-}
-
-async function loadStudentNameFromDatabase(user = {}) {
-  // Preferred source: D1 students.name returned by /api/check-access.
-  // Fallbacks are only for safety; the result card must never derive a name from the email local part.
-  const directName = cleanStudentName(
-    user.name ||
-    user.studentName ||
-    user.displayName ||
-    user.profile?.name ||
-    user.access?.name ||
-    user.accessData?.name
-  );
-
-  if (directName) {
-    return setActiveStudentName(directName);
-  }
-
-  const email = String(user.email || getEmailFromHeader()).trim().toLowerCase();
-
-  if (!email || !email.includes("@")) {
-    return activeStudentName || "Trader WLF";
-  }
-
-  try {
-    const response = await fetch("/api/check-access", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
+  studentNameLoadPromise = fetch("/api/check-access", { credentials: "include" })
+    .then((response) => (response.ok ? response.json() : null))
+    .then((data) => setStudentDisplayNameFromData(data || {}))
+    .catch((error) => {
+      console.warn("Could not load student name for result card:", error);
+      return studentDisplayName;
     });
 
-    if (!response.ok) {
-      return activeStudentName || "Trader WLF";
-    }
-
-    const data = await response.json();
-    return setActiveStudentName(data.name) || "Trader WLF";
-  } catch (error) {
-    console.warn("No se pudo cargar el nombre del estudiante desde la base de datos.", error);
-    return activeStudentName || "Trader WLF";
-  }
+  return studentNameLoadPromise;
 }
 
 function getResultCardStudentName() {
-  return activeStudentName || "Trader WLF";
-}
-
-function prepareResultCardStudentName() {
-  // Kept as a small compatibility wrapper for share/download/copy handlers.
-  // No prompt, no localStorage-first logic, and no email-local-part fallback.
-  return getResultCardStudentName();
+  return cleanStudentName(studentDisplayName) || "Trader WLF";
 }
 
 function buildResultText() {
@@ -3785,6 +3746,8 @@ async function canvasToBlob(canvas) {
 }
 
 async function ensureResultCard() {
+  await loadStudentDisplayName();
+
   if (currentResultCard?.blob && currentResultCard?.dataUrl) {
     return currentResultCard;
   }
@@ -4067,7 +4030,6 @@ function applyFilter(category) {
 
 async function handleDownloadCard() {
   try {
-    prepareResultCardStudentName();
     const result = await ensureResultCard();
     const link = document.createElement("a");
     link.href = result.dataUrl;
@@ -4084,7 +4046,6 @@ async function handleDownloadCard() {
 
 async function handleCopyResult() {
   try {
-    prepareResultCardStudentName();
     const result = await ensureResultCard();
     await navigator.clipboard.writeText(result.text);
     setShareFeedback("Resultado copiado. Ya lo puedes pegar donde quieras.");
@@ -4096,7 +4057,6 @@ async function handleCopyResult() {
 
 async function handleNativeShare() {
   try {
-    prepareResultCardStudentName();
     const result = await ensureResultCard();
 
     // Share image only. Text stays separated in "Copiar texto".
@@ -4191,8 +4151,9 @@ function startPracticeApp() {
 }
 
 try {
-  requireActiveUser(async function (user) {
-    await loadStudentNameFromDatabase(user || {});
+  requireActiveUser(function (accessData) {
+    setStudentDisplayNameFromData(accessData || {});
+    loadStudentDisplayName();
     startPracticeApp();
   });
 } catch (error) {

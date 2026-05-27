@@ -2318,8 +2318,7 @@ function buildResultText() {
     profile.phrase,
     "",
     "WLF Trading"
-  ].join("
-");
+  ].join("\n");
 }
 
 function setShareFeedback(message) {

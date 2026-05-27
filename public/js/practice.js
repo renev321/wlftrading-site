@@ -1071,10 +1071,1051 @@ const questions = [
     ],
     correct: 1,
     explanation: "No operar cuando no hay edge es parte del trabajo. Productividad no es cantidad de trades."
+  },
+  {
+    "category": "patrones",
+    "title": "Triángulo simétrico cerca de liquidez",
+    "context": "El precio se comprime bajo varios equal highs. Aún no hay ruptura clara y el volumen disminuye.",
+    "options": [
+      "Comprar antes de la ruptura porque la compresión siempre explota al alza.",
+      "Esperar ruptura, aceptación y reacción; los equal highs pueden ser liquidez.",
+      "Vender porque todo triángulo bajo resistencia cae.",
+      "Ignorar la liquidez porque el patrón ya lo dice todo."
+    ],
+    "correct": 1,
+    "explanation": "Un triángulo muestra compresión, no dirección segura. Cerca de equal highs puede haber barrida antes de decidir."
+  },
+  {
+    "category": "patrones",
+    "title": "Cuña descendente después de caída extendida",
+    "context": "Después de una caída fuerte, el precio sigue bajando pero cada impulso vendedor es más débil dentro de una cuña.",
+    "options": [
+      "Vender porque la figura sigue apuntando hacia abajo.",
+      "Observar posible agotamiento y esperar ruptura/reacción antes de decidir.",
+      "Comprar sin confirmación porque toda cuña descendente revierte.",
+      "Quitar el stop porque el patrón tiene alta probabilidad."
+    ],
+    "correct": 1,
+    "explanation": "La cuña descendente puede mostrar pérdida de presión vendedora, pero necesita confirmación y contexto."
+  },
+  {
+    "category": "patrones",
+    "title": "Cuña ascendente en resistencia",
+    "context": "El precio sube dentro de una cuña ascendente y llega a una resistencia mayor con velas pequeñas.",
+    "options": [
+      "Comprar porque la cuña sube.",
+      "Vigilar agotamiento comprador, pero esperar confirmación real.",
+      "Vender sin confirmación porque toda cuña ascendente cae.",
+      "Ignorar la resistencia porque la figura manda."
+    ],
+    "correct": 1,
+    "explanation": "La cuña ascendente puede sugerir agotamiento comprador, pero no es venta automática."
+  },
+  {
+    "category": "patrones",
+    "title": "Bandera alcista con entrada tardía",
+    "context": "El impulso alcista fue limpio, la bandera rompió, pero cuando entras el precio ya recorrió casi todo el target.",
+    "options": [
+      "Entrar igual porque la bandera era correcta.",
+      "Revisar si el R:R todavía existe; si no, esperar otra oportunidad.",
+      "Comprar más fuerte porque ya confirmó.",
+      "Mover el stop lejos para evitar ruido."
+    ],
+    "correct": 1,
+    "explanation": "Un patrón correcto puede dejar de ser operable si la entrada llega tarde y el R:R se daña."
+  },
+  {
+    "category": "patrones",
+    "title": "Bandera bajista con pullback débil",
+    "context": "Después de un desplazamiento bajista, el precio retrocede lento y no recupera la estructura rota.",
+    "options": [
+      "Puede ser continuación si aparece rechazo y el riesgo es lógico.",
+      "Comprar porque el precio ya bajó mucho.",
+      "Vender sin confirmación porque el impulso anterior fue fuerte.",
+      "Ignorar el contexto y operar solo la forma."
+    ],
+    "correct": 0,
+    "explanation": "Un pullback débil tras impulso bajista puede ser bandera de continuación, pero requiere rechazo y gestión."
+  },
+  {
+    "category": "patrones",
+    "title": "HCH sin neckline rota",
+    "context": "Ves algo parecido a hombro-cabeza-hombro, pero el precio aún no rompe neckline ni pierde estructura.",
+    "options": [
+      "Vender porque la figura se parece a HCH.",
+      "Esperar confirmación; sin ruptura puede ser solo ruido visual.",
+      "Entrar con más contratos porque el patrón es famoso.",
+      "Mover la neckline hasta que la figura se vea perfecta."
+    ],
+    "correct": 1,
+    "explanation": "El parecido visual no confirma un patrón. La validación importa más que el nombre."
+  },
+  {
+    "category": "patrones",
+    "title": "HCH invertido después de barrida",
+    "context": "El precio barre mínimos, recupera fuerte y empieza a formar HCH invertido cerca de demanda.",
+    "options": [
+      "Puede tener lectura alcista si confirma neckline y mantiene invalidación clara.",
+      "Comprar antes de completarse porque siempre funciona.",
+      "Vender porque la tendencia previa era bajista.",
+      "Ignorar la barrida porque solo importa la figura."
+    ],
+    "correct": 0,
+    "explanation": "La barrida agrega contexto, pero la entrada necesita confirmación e invalidación clara."
+  },
+  {
+    "category": "patrones",
+    "title": "Rectángulo en mitad de rango",
+    "context": "Aparece un rectángulo pequeño en el centro de un rango mayor, lejos de extremos importantes.",
+    "options": [
+      "Operar la ruptura del rectángulo sin más contexto.",
+      "Ser cauteloso: en mitad del rango puede ser ruido y mala ubicación.",
+      "Comprar porque los rectángulos rompen arriba.",
+      "Vender porque los rectángulos rompen abajo."
+    ],
+    "correct": 1,
+    "explanation": "La ubicación pesa mucho. Un patrón en el centro del rango suele tener menor calidad."
+  },
+  {
+    "category": "patrones",
+    "title": "Taza con asa con resistencia cercana",
+    "context": "La taza con asa se ve limpia, pero el primer obstáculo está muy cerca en una resistencia fuerte.",
+    "options": [
+      "Tomar la entrada porque el patrón se ve bonito.",
+      "Revisar si el recorrido real compensa antes de operar.",
+      "Ignorar la resistencia porque el patrón manda.",
+      "Aumentar contratos para compensar poco recorrido."
+    ],
+    "correct": 1,
+    "explanation": "Un patrón bueno puede tener mal trade si el target está bloqueado por una zona cercana."
+  },
+  {
+    "category": "patrones",
+    "title": "Patrón correcto en mala condición",
+    "context": "El patrón está bien formado, pero aparece justo antes de una noticia fuerte y sin zona clara.",
+    "options": [
+      "Operar porque el patrón está bien dibujado.",
+      "Descartar o esperar; patrón sin contexto puede ser trampa.",
+      "Operar con más tamaño porque se ve claro.",
+      "Ignorar la noticia porque solo importan figuras."
+    ],
+    "correct": 1,
+    "explanation": "WLF no opera dibujos aislados. Contexto, noticia, ubicación y riesgo pesan más."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Pullback a resistencia rota",
+    "context": "El precio rompe resistencia, avanza y vuelve a la zona rota dejando rechazo claro.",
+    "options": [
+      "Puede ser válido si stop y R:R son lógicos.",
+      "Comprar solo porque tocó la zona.",
+      "Vender porque volver a la zona invalida todo.",
+      "Entrar cuando ya recorrió todo el target."
+    ],
+    "correct": 0,
+    "explanation": "Ruptura + retorno + reacción puede ser válido, pero solo si el riesgo sigue compensando."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Pullback que rompe estructura",
+    "context": "Buscas continuación alcista, pero el retroceso rompe varios swing lows y no recupera.",
+    "options": [
+      "Comprar igual porque era pullback.",
+      "Reevaluar: el retroceso puede haber dejado de ser sano.",
+      "Duplicar para mejorar precio.",
+      "Ignorar los lows rotos por el sesgo inicial."
+    ],
+    "correct": 1,
+    "explanation": "Un pullback sano no debería destruir la estructura que justifica la idea."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Retest débil tras ruptura bajista",
+    "context": "Después de romper soporte con intención, el precio vuelve lento con velas pequeñas.",
+    "options": [
+      "Buscar posible venta si aparece rechazo y riesgo lógico.",
+      "Comprar porque volvió a soporte.",
+      "Vender sin confirmación porque la ruptura fue fuerte.",
+      "Ignorar la zona porque ya fue rota."
+    ],
+    "correct": 0,
+    "explanation": "Un retest débil a zona rota puede ser continuación, pero necesita rechazo y gestión."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Retest demasiado profundo",
+    "context": "El precio rompe al alza y vuelve, pero entra profundo bajo la zona rota sin recuperar.",
+    "options": [
+      "Mantener sesgo alcista sin cambios.",
+      "Cuidado: la ruptura puede estar fallando si no recupera.",
+      "Comprar más porque profundo es mejor.",
+      "Quitar stop para darle espacio."
+    ],
+    "correct": 1,
+    "explanation": "Un retest profundo sin reacción puede mostrar falta de aceptación de la ruptura."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Pullback en tendencia sana",
+    "context": "La tendencia alcista mantiene swing lows mayores y retrocesos controlados.",
+    "options": [
+      "Buscar compras con zona, reacción y R:R.",
+      "Vender cada retroceso porque subió mucho.",
+      "Comprar cualquier vela roja.",
+      "Ignorar stop porque la tendencia es sana."
+    ],
+    "correct": 0,
+    "explanation": "En tendencia sana el pullback puede ser oportunidad, pero debe construirse con gestión."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Pullback en mitad de rango",
+    "context": "El mercado está lateral y el retroceso ocurre justo en el centro del rango.",
+    "options": [
+      "Operarlo como pullback de alta calidad.",
+      "Esperar mejor ubicación; el centro suele ser ruido.",
+      "Aumentar tamaño por stop corto.",
+      "Tomar cualquier dirección."
+    ],
+    "correct": 1,
+    "explanation": "Un pullback en mitad de rango no tiene la misma calidad que uno en zona relevante."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Retest con FVG y liquidez",
+    "context": "El precio toma liquidez, desplaza fuerte y vuelve a una zona donde coinciden FVG y retest.",
+    "options": [
+      "Es zona de interés, pero se necesita reacción y riesgo lógico.",
+      "Entrar sin mirar porque hay muchas confluencias.",
+      "Ignorar FVG porque ya hubo liquidez.",
+      "Vender siempre que el precio vuelva a un FVG."
+    ],
+    "correct": 0,
+    "explanation": "Las confluencias ayudan, pero no reemplazan confirmación, invalidación y gestión."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Pullback con R:R pobre",
+    "context": "La zona es buena, pero el stop lógico es grande y el target cercano está bloqueado.",
+    "options": [
+      "Tomar la operación porque la zona es buena.",
+      "Descartar o esperar mejor precio porque el R:R no compensa.",
+      "Reducir el stop sin lógica.",
+      "Aumentar contratos para que valga la pena."
+    ],
+    "correct": 1,
+    "explanation": "Una buena zona con mal R:R puede seguir siendo una mala operación."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Pullback después de noticia",
+    "context": "Después de una noticia fuerte, el precio vuelve a una zona técnica, pero las velas siguen erráticas.",
+    "options": [
+      "Entrar porque la zona sigue válida.",
+      "Esperar estabilización; la volatilidad puede distorsionar la lectura.",
+      "Operar con más tamaño.",
+      "Ignorar spread y velocidad."
+    ],
+    "correct": 1,
+    "explanation": "Después de noticias, velocidad y spread pueden dañar incluso zonas buenas."
+  },
+  {
+    "category": "pullbacks",
+    "title": "Retest válido pero tarde",
+    "context": "El retest fue limpio, pero cuando lo notas el precio ya recorrió gran parte del movimiento.",
+    "options": [
+      "Entrar tarde para no perderlo.",
+      "Aceptar que se fue y esperar otra estructura.",
+      "Entrar con stop más grande.",
+      "Duplicar porque confirmó."
+    ],
+    "correct": 1,
+    "explanation": "Un setup válido deja de ser operable si lo tomas tarde y sin R:R."
+  },
+  {
+    "category": "entrada",
+    "title": "Stop bajo liquidez obvia",
+    "context": "La entrada tiene sentido, pero el stop queda justo bajo equal lows muy visibles.",
+    "options": [
+      "Puede estar mal ubicado aunque la entrada sea buena.",
+      "Es perfecto porque queda pequeño.",
+      "Quitar el stop para evitar barrida.",
+      "Entrar con más contratos por stop corto."
+    ],
+    "correct": 0,
+    "explanation": "El stop debe ir donde se invalida la idea, no donde se ve cómodo y obvio."
+  },
+  {
+    "category": "entrada",
+    "title": "Stop demasiado pequeño",
+    "context": "Quieres operar una zona amplia, pero colocas el stop dentro del ruido normal.",
+    "options": [
+      "El stop pequeño siempre mejora el trade.",
+      "Puede ser un stop artificial que no respeta estructura.",
+      "La zona no importa si el R:R se ve alto.",
+      "Hay que entrar sin target."
+    ],
+    "correct": 1,
+    "explanation": "Forzar un stop pequeño crea un R:R falso si no respeta la estructura."
+  },
+  {
+    "category": "entrada",
+    "title": "Stop lógico pero grande",
+    "context": "La invalidación real queda lejos y respetarla excede el riesgo permitido de tu cuenta.",
+    "options": [
+      "Reducir tamaño, esperar mejor entrada o descartar.",
+      "Tomar el trade porque el análisis es bueno.",
+      "Usar el mismo lotaje y aceptar.",
+      "Mover stop a un sitio cómodo sin lógica."
+    ],
+    "correct": 0,
+    "explanation": "Si el stop lógico no cabe en tu gestión, no rompes el plan: ajustas o descartas."
+  },
+  {
+    "category": "entrada",
+    "title": "Target con obstáculos",
+    "context": "Tu target está después de varias zonas donde el precio puede reaccionar antes.",
+    "options": [
+      "Mantener target porque el patrón lo proyecta.",
+      "Evaluar obstáculos reales antes del objetivo.",
+      "Quitar target y esperar milagro.",
+      "Aumentar contratos para compensar."
+    ],
+    "correct": 1,
+    "explanation": "El camino hacia el TP importa. Las zonas intermedias pueden cambiar la calidad."
+  },
+  {
+    "category": "entrada",
+    "title": "Target fantasía",
+    "context": "El setup es decente, pero tu TP está muy lejos y sin estructura que lo justifique.",
+    "options": [
+      "Es bueno porque el R:R se ve grande.",
+      "Puede ser un target irreal que maquilla la operación.",
+      "Entrar más fuerte por más recompensa.",
+      "Mover stop más cerca."
+    ],
+    "correct": 1,
+    "explanation": "Un target lejano sin contexto no es edge; es ilusión matemática."
+  },
+  {
+    "category": "entrada",
+    "title": "Zona sin reacción",
+    "context": "El precio llega a una zona interesante, pero aún no hay rechazo ni desplazamiento.",
+    "options": [
+      "Entrar porque la zona basta.",
+      "Esperar reacción; zona sin respuesta no confirma nada.",
+      "Duplicar por entrada temprana.",
+      "Ignorar stop hasta ver qué pasa."
+    ],
+    "correct": 1,
+    "explanation": "Una zona es una hipótesis. La reacción valida si el mercado la respeta."
+  },
+  {
+    "category": "entrada",
+    "title": "Entrada después de confirmación completa",
+    "context": "El precio rompe, retestea, reacciona y ya avanzó mucho antes de tu entrada.",
+    "options": [
+      "Puede ser baja calidad si el R:R ya se dañó.",
+      "Es mejor porque hay más confirmación.",
+      "Siempre es válido entrar al final.",
+      "Aumentar target para arreglar ratio."
+    ],
+    "correct": 0,
+    "explanation": "Confirmación no significa perseguir. Si el trade ya corrió, la oportunidad cambió."
+  },
+  {
+    "category": "entrada",
+    "title": "Stop en zona de barrida",
+    "context": "Pones stop justo debajo de un mínimo anterior porque queda barato.",
+    "options": [
+      "Puede ser peligroso si ese mínimo acumula stops.",
+      "Es perfecto porque el mercado lo respeta siempre.",
+      "No importa si el target es grande.",
+      "La solución es no usar stop."
+    ],
+    "correct": 0,
+    "explanation": "Los mínimos obvios pueden ser liquidez. Stop barato no siempre es stop lógico."
+  },
+  {
+    "category": "entrada",
+    "title": "Resistencia bloqueando target",
+    "context": "La entrada reacciona bien, pero a pocos ticks hay una resistencia repetida.",
+    "options": [
+      "Ignorarla porque la entrada fue buena.",
+      "Considerar que el espacio real puede ser insuficiente.",
+      "Aumentar target más allá.",
+      "Mover stop para mejorar ratio."
+    ],
+    "correct": 1,
+    "explanation": "Una buena entrada necesita espacio para desarrollarse."
+  },
+  {
+    "category": "entrada",
+    "title": "Buena lectura, mala ejecución",
+    "context": "El análisis fue correcto, pero entraste tarde con stop improvisado y target emocional.",
+    "options": [
+      "Marcarlo como buen trade por acertar dirección.",
+      "Evaluarlo como mala ejecución aunque la idea fuera buena.",
+      "Repetirlo porque pudo ganar.",
+      "Aumentar tamaño la próxima vez."
+    ],
+    "correct": 1,
+    "explanation": "Lectura y ejecución son cosas distintas. Una puede estar bien y la otra mal."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R 1:5 en pullback válido",
+    "context": "El precio vuelve a una zona lógica, reacciona, y el target 1:5 coincide con liquidez previa.",
+    "options": [
+      "Puede ser válido si el recorrido al target tiene sentido.",
+      "Es malo porque 1:5 siempre es ambicioso.",
+      "Es obligatorio tomarlo por ser 1:5.",
+      "Mover stop más cerca para hacerlo 1:8."
+    ],
+    "correct": 0,
+    "explanation": "Un 1:5 es bueno si nace de contexto, invalidación lógica y target alcanzable."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R 1:3 después de liquidez",
+    "context": "El precio barre un mínimo, recupera fuerte y ofrece 1:3 hacia zona limpia.",
+    "options": [
+      "Interesante si hay reacción, contexto y stop lógico.",
+      "Comprar siempre que exista 1:3.",
+      "Descartarlo porque toda liquidez manipula.",
+      "Subir lotaje porque el ratio es bueno."
+    ],
+    "correct": 0,
+    "explanation": "Liquidez + reacción + R:R razonable puede ser potente, pero no automático."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R alto con obstáculos",
+    "context": "La entrada marca 1:6, pero el target ignora varias zonas de reacción previas.",
+    "options": [
+      "El ratio alto valida el trade.",
+      "El R:R puede ser falso si ignora obstáculos reales.",
+      "Mover stop más cerca.",
+      "Aumentar contratos por recompensa."
+    ],
+    "correct": 1,
+    "explanation": "R:R debe ser realista. Obstáculos intermedios pueden invalidar el cálculo."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R bajo con buena reacción",
+    "context": "La zona reacciona perfecto, pero el primer obstáculo solo permite 1:0.8.",
+    "options": [
+      "Tomarlo porque la reacción fue buena.",
+      "Reconocer que puede no compensar por R:R bajo.",
+      "Aumentar tamaño.",
+      "Quitar target para buscar más."
+    ],
+    "correct": 1,
+    "explanation": "Reacción no basta si la recompensa no compensa el riesgo."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R bueno, stop sin sentido",
+    "context": "El trade muestra 1:4, pero el stop está dentro del ruido normal del mercado.",
+    "options": [
+      "Es buen trade porque 1:4 es alto.",
+      "El R:R está forzado si el stop no invalida la idea.",
+      "Tomarlo con más confianza.",
+      "Mover target más lejos."
+    ],
+    "correct": 1,
+    "explanation": "Un ratio bonito con stop mal colocado es maquillaje, no gestión."
+  },
+  {
+    "category": "riskreward",
+    "title": "Entrada tardía cambia el ratio",
+    "context": "El setup daba 1:3, pero entras tarde y ahora solo queda 1:1.",
+    "options": [
+      "Entrar porque la idea original era buena.",
+      "Aceptar que la oportunidad cambió y esperar.",
+      "Mantener target original aunque ya esté lejos.",
+      "Reducir stop sin lógica."
+    ],
+    "correct": 1,
+    "explanation": "El R:R real es el que tienes al entrar, no el que existía antes."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R contra zona semanal",
+    "context": "Quieres comprar con target alto, pero encima hay resistencia semanal fuerte.",
+    "options": [
+      "Ignorarla por el R:R proyectado.",
+      "Revisar si esa zona reduce la calidad del target.",
+      "Aumentar target por encima.",
+      "Entrar sin stop para aguantar."
+    ],
+    "correct": 1,
+    "explanation": "Una zona fuerte cercana puede reducir la expectativa real del trade."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R correcto con emoción",
+    "context": "La operación tiene 1:3 real, pero vienes de dos pérdidas y quieres recuperar.",
+    "options": [
+      "Tomarla igual porque el R:R es correcto.",
+      "Evaluar tu estado emocional antes de ejecutar.",
+      "Duplicar para recuperar.",
+      "Mover stop al primer ruido."
+    ],
+    "correct": 1,
+    "explanation": "Una operación puede ser técnica, pero la ejecución emocional la contamina."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R bueno cerca del límite diario",
+    "context": "Aparece un 1:4, pero si falla te deja casi en límite diario de pérdida.",
+    "options": [
+      "Tomarlo porque 1:4 justifica.",
+      "Reducir riesgo o esperar porque el contexto de cuenta importa.",
+      "Subir contratos por premio alto.",
+      "Ignorar el límite si el setup es bueno."
+    ],
+    "correct": 1,
+    "explanation": "El contexto de cuenta también forma parte del riesgo."
+  },
+  {
+    "category": "riskreward",
+    "title": "R:R sin contexto",
+    "context": "El trade ofrece 1:2, pero ocurre en mitad de rango sin liquidez ni reacción clara.",
+    "options": [
+      "Tomarlo porque 1:2 basta.",
+      "Esperar contexto; el ratio no reemplaza una idea clara.",
+      "Aumentar tamaño porque no es alto.",
+      "Operarlo por stop pequeño."
+    ],
+    "correct": 1,
+    "explanation": "R:R es una capa del análisis, no la razón principal para entrar."
+  },
+  {
+    "category": "noticias",
+    "title": "Setup limpio antes de CPI",
+    "context": "Tienes un setup claro, pero faltan 3 minutos para CPI de alto impacto.",
+    "options": [
+      "Entrar porque el setup manda.",
+      "Evitar o reducir riesgo; la noticia puede destruir la lectura.",
+      "Duplicar porque habrá movimiento.",
+      "Quitar stop para evitar mecha."
+    ],
+    "correct": 1,
+    "explanation": "Noticias fuertes pueden generar barridas, spread y movimientos erráticos."
+  },
+  {
+    "category": "noticias",
+    "title": "Vela gigante post FOMC",
+    "context": "Después de FOMC aparece una vela enorme y sientes FOMO.",
+    "options": [
+      "Entrar inmediatamente porque la dirección es clara.",
+      "Esperar estabilización; la primera reacción puede ser falsa.",
+      "Aumentar lotaje por volatilidad.",
+      "Poner stop dentro de la vela gigante."
+    ],
+    "correct": 1,
+    "explanation": "La primera reacción de noticia puede revertir violentamente."
+  },
+  {
+    "category": "noticias",
+    "title": "Primera reacción falsa",
+    "context": "El precio rompe arriba en noticia, toma liquidez y vuelve debajo del rango.",
+    "options": [
+      "Comprar porque rompió arriba primero.",
+      "Reconocer posible barrida y esperar nueva estructura.",
+      "Vender sin stop porque volvió.",
+      "Ignorar la noticia porque ya pasó."
+    ],
+    "correct": 1,
+    "explanation": "En noticias, la reacción posterior importa más que el primer impulso."
+  },
+  {
+    "category": "noticias",
+    "title": "Mercado comprimido antes de NFP",
+    "context": "La hora previa a NFP el precio está lento y comprimido.",
+    "options": [
+      "Forzar entradas porque el rango está claro.",
+      "Entender que puede estar esperando noticia y evitar ruido.",
+      "Duplicar en el centro del rango.",
+      "Operar cada micro ruptura."
+    ],
+    "correct": 1,
+    "explanation": "Antes de noticias grandes, la compresión puede generar falsas señales."
+  },
+  {
+    "category": "noticias",
+    "title": "Barrida doble durante noticia",
+    "context": "El precio barre máximo y mínimo del rango en segundos.",
+    "options": [
+      "Tomar la segunda barrida como segura.",
+      "Esperar estabilización; puede ser volatilidad extrema.",
+      "Entrar en ambas direcciones.",
+      "Quitar stops por velocidad."
+    ],
+    "correct": 1,
+    "explanation": "No toda toma de liquidez durante noticia es operable."
+  },
+  {
+    "category": "noticias",
+    "title": "Spread dañando el stop",
+    "context": "Durante noticia, el spread se amplía y tu stop técnico queda demasiado cerca.",
+    "options": [
+      "Operar igual porque el gráfico se ve limpio.",
+      "Considerar que ejecución real puede ser peor que la visual.",
+      "Aumentar contratos por volatilidad.",
+      "Poner stop más cerca para perder menos."
+    ],
+    "correct": 1,
+    "explanation": "La ejecución real importa tanto como el gráfico."
+  },
+  {
+    "category": "noticias",
+    "title": "Estructura después de noticia",
+    "context": "Tras la noticia, las velas se normalizan y aparecen swings más claros.",
+    "options": [
+      "Ahora puede tener más sentido buscar estructura operable.",
+      "Ya es tarde para operar cualquier cosa.",
+      "Entrar sin plan porque la noticia pasó.",
+      "Operar el primer tick sin contexto."
+    ],
+    "correct": 0,
+    "explanation": "Esperar estructura después de volatilidad inicial puede mejorar la calidad."
+  },
+  {
+    "category": "noticias",
+    "title": "Trade abierto antes de NFP",
+    "context": "Tienes una operación abierta con ligera ganancia y faltan minutos para NFP.",
+    "options": [
+      "Ignorar la noticia porque ya estás dentro.",
+      "Gestionar: reducir, cerrar o proteger según plan.",
+      "Aumentar posición antes de noticia.",
+      "Quitar stop para evitar barrida."
+    ],
+    "correct": 1,
+    "explanation": "Antes de eventos fuertes, proteger la cuenta puede pesar más que exprimir el trade."
+  },
+  {
+    "category": "noticias",
+    "title": "Noticia menor o alto impacto",
+    "context": "Ves una noticia en calendario, pero no revisas su nivel de impacto.",
+    "options": [
+      "Todas las noticias son iguales.",
+      "Diferenciar impacto ayuda a ajustar riesgo.",
+      "Ignorar todas.",
+      "Operar más fuerte en cualquier noticia."
+    ],
+    "correct": 1,
+    "explanation": "No todas las noticias mueven igual el mercado."
+  },
+  {
+    "category": "noticias",
+    "title": "Horario peligroso recurrente",
+    "context": "Tu setup aparece en un horario donde históricamente pierdes por volatilidad.",
+    "options": [
+      "Reducir tamaño o exigir más confirmación puede ser prudente.",
+      "Usar más contratos por velocidad.",
+      "Ignorar tu historial.",
+      "No usar stop para evitar ruido."
+    ],
+    "correct": 0,
+    "explanation": "Adaptar riesgo al horario y a tu historial es gestión profesional."
+  },
+  {
+    "category": "fondeo",
+    "title": "Setup B cerca del límite diario",
+    "context": "Estás cerca del límite diario y aparece un setup decente, pero no perfecto.",
+    "options": [
+      "Tomarlo para recuperar.",
+      "Ser selectivo o parar; el margen de error es pequeño.",
+      "Subir contratos por urgencia.",
+      "Ignorar reglas si el gráfico se ve bien."
+    ],
+    "correct": 1,
+    "explanation": "En fondeo, la condición de la cuenta cambia la decisión."
+  },
+  {
+    "category": "fondeo",
+    "title": "Consistencia del challenge",
+    "context": "Estás cerca de pasar, pero casi toda la ganancia viene de un solo día.",
+    "options": [
+      "Celebrarlo porque llegaste al objetivo.",
+      "Revisar reglas de consistencia antes de asumir que está bien.",
+      "Duplicar para terminar.",
+      "Ignorar porque ganancia es ganancia."
+    ],
+    "correct": 1,
+    "explanation": "Las reglas de consistencia pueden afectar evaluación o payout."
+  },
+  {
+    "category": "fondeo",
+    "title": "Trailing drawdown",
+    "context": "Después de una buena ganancia, quieres seguir agresivo en cuenta con trailing drawdown.",
+    "options": [
+      "Seguir igual porque hay colchón.",
+      "Proteger ganancias; devolver demasiado puede acercar el límite.",
+      "Aumentar contratos por confianza.",
+      "Quitar stops porque vas verde."
+    ],
+    "correct": 1,
+    "explanation": "El trailing drawdown exige proteger avances."
+  },
+  {
+    "category": "fondeo",
+    "title": "Duplicar para recuperar evaluación",
+    "context": "Tras dos pérdidas duplicas contratos para volver rápido al objetivo.",
+    "options": [
+      "Es razonable si el setup se ve claro.",
+      "Es peligroso: estás cambiando riesgo por emoción.",
+      "Es obligatorio en fondeo.",
+      "Reduce drawdown automáticamente."
+    ],
+    "correct": 1,
+    "explanation": "Subir tamaño para recuperar suele quemar evaluaciones."
+  },
+  {
+    "category": "fondeo",
+    "title": "Regla de noticia prohibida",
+    "context": "La firma restringe noticias, pero aparece un setup perfecto en ese horario.",
+    "options": [
+      "Operarlo porque el setup es perfecto.",
+      "Respetar la regla; incumplir puede ser peor que perder.",
+      "Usar menos contratos.",
+      "Abrir antes para evitar regla."
+    ],
+    "correct": 1,
+    "explanation": "En fondeo, las reglas del programa son parte del trade."
+  },
+  {
+    "category": "fondeo",
+    "title": "Último trade desesperado",
+    "context": "Faltan 20 minutos y estás cerca del límite diario.",
+    "options": [
+      "Tomar un último trade para salvar el día.",
+      "Parar; el riesgo emocional y de regla es alto.",
+      "Aumentar tamaño por poco tiempo.",
+      "Operar sin stop."
+    ],
+    "correct": 1,
+    "explanation": "El último trade por desesperación suele ser peligroso."
+  },
+  {
+    "category": "fondeo",
+    "title": "Proteger un día verde",
+    "context": "Ya alcanzaste buen profit diario y aparece otro setup medio.",
+    "options": [
+      "Tomarlo igual porque estás en racha.",
+      "Proteger el día o reducir riesgo puede ser más profesional.",
+      "Duplicar para maximizar.",
+      "Ignorar plan por confianza."
+    ],
+    "correct": 1,
+    "explanation": "Cerrar un buen día también es habilidad."
+  },
+  {
+    "category": "fondeo",
+    "title": "Día rojo borra semana",
+    "context": "Varios días verdes pequeños quedan borrados por un solo día rojo grande.",
+    "options": [
+      "Indica posible falta de límite diario efectivo.",
+      "Es normal y no requiere revisión.",
+      "La solución es más trades verdes.",
+      "Solo importa win rate."
+    ],
+    "correct": 0,
+    "explanation": "La supervivencia en fondeo depende de controlar días rojos."
+  },
+  {
+    "category": "fondeo",
+    "title": "Saber cuándo parar",
+    "context": "Ya cumpliste objetivo parcial del día, pero el mercado sigue moviéndose.",
+    "options": [
+      "Seguir porque hay movimiento.",
+      "Parar o reducir actividad si tu plan ya se cumplió.",
+      "Aumentar contratos por confianza.",
+      "Cambiar estrategia para aprovechar."
+    ],
+    "correct": 1,
+    "explanation": "No estás obligado a operar todo lo que se mueve."
+  },
+  {
+    "category": "fondeo",
+    "title": "Tamaño según drawdown",
+    "context": "El setup parece fuerte, pero el tamaño te deja muy cerca del drawdown si falla.",
+    "options": [
+      "Usar ese tamaño porque el setup es fuerte.",
+      "Elegir tamaño según regla y supervivencia.",
+      "Quitar stop para evitar drawdown.",
+      "Entrar más fuerte para pasar rápido."
+    ],
+    "correct": 1,
+    "explanation": "En fondeo, el tamaño debe respetar reglas antes que confianza."
+  },
+  {
+    "category": "plan",
+    "title": "Operar sin checklist",
+    "context": "Ves una zona interesante y entras sin revisar tendencia, liquidez, stop, target ni noticia.",
+    "options": [
+      "Es válido si tienes experiencia.",
+      "Es ejecución incompleta; el checklist evita impulsos.",
+      "Mientras gane no importa.",
+      "El checklist solo sirve a principiantes."
+    ],
+    "correct": 1,
+    "explanation": "El checklist reduce errores evitables y entradas emocionales."
+  },
+  {
+    "category": "plan",
+    "title": "Cambiar estrategia por dos pérdidas",
+    "context": "Tu plan tuvo dos pérdidas normales y cambias de estrategia en mitad de sesión.",
+    "options": [
+      "Puede ser reacción emocional si estaban dentro del plan.",
+      "Es obligatorio cambiar después de dos pérdidas.",
+      "Significa que el plan no sirve.",
+      "La solución es otro mercado sin revisar."
+    ],
+    "correct": 0,
+    "explanation": "Dos pérdidas no invalidan un plan si estaban contempladas."
+  },
+  {
+    "category": "plan",
+    "title": "Plan prohíbe noticias",
+    "context": "Tu plan dice no operar noticias, pero aparece un setup limpio.",
+    "options": [
+      "Tomarlo porque es excepcional.",
+      "Respetar el plan; se modifica fuera de sesión.",
+      "Entrar con más tamaño.",
+      "Quitar la regla en ese momento."
+    ],
+    "correct": 1,
+    "explanation": "El plan se cambia en revisión, no frente a una vela atractiva."
+  },
+  {
+    "category": "plan",
+    "title": "Setup B como setup A",
+    "context": "La entrada tiene confluencias, pero no cumple todos los criterios del setup principal.",
+    "options": [
+      "Operarlo con el mismo riesgo que setup A.",
+      "Reducir riesgo, esperar más confirmación o descartar.",
+      "Aumentar lotaje para compensar.",
+      "Llamarlo setup A para sentir confianza."
+    ],
+    "correct": 1,
+    "explanation": "No todos los setups tienen la misma calidad ni merecen el mismo riesgo."
+  },
+  {
+    "category": "plan",
+    "title": "Sin pérdida máxima diaria",
+    "context": "No defines cuánto puedes perder antes de parar.",
+    "options": [
+      "Es peligroso porque la emoción puede decidir.",
+      "Es mejor porque da libertad.",
+      "No hace falta con buen análisis.",
+      "Solo importa el stop de cada trade."
+    ],
+    "correct": 0,
+    "explanation": "El límite diario protege de días emocionalmente peligrosos."
+  },
+  {
+    "category": "plan",
+    "title": "Sin horario operativo",
+    "context": "Operas cualquier hora, incluso cansado o en mercado lento.",
+    "options": [
+      "Más horas siempre son más oportunidad.",
+      "Definir horario filtra fatiga y malas condiciones.",
+      "El mejor trader opera todo el día.",
+      "No importa horario si hay velas."
+    ],
+    "correct": 1,
+    "explanation": "Un horario operativo reduce ruido y decisiones por cansancio."
+  },
+  {
+    "category": "plan",
+    "title": "Saltar de mercado por ansiedad",
+    "context": "NQ está lento, cambias a ES, oro y petróleo buscando acción.",
+    "options": [
+      "Es adaptación profesional.",
+      "Puede ser ansiedad disfrazada de oportunidad.",
+      "Aumenta consistencia automáticamente.",
+      "Evita necesidad de plan."
+    ],
+    "correct": 1,
+    "explanation": "Cambiar de mercado sin criterio puede ser sobreoperación."
+  },
+  {
+    "category": "plan",
+    "title": "No registrar operaciones",
+    "context": "Operas todos los días sin anotar razones, gestión ni emociones.",
+    "options": [
+      "Es difícil mejorar lo que no registras.",
+      "No hace falta si recuerdas.",
+      "Solo se registran ganadoras.",
+      "El registro no ayuda con buenos indicadores."
+    ],
+    "correct": 0,
+    "explanation": "El diario revela errores que la memoria suele esconder."
+  },
+  {
+    "category": "plan",
+    "title": "Buen análisis, mala rutina",
+    "context": "Lees bien el gráfico, pero duermes mal y operas sin preparación.",
+    "options": [
+      "El análisis compensa la mala rutina.",
+      "La rutina afecta ejecución, paciencia y disciplina.",
+      "Solo importa saber dirección.",
+      "La preparación es opcional."
+    ],
+    "correct": 1,
+    "explanation": "Trading no es solo análisis; el estado del trader afecta ejecución."
+  },
+  {
+    "category": "plan",
+    "title": "Revisión final del día",
+    "context": "Terminas y solo miras dinero ganado/perdido, sin revisar proceso.",
+    "options": [
+      "El resultado es lo único importante.",
+      "Revisar proceso ayuda aunque el día sea verde o rojo.",
+      "Si ganaste no hay nada que revisar.",
+      "Si perdiste cambia estrategia."
+    ],
+    "correct": 1,
+    "explanation": "La mejora viene de revisar decisiones, no solo PnL."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Dos pérdidas y urgencia",
+    "context": "Pierdes dos trades y quieres tomar otro rápido para volver a positivo.",
+    "options": [
+      "Ese impulso puede ser señal para pausar.",
+      "Es momento de subir tamaño.",
+      "El tercer trade tiene más probabilidad.",
+      "Hay que operar antes de perder confianza."
+    ],
+    "correct": 0,
+    "explanation": "El deseo de recuperar suele indicar emoción tomando control."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Reducir lotaje tras drawdown",
+    "context": "Vienes de varios días malos y quieres mantener tamaño para recuperar más rápido.",
+    "options": [
+      "Mantener tamaño siempre es disciplina.",
+      "Reducir lotaje puede proteger mientras recuperas claridad.",
+      "Aumentar tamaño es mejor.",
+      "Quitar stops reduce presión."
+    ],
+    "correct": 1,
+    "explanation": "Reducir riesgo en drawdown ayuda a sobrevivir."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Trade gana rompiendo regla",
+    "context": "Entraste fuera del plan y el trade va en ganancia.",
+    "options": [
+      "Celebrarlo si termina verde.",
+      "Marcarlo como error de proceso aunque gane.",
+      "Repetirlo porque funcionó.",
+      "Aumentar tamaño."
+    ],
+    "correct": 1,
+    "explanation": "Ganar rompiendo reglas refuerza malos hábitos."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Mover stop por esperanza",
+    "context": "El precio se acerca a tu stop y lo mueves más lejos porque “seguro vuelve”.",
+    "options": [
+      "Es gestión flexible.",
+      "Puede convertir pérdida normal en peligrosa.",
+      "Siempre es correcto si la idea era buena.",
+      "Mejora el R:R."
+    ],
+    "correct": 1,
+    "explanation": "Mover stop por esperanza rompe el control de riesgo."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Promediar idea invalidada",
+    "context": "El precio rompe tu invalidación y agregas otra posición para mejorar precio medio.",
+    "options": [
+      "Es peligroso si la idea ya fue invalidada.",
+      "Siempre mejora la operación.",
+      "Reduce riesgo automáticamente.",
+      "Es profesional si tienes convicción."
+    ],
+    "correct": 0,
+    "explanation": "Promediar una idea invalidada puede destruir cuentas rápido."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Cortar sesión emocional",
+    "context": "Tras una pérdida injusta sientes rabia y quieres entrar de nuevo rápido.",
+    "options": [
+      "Pausar o cerrar sesión puede ser la mejor gestión.",
+      "Entrar rápido evita perder oportunidad.",
+      "Duplicar recupera confianza.",
+      "No pasa nada si el setup parece bueno."
+    ],
+    "correct": 0,
+    "explanation": "Cuando la emoción domina, el mejor trade puede ser no operar."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Proteger profit diario",
+    "context": "Vas muy bien, pero sigues tomando trades medianos y devuelves gran parte.",
+    "options": [
+      "Puede indicar falta de regla para proteger ganancias.",
+      "Es normal devolver todo.",
+      "La solución es operar más.",
+      "No hay que proteger ganancias."
+    ],
+    "correct": 0,
+    "explanation": "El control de riesgo también aplica cuando vas ganando."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Pérdida normal",
+    "context": "Pierdes un trade que cumplía plan, riesgo y ejecución.",
+    "options": [
+      "Es una pérdida normal del sistema.",
+      "Significa cambiar todo.",
+      "Debes recuperar inmediatamente.",
+      "Debes aumentar contratos."
+    ],
+    "correct": 0,
+    "explanation": "No toda pérdida es error. El problema es perder fuera del plan."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Riesgo total del día",
+    "context": "Arriesgas poco por trade, pero haces muchas entradas y superas la pérdida diaria.",
+    "options": [
+      "El riesgo por trade es lo único importante.",
+      "También necesitas controlar riesgo total del día.",
+      "Muchas pérdidas pequeñas no importan.",
+      "La solución es subir tamaño."
+    ],
+    "correct": 1,
+    "explanation": "El riesgo diario controla la suma de decisiones."
+  },
+  {
+    "category": "riskcontrol",
+    "title": "Sobrevivir primero",
+    "context": "Quieres crecer rápido, pero tu gestión puede quemar la cuenta en pocos trades malos.",
+    "options": [
+      "Priorizar supervivencia antes que velocidad.",
+      "Aumentar riesgo para avanzar.",
+      "Ignorar drawdown si el método es bueno.",
+      "Operar sin límite diario."
+    ],
+    "correct": 0,
+    "explanation": "Primero sobrevives, luego mejoras. Sin cuenta, no hay proceso."
   }
 ];
 
 let filteredQuestions = [...questions];
+let currentCategory = "all";
 let currentIndex = 0;
 let score = 0;
 let answeredQuestions = new Set();
@@ -1099,6 +2140,35 @@ const prevBtn = document.getElementById("prevQuestionBtn");
 const nextBtn = document.getElementById("nextQuestionBtn");
 const restartBtn = document.getElementById("restartBtn");
 
+function shuffleArray(items) {
+  const shuffled = [...items];
+
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
+function buildQuestionList(category) {
+  const baseList = category === "all"
+    ? [...questions]
+    : questions.filter((question) => question.category === category);
+
+  return shuffleArray(baseList);
+}
+
+function buildShuffledOptions(question) {
+  return shuffleArray(
+    question.options.map((option, originalIndex) => ({
+      option,
+      originalIndex,
+      isCorrect: originalIndex === question.correct
+    }))
+  );
+}
+
 function normalizeCategory(category) {
   const labels = {
     estructura: "Estructura",
@@ -1108,7 +2178,15 @@ function normalizeCategory(category) {
     fvg: "FVG / Imbalance",
     orderblock: "Order Blocks / Smart Money",
     riesgo: "Gestión de riesgo",
-    psicologia: "Psicología"
+    psicologia: "Psicología",
+    patrones: "Patrones de precio",
+    pullbacks: "Pullbacks / Retests",
+    entrada: "Entrada, stop y target",
+    riskreward: "Risk Reward",
+    noticias: "Noticias y volatilidad",
+    fondeo: "Cuentas de fondeo",
+    plan: "Plan de trading",
+    riskcontrol: "Risk Control"
   };
 
   return labels[category] || "Práctica";
@@ -1131,10 +2209,12 @@ function renderQuestion() {
   progressText.textContent = `${currentIndex + 1} / ${filteredQuestions.length}`;
   scoreText.textContent = `Score: ${score}`;
 
-  answersBox.innerHTML = question.options.map((option, index) => `
+  question.shuffledOptions = buildShuffledOptions(question);
+
+  answersBox.innerHTML = question.shuffledOptions.map((answer, index) => `
     <button class="answer-option" type="button" data-answer-index="${index}">
       <span>${String.fromCharCode(65 + index)}</span>
-      ${option}
+      ${answer.option}
     </button>
   `).join("");
 
@@ -1150,15 +2230,17 @@ function renderQuestion() {
 
 function selectAnswer(answerIndex) {
   const question = filteredQuestions[currentIndex];
-  const correct = answerIndex === question.correct;
+  const selectedAnswer = question.shuffledOptions?.[answerIndex];
+  const correct = Boolean(selectedAnswer?.isCorrect);
   const questionKey = `${question.category}-${question.title}`;
 
   document.querySelectorAll("[data-answer-index]").forEach((button) => {
     button.disabled = true;
 
     const index = Number(button.dataset.answerIndex);
+    const answer = question.shuffledOptions?.[index];
 
-    if (index === question.correct) {
+    if (answer?.isCorrect) {
       button.classList.add("is-correct");
     }
 
@@ -1187,9 +2269,8 @@ function showSummary() {
 }
 
 function applyFilter(category) {
-  filteredQuestions = category === "all"
-    ? [...questions]
-    : questions.filter((question) => question.category === category);
+  currentCategory = category || "all";
+  filteredQuestions = buildQuestionList(currentCategory);
 
   currentIndex = 0;
   score = 0;
@@ -1232,17 +2313,12 @@ if (nextBtn) {
 
 if (restartBtn) {
   restartBtn.addEventListener("click", () => {
-    currentIndex = 0;
-    score = 0;
-    answeredQuestions = new Set();
-    practiceSummary.classList.add("hidden");
-    practiceApp.classList.remove("hidden");
-    renderQuestion();
+    applyFilter(currentCategory);
   });
 }
 
 requireActiveUser(() => {
   loadingBox?.classList.add("hidden");
   practiceApp.classList.remove("hidden");
-  renderQuestion();
+  applyFilter(currentCategory);
 });

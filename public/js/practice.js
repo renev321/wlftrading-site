@@ -2779,37 +2779,44 @@ if (shareDiscordBtn) {
   shareDiscordBtn.addEventListener("click", handleDiscordShare);
 }
 
+
 let practiceInitialized = false;
 
 function startPracticeApp() {
-  if (practiceInitialized) return;
+  if (practiceInitialized) {
+    return;
+  }
 
   practiceInitialized = true;
-  loadingBox?.classList.add("hidden");
-  practiceApp?.classList.remove("hidden");
+
+  if (loadingBox) {
+    loadingBox.classList.add("hidden");
+  }
+
+  if (practiceApp) {
+    practiceApp.classList.remove("hidden");
+  }
+
   applyFilter(currentCategory);
 }
 
-requireActiveUser(() => {
-  startPracticeApp();
-});
-
-/*
-  Loading watchdog:
-  This keeps the page from getting visually stuck if auth callback is delayed by cache/deploy timing.
-  The main access validation still belongs to auth.js.
-*/
-setTimeout(() => {
-  if (practiceInitialized) return;
+try {
+  requireActiveUser(function () {
+    startPracticeApp();
+  });
+} catch (error) {
+  console.error("Practice auth startup error:", error);
 
   if (loadingBox) {
-    loadingBox.textContent = "Seguimos validando tu acceso... Si tarda mucho, refresca la página o vuelve a iniciar sesión.";
+    loadingBox.textContent = "Error validando tu acceso. Revisa la consola.";
   }
-}, 2500);
+}
 
-setTimeout(() => {
-  if (practiceInitialized) return;
+setTimeout(function () {
+  if (practiceInitialized) {
+    return;
+  }
 
-  console.warn("Practice auth callback did not finish. Starting practice UI fallback.");
+  console.warn("Practice auth callback delayed. Starting practice UI fallback.");
   startPracticeApp();
-}, 5000);
+}, 3000);

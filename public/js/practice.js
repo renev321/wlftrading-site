@@ -3422,6 +3422,7 @@ let currentIndex = 0;
 let score = 0;
 let answeredQuestions = new Set();
 let currentResultCard = null;
+let activeStudentName = "";
 
 const RESULT_CARD_ASSETS = {
   backgrounds: [
@@ -3609,34 +3610,92 @@ function getBadgeForProfile(profile) {
 }
 
 
-function titleCaseWords(value) {
-  return String(value || "")
-    .split(" ")
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-    .join(" ");
+function cleanStudentName(value) {
+  const cleaned = String(value || "")
+    .replace(/<[^>]*>/g, "")
+    .replace(/[\r\n\t]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // Never use an email or the first part of an email as the public student name.
+  if (!cleaned || cleaned.includes("@") || /validando/i.test(cleaned)) {
+    return "";
+  }
+
+  return cleaned.slice(0, 48);
+}
+
+function setActiveStudentName(value) {
+  const cleaned = cleanStudentName(value);
+
+  if (cleaned && cleaned !== activeStudentName) {
+    activeStudentName = cleaned;
+    currentResultCard = null;
+  }
+
+  return activeStudentName;
+}
+
+function getEmailFromHeader() {
+  const emailNode = document.getElementById("userEmail");
+  const raw = String(emailNode?.textContent || "").trim().toLowerCase();
+
+  if (!raw || !raw.includes("@") || /validando/i.test(raw)) {
+    return "";
+  }
+
+  return raw;
+}
+
+async function loadStudentNameFromDatabase(user = {}) {
+  // Preferred source: D1 students.name returned by /api/check-access.
+  // Fallbacks are only for safety; the result card must never derive a name from the email local part.
+  const directName = cleanStudentName(
+    user.name ||
+    user.studentName ||
+    user.displayName ||
+    user.profile?.name ||
+    user.access?.name ||
+    user.accessData?.name
+  );
+
+  if (directName) {
+    return setActiveStudentName(directName);
+  }
+
+  const email = String(user.email || getEmailFromHeader()).trim().toLowerCase();
+
+  if (!email || !email.includes("@")) {
+    return activeStudentName || "Trader WLF";
+  }
+
+  try {
+    const response = await fetch("/api/check-access", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
+
+    if (!response.ok) {
+      return activeStudentName || "Trader WLF";
+    }
+
+    const data = await response.json();
+    return setActiveStudentName(data.name) || "Trader WLF";
+  } catch (error) {
+    console.warn("No se pudo cargar el nombre del estudiante desde la base de datos.", error);
+    return activeStudentName || "Trader WLF";
+  }
 }
 
 function getResultCardStudentName() {
-  const emailNode = document.getElementById("userEmail");
-  const raw = (emailNode?.textContent || "").trim();
+  return activeStudentName || "Trader WLF";
+}
 
-  if (!raw || /validando/i.test(raw)) {
-    return "Trader WLF";
-  }
-
-  if (raw.includes("@")) {
-    const localPart = raw.split("@")[0];
-    const pretty = localPart
-      .replace(/[._-]+/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-
-    return pretty ? titleCaseWords(pretty) : "Trader WLF";
-  }
-
-  const cleaned = raw.replace(/\s+/g, " ").trim();
-  return cleaned || "Trader WLF";
+function prepareResultCardStudentName() {
+  // Kept as a small compatibility wrapper for share/download/copy handlers.
+  // No prompt, no localStorage-first logic, and no email-local-part fallback.
+  return getResultCardStudentName();
 }
 
 function buildResultText() {
@@ -4008,6 +4067,7 @@ function applyFilter(category) {
 
 async function handleDownloadCard() {
   try {
+    prepareResultCardStudentName();
     const result = await ensureResultCard();
     const link = document.createElement("a");
     link.href = result.dataUrl;
@@ -4024,6 +4084,7 @@ async function handleDownloadCard() {
 
 async function handleCopyResult() {
   try {
+    prepareResultCardStudentName();
     const result = await ensureResultCard();
     await navigator.clipboard.writeText(result.text);
     setShareFeedback("Resultado copiado. Ya lo puedes pegar donde quieras.");
@@ -4035,6 +4096,7 @@ async function handleCopyResult() {
 
 async function handleNativeShare() {
   try {
+    prepareResultCardStudentName();
     const result = await ensureResultCard();
 
     // Share image only. Text stays separated in "Copiar texto".
@@ -4129,7 +4191,8 @@ function startPracticeApp() {
 }
 
 try {
-  requireActiveUser(function () {
+  requireActiveUser(async function (user) {
+    await loadStudentNameFromDatabase(user || {});
     startPracticeApp();
   });
 } catch (error) {

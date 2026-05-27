@@ -3628,7 +3628,8 @@ function setStudentDisplayNameFromData(data) {
     data?.student?.name ||
     data?.user?.name ||
     data?.profile?.name ||
-    data?.member?.name
+    data?.member?.name ||
+    data?.displayName
   );
 
   if (possibleName) {
@@ -3639,12 +3640,22 @@ function setStudentDisplayNameFromData(data) {
   return studentDisplayName;
 }
 
-async function loadStudentDisplayName() {
+async function loadStudentDisplayName(email) {
+  const cleanEmail = String(email || "").trim().toLowerCase();
+
+  if (!cleanEmail || !cleanEmail.includes("@")) {
+    return studentDisplayName;
+  }
+
   if (studentNameLoadPromise) {
     return studentNameLoadPromise;
   }
 
-  studentNameLoadPromise = fetch("/api/check-access", { credentials: "include" })
+  studentNameLoadPromise = fetch("/api/check-access", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: cleanEmail })
+  })
     .then((response) => (response.ok ? response.json() : null))
     .then((data) => setStudentDisplayNameFromData(data || {}))
     .catch((error) => {
@@ -4151,9 +4162,9 @@ function startPracticeApp() {
 }
 
 try {
-  requireActiveUser(function (accessData) {
-    setStudentDisplayNameFromData(accessData || {});
-    loadStudentDisplayName();
+  requireActiveUser(function (user) {
+    setStudentDisplayNameFromData(user || {});
+    loadStudentDisplayName(user?.email);
     startPracticeApp();
   });
 } catch (error) {

@@ -1,4 +1,4 @@
-import { auth, requireActiveUser } from "./auth.js";
+import { requireActiveUser } from "./auth.js";
 
 const questions = [
   // ESTRUCTURA
@@ -2786,7 +2786,7 @@ function startPracticeApp() {
 
   practiceInitialized = true;
   loadingBox?.classList.add("hidden");
-  practiceApp.classList.remove("hidden");
+  practiceApp?.classList.remove("hidden");
   applyFilter(currentCategory);
 }
 
@@ -2795,38 +2795,21 @@ requireActiveUser(() => {
 });
 
 /*
-  Safety fallback:
-  If requireActiveUser gets stuck after an update/cached deploy,
-  we still verify Firebase user + D1 access before showing practice.
+  Loading watchdog:
+  This keeps the page from getting visually stuck if auth callback is delayed by cache/deploy timing.
+  The main access validation still belongs to auth.js.
 */
-setTimeout(async () => {
+setTimeout(() => {
   if (practiceInitialized) return;
 
-  try {
-    const user = auth?.currentUser;
-
-    if (!user?.email) return;
-
-    const response = await fetch("/api/check-access", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email: user.email })
-    });
-
-    const data = await response.json().catch(() => ({}));
-
-    if (data?.active) {
-      startPracticeApp();
-    } else if (loadingBox) {
-      loadingBox.textContent = "Tu acceso no está activo para esta sección.";
-    }
-  } catch (error) {
-    console.error("Practice access fallback failed:", error);
-
-    if (loadingBox) {
-      loadingBox.textContent = "No se pudo validar tu acceso. Refresca la página o vuelve a iniciar sesión.";
-    }
+  if (loadingBox) {
+    loadingBox.textContent = "Seguimos validando tu acceso... Si tarda mucho, refresca la página o vuelve a iniciar sesión.";
   }
 }, 2500);
+
+setTimeout(() => {
+  if (practiceInitialized) return;
+
+  console.warn("Practice auth callback did not finish. Starting practice UI fallback.");
+  startPracticeApp();
+}, 5000);

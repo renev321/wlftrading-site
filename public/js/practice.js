@@ -1,4 +1,4 @@
-import { requireActiveUser } from "./auth.js";
+import { auth, requireActiveUser } from "./auth.js";
 
 const questions = [
   // ESTRUCTURA
@@ -2119,6 +2119,31 @@ let currentCategory = "all";
 let currentIndex = 0;
 let score = 0;
 let answeredQuestions = new Set();
+let currentResultCard = null;
+
+const RESULT_CARD_ASSETS = {
+  backgrounds: [
+    "/assets/practice-cards/backgrounds/BG1.png",
+    "/assets/practice-cards/backgrounds/BG2.png",
+    "/assets/practice-cards/backgrounds/BG3.png",
+    "/assets/practice-cards/backgrounds/BG4.png",
+    "/assets/practice-cards/backgrounds/BG5.png",
+    "/assets/practice-cards/backgrounds/BG6.png"
+  ],
+  borders: [
+    "/assets/practice-cards/borders/Border1.png",
+    "/assets/practice-cards/borders/Border2.png",
+    "/assets/practice-cards/borders/Border3.png",
+    "/assets/practice-cards/borders/Border4.png"
+  ],
+  badges: {
+    wolf: "/assets/practice-cards/badges/BadgeWolf.png",
+    solid: "/assets/practice-cards/badges/Badge1.png",
+    advance: "/assets/practice-cards/badges/Badge2.png",
+    training: "/assets/practice-cards/badges/Badge3.png",
+    improve: "/assets/practice-cards/badges/Badge4.png"
+  }
+};
 
 const loadingBox = document.getElementById("loadingBox");
 const practiceApp = document.getElementById("practiceApp");
@@ -2134,7 +2159,23 @@ const feedbackTitle = document.getElementById("feedbackTitle");
 const feedbackText = document.getElementById("feedbackText");
 const progressText = document.getElementById("progressText");
 const scoreText = document.getElementById("scoreText");
+const summaryTitle = document.getElementById("summaryTitle");
 const summaryText = document.getElementById("summaryText");
+const summaryScorePill = document.getElementById("summaryScorePill");
+const summaryTopicPill = document.getElementById("summaryTopicPill");
+const resultCardPreview = document.getElementById("resultCardPreview");
+const resultCanvas = document.getElementById("resultCanvas");
+const shareToggleBtn = document.getElementById("shareToggleBtn");
+const sharePanel = document.getElementById("sharePanel");
+const shareFeedback = document.getElementById("shareFeedback");
+const nativeShareBtn = document.getElementById("nativeShareBtn");
+const shareTelegramBtn = document.getElementById("shareTelegramBtn");
+const shareWhatsAppBtn = document.getElementById("shareWhatsAppBtn");
+const shareXBtn = document.getElementById("shareXBtn");
+const shareFacebookBtn = document.getElementById("shareFacebookBtn");
+const shareDiscordBtn = document.getElementById("shareDiscordBtn");
+const downloadCardBtn = document.getElementById("downloadCardBtn");
+const copyResultBtn = document.getElementById("copyResultBtn");
 
 const prevBtn = document.getElementById("prevQuestionBtn");
 const nextBtn = document.getElementById("nextQuestionBtn");
@@ -2149,6 +2190,10 @@ function shuffleArray(items) {
   }
 
   return shuffled;
+}
+
+function chooseRandom(items) {
+  return items[Math.floor(Math.random() * items.length)];
 }
 
 function buildQuestionList(category) {
@@ -2190,6 +2235,285 @@ function normalizeCategory(category) {
   };
 
   return labels[category] || "Práctica";
+}
+
+function getCurrentTopicLabel() {
+  return currentCategory === "all" ? "Práctica general" : normalizeCategory(currentCategory);
+}
+
+function slugify(value) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+function getScoreProfile(scoreValue, totalQuestions) {
+  const ratio = totalQuestions > 0 ? scoreValue / totalQuestions : 0;
+
+  if (ratio >= 0.999) {
+    return {
+      key: "wolf",
+      title: "Mente WLF",
+      phrase: "Contexto primero. Entrada después. Riesgo siempre."
+    };
+  }
+
+  if (ratio >= 0.9) {
+    return {
+      key: "solid",
+      title: "Lectura sólida",
+      phrase: "Buen criterio. Sigue afinando la ejecución."
+    };
+  }
+
+  if (ratio >= 0.8) {
+    return {
+      key: "advance",
+      title: "Buen avance",
+      phrase: "Vas construyendo lectura real de mercado."
+    };
+  }
+
+  if (ratio >= 0.6) {
+    return {
+      key: "training",
+      title: "Sigue entrenando",
+      phrase: "La práctica constante afila la mente del trader."
+    };
+  }
+
+  return {
+    key: "improve",
+    title: "Zona de mejora",
+    phrase: "No es fallo. Es feedback para crecer."
+  };
+}
+
+function getBadgeForProfile(profile) {
+  const mapping = {
+    wolf: RESULT_CARD_ASSETS.badges.wolf,
+    solid: RESULT_CARD_ASSETS.badges.solid,
+    advance: RESULT_CARD_ASSETS.badges.advance,
+    training: RESULT_CARD_ASSETS.badges.training,
+    improve: RESULT_CARD_ASSETS.badges.improve
+  };
+
+  return mapping[profile.key] || RESULT_CARD_ASSETS.badges.wolf;
+}
+
+function buildResultText() {
+  const total = filteredQuestions.length;
+  const profile = getScoreProfile(score, total);
+  const topicLabel = getCurrentTopicLabel();
+
+  return [
+    "🔥 Resultado WLF",
+    `${score} / ${total}`,
+    `Tema: ${topicLabel}`,
+    profile.title,
+    profile.phrase,
+    "",
+    "WLF Trading"
+  ].join("
+");
+}
+
+function setShareFeedback(message) {
+  if (shareFeedback) {
+    shareFeedback.textContent = message || "";
+  }
+}
+
+function updateShareLinks(resultText) {
+  const pageUrl = `${window.location.origin}/practice.html`;
+  const encodedText = encodeURIComponent(resultText);
+  const encodedUrl = encodeURIComponent(pageUrl);
+
+  if (shareTelegramBtn) {
+    shareTelegramBtn.href = `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`;
+  }
+
+  if (shareWhatsAppBtn) {
+    shareWhatsAppBtn.href = `https://wa.me/?text=${encodeURIComponent(`${resultText}
+${pageUrl}`)}`;
+  }
+
+  if (shareXBtn) {
+    shareXBtn.href = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
+  }
+
+  if (shareFacebookBtn) {
+    shareFacebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
+  }
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.crossOrigin = "anonymous";
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error(`No se pudo cargar ${src}`));
+    image.src = src;
+  });
+}
+
+function coverImage(ctx, img, x, y, width, height) {
+  const scale = Math.max(width / img.width, height / img.height);
+  const scaledWidth = img.width * scale;
+  const scaledHeight = img.height * scale;
+  const dx = x + (width - scaledWidth) / 2;
+  const dy = y + (height - scaledHeight) / 2;
+  ctx.drawImage(img, dx, dy, scaledWidth, scaledHeight);
+}
+
+function fillRoundedRect(ctx, x, y, width, height, radius, fillStyle) {
+  ctx.save();
+  ctx.beginPath();
+  const r = Math.min(radius, width / 2, height / 2);
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + width, y, x + width, y + height, r);
+  ctx.arcTo(x + width, y + height, x, y + height, r);
+  ctx.arcTo(x, y + height, x, y, r);
+  ctx.arcTo(x, y, x + width, y, r);
+  ctx.closePath();
+  ctx.fillStyle = fillStyle;
+  ctx.fill();
+  ctx.restore();
+}
+
+function wrapText(ctx, text, maxWidth) {
+  const words = text.split(/\s+/);
+  const lines = [];
+  let currentLine = "";
+
+  words.forEach((word) => {
+    const tentative = currentLine ? `${currentLine} ${word}` : word;
+    if (ctx.measureText(tentative).width <= maxWidth) {
+      currentLine = tentative;
+    } else {
+      if (currentLine) lines.push(currentLine);
+      currentLine = word;
+    }
+  });
+
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return lines;
+}
+
+async function canvasToBlob(canvas) {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), "image/png", 1);
+  });
+}
+
+async function ensureResultCard() {
+  if (currentResultCard?.blob && currentResultCard?.dataUrl) {
+    return currentResultCard;
+  }
+
+  return generateResultCard();
+}
+
+async function generateResultCard() {
+  const totalQuestions = filteredQuestions.length;
+  const topicLabel = getCurrentTopicLabel();
+  const profile = getScoreProfile(score, totalQuestions);
+  const backgroundPath = chooseRandom(RESULT_CARD_ASSETS.backgrounds);
+  const borderPath = chooseRandom(RESULT_CARD_ASSETS.borders);
+  const badgePath = getBadgeForProfile(profile);
+  const [background, border, badge] = await Promise.all([
+    loadImage(backgroundPath),
+    loadImage(borderPath),
+    loadImage(badgePath)
+  ]);
+
+  const canvas = resultCanvas;
+  const ctx = canvas.getContext("2d");
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.clearRect(0, 0, width, height);
+  coverImage(ctx, background, 0, 0, width, height);
+
+  const overlay = ctx.createLinearGradient(0, 0, width, height);
+  overlay.addColorStop(0, "rgba(8, 10, 15, 0.22)");
+  overlay.addColorStop(0.55, "rgba(9, 12, 18, 0.62)");
+  overlay.addColorStop(1, "rgba(7, 9, 14, 0.86)");
+  ctx.fillStyle = overlay;
+  ctx.fillRect(0, 0, width, height);
+
+  fillRoundedRect(ctx, 94, 96, 860, 700, 36, "rgba(9, 12, 18, 0.52)");
+  fillRoundedRect(ctx, 112, 118, 424, 72, 22, "rgba(255, 255, 255, 0.06)");
+  fillRoundedRect(ctx, 112, 206, 284, 58, 20, "rgba(214, 178, 91, 0.14)");
+  fillRoundedRect(ctx, 416, 206, 300, 58, 20, "rgba(255, 255, 255, 0.05)");
+
+  ctx.drawImage(badge, width - 350, 122, 190, 190);
+  ctx.drawImage(border, 0, 0, width, height);
+
+  ctx.fillStyle = "rgba(214, 178, 91, 0.96)";
+  ctx.font = "600 30px Arial, sans-serif";
+  ctx.fillText("RESULTADO WLF", 132, 164);
+
+  ctx.fillStyle = "#f7f0df";
+  ctx.font = "700 86px Arial, sans-serif";
+  ctx.fillText(`${score} / ${totalQuestions}`, 130, 340);
+
+  ctx.fillStyle = "#f0e7d4";
+  ctx.font = "700 44px Arial, sans-serif";
+  ctx.fillText(profile.title, 132, 454);
+
+  ctx.fillStyle = "rgba(245, 239, 229, 0.90)";
+  ctx.font = "500 26px Arial, sans-serif";
+  ctx.fillText(`Tema: ${topicLabel}`, 136, 246);
+  ctx.fillText("WLF Trading", 444, 246);
+
+  ctx.fillStyle = "rgba(234, 226, 209, 0.92)";
+  ctx.font = "500 30px Arial, sans-serif";
+  const phraseLines = wrapText(ctx, profile.phrase, 700);
+  phraseLines.forEach((line, index) => {
+    ctx.fillText(line, 132, 538 + index * 40);
+  });
+
+  ctx.fillStyle = "rgba(255,255,255,0.78)";
+  ctx.font = "500 22px Arial, sans-serif";
+  const footer = "Entrenar criterio también es construir disciplina.";
+  ctx.fillText(footer, 132, 694);
+
+  const blob = await canvasToBlob(canvas);
+  const dataUrl = canvas.toDataURL("image/png", 1);
+  const fileName = `wlf-resultado-${slugify(topicLabel)}-${score}-${totalQuestions}.png`;
+  const file = blob ? new File([blob], fileName, { type: "image/png" }) : null;
+  const resultText = buildResultText();
+
+  if (resultCardPreview) {
+    resultCardPreview.src = dataUrl;
+  }
+
+  updateShareLinks(resultText);
+
+  currentResultCard = {
+    backgroundPath,
+    borderPath,
+    badgePath,
+    profile,
+    blob,
+    dataUrl,
+    fileName,
+    file,
+    text: resultText,
+    topicLabel,
+    totalQuestions,
+    score
+  };
+
+  return currentResultCard;
 }
 
 function renderQuestion() {
@@ -2262,10 +2586,44 @@ function selectAnswer(answerIndex) {
   scoreText.textContent = `Score: ${score}`;
 }
 
-function showSummary() {
+async function showSummary() {
   practiceApp.classList.add("hidden");
   practiceSummary.classList.remove("hidden");
-  summaryText.textContent = `Completaste ${filteredQuestions.length} preguntas. Score final: ${score} / ${filteredQuestions.length}. Recuerda: el objetivo no es memorizar respuestas, sino entrenar criterio.`;
+  sharePanel?.classList.add("hidden");
+  setShareFeedback("");
+  currentResultCard = null;
+
+  const totalQuestions = filteredQuestions.length;
+  const topicLabel = getCurrentTopicLabel();
+  const profile = getScoreProfile(score, totalQuestions);
+
+  if (summaryTitle) {
+    summaryTitle.textContent = profile.title;
+  }
+
+  if (summaryText) {
+    summaryText.textContent = `Completaste ${totalQuestions} preguntas. Score final: ${score} / ${totalQuestions}. Tu objetivo no es memorizar respuestas, sino fortalecer criterio, lectura y disciplina.`;
+  }
+
+  if (summaryScorePill) {
+    summaryScorePill.textContent = `Score: ${score} / ${totalQuestions}`;
+  }
+
+  if (summaryTopicPill) {
+    summaryTopicPill.textContent = `Tema: ${topicLabel}`;
+  }
+
+  if (resultCardPreview) {
+    resultCardPreview.removeAttribute("src");
+    resultCardPreview.alt = "Generando tarjeta de resultado";
+  }
+
+  try {
+    await generateResultCard();
+  } catch (error) {
+    console.error(error);
+    setShareFeedback("No se pudo generar la imagen ahora mismo. Puedes reiniciar o volver a intentarlo.");
+  }
 }
 
 function applyFilter(category) {
@@ -2275,11 +2633,86 @@ function applyFilter(category) {
   currentIndex = 0;
   score = 0;
   answeredQuestions = new Set();
+  currentResultCard = null;
 
   practiceSummary.classList.add("hidden");
   practiceApp.classList.remove("hidden");
+  sharePanel?.classList.add("hidden");
+  setShareFeedback("");
 
   renderQuestion();
+}
+
+async function handleDownloadCard() {
+  try {
+    const result = await ensureResultCard();
+    const link = document.createElement("a");
+    link.href = result.dataUrl;
+    link.download = result.fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setShareFeedback("Imagen descargada. Ya la puedes compartir donde quieras.");
+  } catch (error) {
+    console.error(error);
+    setShareFeedback("No se pudo descargar la imagen en este momento.");
+  }
+}
+
+async function handleCopyResult() {
+  try {
+    const result = await ensureResultCard();
+    await navigator.clipboard.writeText(result.text);
+    setShareFeedback("Resultado copiado. Ya lo puedes pegar donde quieras.");
+  } catch (error) {
+    console.error(error);
+    setShareFeedback("No se pudo copiar el resultado automáticamente.");
+  }
+}
+
+async function handleNativeShare() {
+  try {
+    const result = await ensureResultCard();
+    const pageUrl = `${window.location.origin}/practice.html`;
+
+    if (navigator.canShare && result.file && navigator.canShare({ files: [result.file] })) {
+      await navigator.share({
+        files: [result.file],
+        title: "Resultado WLF",
+        text: result.text
+      });
+      setShareFeedback("Resultado compartido con éxito.");
+      return;
+    }
+
+    if (navigator.share) {
+      await navigator.share({
+        title: "Resultado WLF",
+        text: result.text,
+        url: pageUrl
+      });
+      setShareFeedback("Resultado compartido con éxito.");
+      return;
+    }
+
+    setShareFeedback("Tu navegador no soporta compartir imagen directamente. Usa Descargar imagen.");
+  } catch (error) {
+    if (error?.name !== "AbortError") {
+      console.error(error);
+      setShareFeedback("No se pudo compartir directamente. Usa Descargar imagen.");
+    }
+  }
+}
+
+async function handleDiscordShare() {
+  try {
+    const result = await ensureResultCard();
+    await navigator.clipboard.writeText(result.text);
+    setShareFeedback("Resultado copiado para Discord. También puedes descargar la imagen y subirla allí.");
+  } catch (error) {
+    console.error(error);
+    setShareFeedback("No se pudo preparar el resultado para Discord.");
+  }
 }
 
 document.querySelectorAll(".practice-filter").forEach((button) => {
@@ -2317,8 +2750,83 @@ if (restartBtn) {
   });
 }
 
-requireActiveUser(() => {
+if (shareToggleBtn) {
+  shareToggleBtn.addEventListener("click", async () => {
+    try {
+      await ensureResultCard();
+      sharePanel?.classList.toggle("hidden");
+      setShareFeedback(sharePanel?.classList.contains("hidden") ? "" : "Elige dónde quieres compartir tu resultado.");
+    } catch (error) {
+      console.error(error);
+      setShareFeedback("No se pudo preparar el panel de compartir.");
+    }
+  });
+}
+
+if (downloadCardBtn) {
+  downloadCardBtn.addEventListener("click", handleDownloadCard);
+}
+
+if (copyResultBtn) {
+  copyResultBtn.addEventListener("click", handleCopyResult);
+}
+
+if (nativeShareBtn) {
+  nativeShareBtn.addEventListener("click", handleNativeShare);
+}
+
+if (shareDiscordBtn) {
+  shareDiscordBtn.addEventListener("click", handleDiscordShare);
+}
+
+let practiceInitialized = false;
+
+function startPracticeApp() {
+  if (practiceInitialized) return;
+
+  practiceInitialized = true;
   loadingBox?.classList.add("hidden");
   practiceApp.classList.remove("hidden");
   applyFilter(currentCategory);
+}
+
+requireActiveUser(() => {
+  startPracticeApp();
 });
+
+/*
+  Safety fallback:
+  If requireActiveUser gets stuck after an update/cached deploy,
+  we still verify Firebase user + D1 access before showing practice.
+*/
+setTimeout(async () => {
+  if (practiceInitialized) return;
+
+  try {
+    const user = auth?.currentUser;
+
+    if (!user?.email) return;
+
+    const response = await fetch("/api/check-access", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email: user.email })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (data?.active) {
+      startPracticeApp();
+    } else if (loadingBox) {
+      loadingBox.textContent = "Tu acceso no está activo para esta sección.";
+    }
+  } catch (error) {
+    console.error("Practice access fallback failed:", error);
+
+    if (loadingBox) {
+      loadingBox.textContent = "No se pudo validar tu acceso. Refresca la página o vuelve a iniciar sesión.";
+    }
+  }
+}, 2500);

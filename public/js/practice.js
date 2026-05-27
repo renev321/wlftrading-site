@@ -2298,46 +2298,13 @@ function getBadgeForProfile(profile) {
   return mapping[profile.key] || RESULT_CARD_ASSETS.badges.wolf;
 }
 
-
-function titleCaseWords(value) {
-  return String(value || "")
-    .split(" ")
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-    .join(" ");
-}
-
-function getResultCardStudentName() {
-  const emailNode = document.getElementById("userEmail");
-  const raw = (emailNode?.textContent || "").trim();
-
-  if (!raw || /validando/i.test(raw)) {
-    return "Trader WLF";
-  }
-
-  if (raw.includes("@")) {
-    const localPart = raw.split("@")[0];
-    const pretty = localPart
-      .replace(/[._-]+/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-
-    return pretty ? titleCaseWords(pretty) : "Trader WLF";
-  }
-
-  const cleaned = raw.replace(/\s+/g, " ").trim();
-  return cleaned || "Trader WLF";
-}
-
 function buildResultText() {
   const total = filteredQuestions.length;
   const profile = getScoreProfile(score, total);
   const topicLabel = getCurrentTopicLabel();
-  const studentName = getResultCardStudentName();
 
   return [
     "🔥 Resultado WLF",
-    `Alumno: ${studentName}`,
     `${score} / ${total}`,
     `Tema: ${topicLabel}`,
     profile.title,
@@ -2427,7 +2394,6 @@ async function generateResultCard() {
   const totalQuestions = filteredQuestions.length;
   const topicLabel = getCurrentTopicLabel();
   const profile = getScoreProfile(score, totalQuestions);
-  const studentName = getResultCardStudentName();
   const backgroundPath = chooseRandom(RESULT_CARD_ASSETS.backgrounds);
   const borderPath = chooseRandom(RESULT_CARD_ASSETS.borders);
   const badgePath = getBadgeForProfile(profile);
@@ -2510,34 +2476,30 @@ async function generateResultCard() {
 
   ctx.fillStyle = "#d6b25b";
   ctx.font = "800 34px Arial, sans-serif";
-  ctx.fillText("RESULTADO WLF", centerX, 292);
-
-  ctx.fillStyle = "rgba(255, 243, 214, 0.96)";
-  ctx.font = "700 28px Arial, sans-serif";
-  ctx.fillText(studentName, centerX, 340);
+  ctx.fillText("RESULTADO WLF", centerX, 305);
 
   ctx.fillStyle = "#fff7e6";
   ctx.font = "900 108px Arial, sans-serif";
-  ctx.fillText(`${score} / ${totalQuestions}`, centerX, 468);
+  ctx.fillText(`${score} / ${totalQuestions}`, centerX, 440);
 
   ctx.fillStyle = "#f4e4b6";
   ctx.font = "800 50px Arial, sans-serif";
-  ctx.fillText(profile.title, centerX, 560);
+  ctx.fillText(profile.title, centerX, 535);
 
   ctx.fillStyle = "rgba(255, 248, 232, 0.96)";
   ctx.font = "700 28px Arial, sans-serif";
-  ctx.fillText(`Tema: ${topicLabel}`, centerX, 620);
+  ctx.fillText(`Tema: ${topicLabel}`, centerX, 595);
 
   ctx.fillStyle = "rgba(255, 248, 232, 0.92)";
   ctx.font = "650 30px Arial, sans-serif";
   const phraseLines = wrapText(ctx, profile.phrase, 900);
   phraseLines.slice(0, 2).forEach((line, index) => {
-    ctx.fillText(line, centerX, 685 + index * 38);
+    ctx.fillText(line, centerX, 660 + index * 38);
   });
 
   ctx.font = "800 24px Arial, sans-serif";
   ctx.fillStyle = "rgba(214, 178, 91, 0.96)";
-  ctx.fillText("WLF Trading", centerX, 785);
+  ctx.fillText("WLF Trading", centerX, 755);
 
   ctx.shadowBlur = 0;
   ctx.shadowOffsetY = 0;
@@ -2726,19 +2688,30 @@ async function handleCopyResult() {
 async function handleNativeShare() {
   try {
     const result = await ensureResultCard();
+    const pageUrl = `${window.location.origin}/practice.html`;
 
-    // Share image only. Text stays separated in "Copiar texto".
     if (navigator.canShare && result.file && navigator.canShare({ files: [result.file] })) {
       await navigator.share({
         files: [result.file],
-        title: "Resultado WLF"
+        title: "Resultado WLF",
+        text: result.text
       });
-      setShareFeedback("Imagen compartida con éxito.");
+      setShareFeedback("Resultado compartido con éxito.");
+      return;
+    }
+
+    if (navigator.share) {
+      await navigator.share({
+        title: "Resultado WLF",
+        text: result.text,
+        url: pageUrl
+      });
+      setShareFeedback("Resultado compartido con éxito.");
       return;
     }
 
     await handleDownloadCard();
-    setShareFeedback("Tu navegador no soporta compartir la imagen directamente. Descargué la imagen para que la puedas enviar.");
+    setShareFeedback("Tu navegador no soporta compartir directo. Descargué la imagen para que la puedas enviar.");
   } catch (error) {
     if (error?.name !== "AbortError") {
       console.error(error);
